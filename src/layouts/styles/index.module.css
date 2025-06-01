@@ -1,0 +1,14 @@
+@media (max-width: 1024px) {
+  .hero {
+    height: 30px;
+    width: 35%;
+  }
+}
+
+.title {
+  border-left: 2px solid #1f5de5;
+}
+
+.feature {
+  border-right: 2px solid #1f5de5;
+}

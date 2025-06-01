@@ -1,0 +1,16 @@
+version: "1"
+
+services:
+  skillswap-frontend:
+    build:
+      context: .
+      target: dev
+    restart: unless-stopped
+
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+    ports:
+      - "${PORT}:${PORT}"
+    stdin_open: true

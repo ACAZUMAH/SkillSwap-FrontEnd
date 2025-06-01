@@ -1,0 +1,13 @@
+version: "1"
+
+services:
+  skillswap-frontend:
+    build:
+      context: .
+    restart: unless-stopped
+    volumes:
+    - ./logs:app/logs
+
+    ports:
+      - "5055:70"
+    

@@ -1,0 +1,8 @@
+body{
+  margin: 0;
+  font-family: system-ui, Avenir, Helvetica, Arial, "Gill Sans", sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
