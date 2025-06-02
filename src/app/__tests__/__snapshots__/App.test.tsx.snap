@@ -29,7 +29,8 @@ exports[`renders the app landing page 1`] = `
     >
       <div
         class="m_7485cace mantine-Container-root"
-        style="--container-size: 75%; height: calc(4.375rem * var(--mantine-scale));"
+        data-fluid="true"
+        style="padding-inline: var(--mantine-spacing-xl); height: 100%;"
       >
         <div
           class="m_4081bf90 mantine-Group-root"
@@ -76,7 +77,20 @@ exports[`renders the app landing page 1`] = `
               </span>
             </button>
             <div
-              class="m_4081bf90 mantine-Group-root"
+              class="mantine-hidden-from-md"
+            >
+              <button
+                class="mantine-focus-auto m_fea6bf1a mantine-Burger-root m_87cf2631 mantine-UnstyledButton-root"
+                type="button"
+              >
+                <div
+                  class="m_d4fb9cad mantine-Burger-burger"
+                  data-reduce-motion="true"
+                />
+              </button>
+            </div>
+            <div
+              class="m_4081bf90 mantine-Group-root mantine-visible-from-md"
               style="--group-gap: var(--mantine-spacing-md); --group-align: center; --group-justify: flex-start; --group-wrap: wrap;"
             >
               <button
@@ -90,7 +104,7 @@ exports[`renders the app landing page 1`] = `
                   <span
                     class="m_811560b9 mantine-Button-label"
                   >
-                    sign in
+                    Sign Up
                   </span>
                 </span>
               </button>
@@ -106,7 +120,7 @@ exports[`renders the app landing page 1`] = `
                   <span
                     class="m_811560b9 mantine-Button-label"
                   >
-                    sign up
+                    Sign In
                   </span>
                 </span>
               </button>
@@ -443,10 +457,10 @@ exports[`renders the app landing page 1`] = `
             <style
               data-mantine-styles="inline"
             >
-              .__m__-«r1f»{--sg-spacing-x:var(--mantine-spacing-xl);--sg-spacing-y:var(--mantine-spacing-xl);--sg-cols:1;}@media(min-width: 48em){.__m__-«r1f»{--sg-cols:2;}}@media(min-width: 62em){.__m__-«r1f»{--sg-cols:4;}}
+              .__m__-«r1j»{--sg-spacing-x:var(--mantine-spacing-xl);--sg-spacing-y:var(--mantine-spacing-xl);--sg-cols:1;}@media(min-width: 48em){.__m__-«r1j»{--sg-cols:2;}}@media(min-width: 62em){.__m__-«r1j»{--sg-cols:4;}}
             </style>
             <div
-              class="m_2415a157 mantine-SimpleGrid-root __m__-«r1f»"
+              class="m_2415a157 mantine-SimpleGrid-root __m__-«r1j»"
             >
               <div>
                 <div
@@ -1300,10 +1314,10 @@ exports[`renders the app landing page 1`] = `
               <style
                 data-mantine-styles="inline"
               >
-                .__m__-«r4q»{--sg-spacing-x:var(--mantine-spacing-xl);--sg-spacing-y:var(--mantine-spacing-xl);--sg-cols:1;}@media(min-width: 62em){.__m__-«r4q»{--sg-cols:2;}}
+                .__m__-«r4u»{--sg-spacing-x:var(--mantine-spacing-xl);--sg-spacing-y:var(--mantine-spacing-xl);--sg-cols:1;}@media(min-width: 62em){.__m__-«r4u»{--sg-cols:2;}}
               </style>
               <div
-                class="m_2415a157 mantine-SimpleGrid-root __m__-«r4q»"
+                class="m_2415a157 mantine-SimpleGrid-root __m__-«r4u»"
               >
                 <div
                   style="opacity: 0; transform: translateX(200px);"
@@ -1819,7 +1833,7 @@ exports[`renders the app landing page 1`] = `
           </div>
           <div
             class="m_4081bf90 mantine-Group-root"
-            style="--group-gap: calc(6.25rem * var(--mantine-scale)); --group-align: center; --group-justify: space-between; --group-wrap: wrap;"
+            style="--group-gap: calc(2.5rem * var(--mantine-scale)); --group-align: center; --group-justify: space-between; --group-wrap: wrap;"
           >
             <div
               class="m_6d731127 mantine-Stack-root"
@@ -1921,7 +1935,7 @@ exports[`renders the app landing page 1`] = `
             Copyright. All Right Reserved
           </p>
           <div
-            class="m_8bffd616 mantine-Flex-root __m__-«r6o»"
+            class="m_8bffd616 mantine-Flex-root __m__-«r6s»"
             style="gap: calc(1.25rem * var(--mantine-scale)); flex-direction: row;"
           >
             <p
