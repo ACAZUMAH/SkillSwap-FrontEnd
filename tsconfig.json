@@ -29,7 +29,7 @@
     "noUncheckedSideEffectImports": true,
 
     /* Type checking */
-    "types": ["vite/client"],
+    "types": ["vitest/globals", "vite/client", "@testing-library/jest-dom"],
   },
   "include": ["src/**/*", "!src/interfaces/graphql/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }],
