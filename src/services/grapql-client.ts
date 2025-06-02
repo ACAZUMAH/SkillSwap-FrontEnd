@@ -6,6 +6,7 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
+import { store } from "src/redux/store";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -24,7 +25,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const middleware = setContext(async (_, { headers }) => {
-  const token = true; //store.getState().authentication.token;
+  const token = store.getState().authentication.token;
 
   return {
     headers: {
@@ -41,7 +42,7 @@ const httpLink = createHttpLink({
   },
 });
 
-const link = ApolloLink.from([middleware, httpLink, errorLink]);
+const link = ApolloLink.from([errorLink, middleware, httpLink]);
 
 const cache = new InMemoryCache({});
 
