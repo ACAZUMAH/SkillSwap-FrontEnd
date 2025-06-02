@@ -61,7 +61,7 @@ export const AuthFooter: React.FC = () => {
               </Group>
             </Stack>
           </Box>
-          <Group justify="space-between" gap={100}>
+          <Group justify="space-between" gap={40}>
             <Stack mt={20} mb={20} gap={5}>
               <Title order={3} mb={10} c="brand">
                 Company
