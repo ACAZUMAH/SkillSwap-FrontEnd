@@ -17,7 +17,7 @@ import { AuthDrawwer } from "./AuthDrawwer";
 export const AuthHeader: React.FC = () => {
   const settings = useAppSettings();
 
- const [openned, setOpened] = useState(false)
+  const [openned, setOpened] = useState(false)
 
   const naviggateToRegister = useRouteNavigation(routerEndPoints.register);
 
