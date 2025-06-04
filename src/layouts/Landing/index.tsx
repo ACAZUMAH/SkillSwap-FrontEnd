@@ -5,7 +5,7 @@ import { AuthFooter } from "./components/landingFooter";
 
 export const LandingLayout = () => {
   return (
-    <> 
+    <>
       <AppShell header={{ height: 70 }}>
         <AppShell.Header>
             <AuthHeader />
