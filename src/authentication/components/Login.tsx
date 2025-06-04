@@ -6,7 +6,7 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState("");
 
     return (
-        <Paper shadow="md" p="xl">
+        <Paper shadow="md" p="xl" w={500}>
             <Stack>
                 <TextInput
                     size="md"
