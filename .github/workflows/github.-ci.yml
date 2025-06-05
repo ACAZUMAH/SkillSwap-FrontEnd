@@ -1,0 +1,142 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CI: false
+
+jobs:
+  install:
+    name: Install
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --cache-folder .yarn
+
+  build:
+    name: Build
+    needs: install
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "yarn"
+
+      - name: build
+        run: yarn run build
+
+  test:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "yarn"
+
+      - name: Run tests
+        run: yarn run test --u
+
+  preview:
+    needs: [install, build, test]
+    name: Preview
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "yarn"
+
+      - name: Install Netlify CLI
+        run: yarn global add netlify-cli --unsafe-perm=true
+
+      - name: Create env file
+        run: |
+          touch ".env"
+          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
+
+      - name: Install dependencies
+        run: yarn install --cache-folder .yarn
+
+      - name: Build for preview
+        run: yarn build
+
+      - name: Deploy to Netlify Preview
+        run: |
+          netlify deploy \
+            --prod=false \
+            --dir dist/ \
+            --site=${{ secrets.NETLIFY_PRODUCTION_SITE_ID }} \
+            --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} \
+            --message="Preview deployed from GitHub Actions"
+
+  production:
+    needs: [install, build, test]
+    name: Production
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "yarn"
+
+      - name: Install Netlify CLI
+        run: yarn global add netlify-cli --unsafe-perm=true
+
+      - name: Create env file
+        run: |
+          touch ".env"
+          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
+      
+      - name: Install dependencies
+        run: yarn install --cache-folder .yarn
+
+      - name: Build for production
+        run: yarn build
+
+      - name: Deploy to Netlify
+        run: |
+          netlify deploy \
+            --prod 
+            --dir dist/ \
+            --site=${{ secrets.NETLIFY_PRODUCTION_SITE_ID }} \
+            --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} \
+            --message="Deployed from GitHub Actions"
