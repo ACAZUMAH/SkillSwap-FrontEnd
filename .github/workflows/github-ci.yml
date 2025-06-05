@@ -26,6 +26,13 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --cache-folder .yarn
+      
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+
 
   build:
     name: Build
@@ -41,6 +48,12 @@ jobs:
         with:
           node-version: "20.x"
           cache: "yarn"
+
+      - name: Uses cache for build
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/yarn.lock') }}
 
       - name: build
         run: yarn run build
@@ -59,6 +72,12 @@ jobs:
         with:
           node-version: "20.x"
           cache: "yarn"
+        
+      - name: Uses cache for test
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-test-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run tests
         run: yarn run test --u
