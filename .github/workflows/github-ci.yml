@@ -128,7 +128,6 @@ jobs:
       - name: Deploy to Netlify Preview
         run: |
           netlify deploy \
-            --prod=false \
             --dir dist/ \
             --site=${{ secrets.NETLIFY_PRODUCTION_SITE_ID }} \
             --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} \
