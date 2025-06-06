@@ -16,7 +16,7 @@ export const HeroSection: React.FC = () => {
   return (
     <>
       <Group justify="space-between" gap={0} visibleFrom="lg">
-        <Stack ml={172} style={{ maxWidth: "50%" }} gap={5}>
+        <Stack ml={170} style={{ maxWidth: "50%" }} gap={5}>
           <Text size="3rem" fw={900} lh={1.1}>
             <span style={{ color: "#1f5de5" }}>Share</span> Your Expertise.
             <br />

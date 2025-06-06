@@ -1,44 +1,53 @@
-import { useState } from "react"
-import Login from "./components/Login"
-import Register from "./components/Register"
-import { useViewportSize } from "@mantine/hooks"
-import collaboration from '../assets/images/collaboration.jpg'
-import { Container, SimpleGrid, SegmentedControl, Image, Center } from "@mantine/core"
+import { useState } from "react";
+import {
+  Container,
+  SegmentedControl,
+  Center,
+  Stack,
+  Title,
+  Text,
+  Box,
+} from "@mantine/core";
+import { Conditional } from "src/components";
+import { Register } from "./Register";
+//import { useLocation } from "react-router-dom";
 
 export const Authentication: React.FC = () => {
-  const views = ['Sign up', 'Sign in']
-  const [value, setValue] = useState(views[0])
-  const { height, width } = useViewportSize()
+  //const location = useLocation();
+  const views = ["Register", "Login"];
+
+  const [value, setValue] = useState(views[0]);
   return (
-    <SimpleGrid cols={2}>
-      <Center>
-        <Container size="50%" styles={{
-          root: {
-            alignItems: "center"
-          }
-        }}>
+    <Container fluid px="xl" py="xl">
+      <Center w="100%" h="80vh">
+        <Box>
+          <Stack align="center" justify="center" gap="3" mt="md">
+            <Title order={2} fs="italic" ta="center" c="brand" fw={700}>
+              Join SkillSwap
+            </Title>
+            <Text ta="center" c="dimmed" size="lg" fw="350" mb="sm">
+              Connect, Learn, and Grow Together
+            </Text>
+          </Stack>
           <Center>
             <SegmentedControl
               data={views}
               value={value}
               onChange={setValue}
-              size="md" radius="lg"
-              styles={{
-                root: {
-                  marginLeft: "auto",
-                  marginBottom: "40px"
-                }
-              }}
+              size="md"
+              radius="xl"
+              color="brand"
+              w="80%"
+              mb="xl"
             />
           </Center>
-          {value === views[0] ? <Register /> : <Login />}
-        </Container>
+
+          <Conditional condition={value === "Register"}>
+            <Register />
+          </Conditional>
+        
+        </Box>
       </Center>
-      <Center>
-        <Container py={22}>
-          <Image src={collaboration} fit="cover" h={height * 0.85} w={width / 2} radius="lg" />
-        </Container>
-      </Center>
-    </SimpleGrid>
-  )
-}
+    </Container>
+  );
+};

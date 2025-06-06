@@ -25,7 +25,7 @@ export const AuthHeader: React.FC = () => {
 
   return (
     <>
-      <Container h="100%" fluid px="xl" >
+      <Container h="100%" fluid px="3rem" >
         <Group justify="space-between" h="100%">
           <Title c="brand" fs="italic" order={1}>
             SkillSwap
