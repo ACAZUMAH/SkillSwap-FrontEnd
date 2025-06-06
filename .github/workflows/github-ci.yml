@@ -128,10 +128,10 @@ jobs:
       - name: Deploy to Netlify Preview
         run: |
           netlify deploy \
-            --dir dist/ \
             --site=${{ secrets.NETLIFY_PRODUCTION_SITE_ID }} \
             --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} \
-            --message="Preview deployed from GitHub Actions"
+            --dir dist/ \
+
 
   production:
     needs: [install, build, test]
@@ -165,14 +165,14 @@ jobs:
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
         
       - name: Install Netlify CLI
-        run: yarn global add netlify-cli --unsafe-perm=true
+        run: yarn global add netlify-cli
 
-      
       - name: Deploy to Netlify
+        id: netlify_deploy
         run: |
           netlify deploy \
-            --prod 
-            --dir dist/ \
             --site=${{ secrets.NETLIFY_PRODUCTION_SITE_ID }} \
             --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} \
             --message="Deployed from GitHub Actions"
+            --dir dist/ \
+            --prod 
