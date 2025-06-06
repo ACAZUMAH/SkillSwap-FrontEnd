@@ -3,9 +3,9 @@ import { LandingLayout } from "src/layouts/Landing";
 //import { Authentication } from "src/authentication";
 import type { RouteObject } from "react-router-dom";
 import { LandingPage } from "src/layouts/Landing/components";
-import { Register } from "src/authentication/Register";
-import Login from "src/authentication/Login";
 import { Authentication } from "src/layouts/auth";
+import Login from "src/authentication/components/Login";
+import { Register } from "src/authentication";
 
 export const routes = [
   {
