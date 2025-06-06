@@ -1,6 +1,8 @@
+import { Location } from "react-router-dom";
 import { routerEndPoints } from "src/constants";
+import { AuthTabs } from "src/layouts/interfaces";
 
-export const authTabs = [
+export const authTabs: AuthTabs[] = [
     {
         label: "Register",
         route: routerEndPoints.register,
@@ -10,3 +12,7 @@ export const authTabs = [
         route: routerEndPoints.login,
     },
 ]
+
+export const getCurrentTab = (tabs: AuthTabs[], location: Location) => {
+    return tabs.find((tab) => tab.route === location.pathname)?.label || tabs[0].label;
+}

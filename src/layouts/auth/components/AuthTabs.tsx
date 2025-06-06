@@ -1,6 +1,6 @@
 import { Center, SegmentedControl, Stack, Text, Title } from "@mantine/core";
 import React from "react";
-import { authTabs } from "../constants";
+import { authTabs, getCurrentTab } from "../constants";
 import { useRouteNavigation } from "src/hooks";
 import { useLocation } from "react-router-dom";
 
@@ -11,7 +11,7 @@ export const AuthTabs: React.FC = () => {
   const navigateToRegister = useRouteNavigation(authTabs[0].route);
   const navigateToLogin = useRouteNavigation(authTabs[1].route);
 
-  const currentTab = authTabs.find((tab) => tab.route === loacation.pathname)?.label || views[0];
+  const currentTab = getCurrentTab(authTabs, loacation);
 
   const handleTabChange = (newValue: string) => {
     if (newValue === views[0]) {
