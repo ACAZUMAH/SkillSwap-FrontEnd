@@ -132,7 +132,6 @@ jobs:
             --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} \
             --dir dist/ \
 
-
   production:
     needs: [install, build, test]
     name: Production
@@ -173,6 +172,5 @@ jobs:
           netlify deploy \
             --site=${{ secrets.NETLIFY_PRODUCTION_SITE_ID }} \
             --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} \
-            --message="Deployed from GitHub Actions"
             --dir dist/ \
             --prod 
