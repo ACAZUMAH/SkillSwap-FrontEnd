@@ -17,7 +17,7 @@ export const AuthFooter: React.FC = () => {
   const { isDarkMode } = useAppSettings();
   return (
     <>
-      <Container size="75%" pt={10}>
+      <Container size="80%" pt={10}>
         <Group justify="space-between" mt={30} mb={20}>
           <Box maw={300}>
             <Stack gap={15}>

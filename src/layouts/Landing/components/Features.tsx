@@ -22,7 +22,7 @@ import { FeatureResponsive } from "./FeatureResponsive";
 export const Features: React.FC = () => {
   return (
     <>
-      <Container size="75%" py={60}>
+      <Container size="80%" py={60}>
         <Title order={1} fw={700} className={classes.feature} px="xs" ta="end">
           <span style={{ color: "#1f5de5" }}> Core Features</span> of Our Skill
           Swapping Platform
