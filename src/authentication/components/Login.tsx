@@ -1,29 +1,58 @@
 import { useState } from "react";
-import { Paper, Stack, TextInput } from "@mantine/core";
+import { Conditional } from "src/components"
+import { Paper, Stack, TextInput, Container, Button, PasswordInput } from "@mantine/core";
+import { useRegisterForm } from "../hooks/useRegisterForm";
 
 const Login: React.FC = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [showOtp, setShowOtp] = useState(false);
+    const form = useRegisterForm();
+
+    // const handleSubmit = async () => {
+    //     const created = await register({
+    //         ...form.values,
+    //     });
+    //     if (created) {
+    //         setShowOtp(true);
+    //         form.resetForm();
+    //     }
+    // };
 
     return (
-        <Paper shadow="md" p="xl" w={500}>
-            <Stack>
-                <TextInput
-                    size="md"
-                    radius="md"
-                    label="Email"
-                    value={email}
-                    onChange={(event) => setEmail(event.currentTarget.value)}
-                />
-                <TextInput
-                    size="md"
-                    radius="md"
-                    label="Password"
-                    value={password}
-                    onChange={(event) => setPassword(event.currentTarget.value)}
-                />
-            </Stack>
-        </Paper>
+        <Container size="x5">
+            <Paper shadow="md" p="xl" w={500} withBorder>
+                <Conditional condition={!showOtp}>
+                    <Stack gap="sm" w={400} mx="auto">
+                        <TextInput
+                            size="md"
+                            radius="xl"
+                            name="phoneNumber"
+                            label="Phone Number"
+                            placeholder="Enter Phone Number"
+                            value={form.values.phoneNumber}
+                            onChange={form.handleChange}
+                        />
+                        <PasswordInput
+                            size="md"
+                            radius="xl"
+                            name="password"
+                            label="Password"
+                            placeholder="Enter password"
+                            value={form.values.password}
+                            onChange={form.handleChange}
+                            error={form.errors.password}
+                        />
+                        <Button
+                            size="md"
+                            radius="xl"
+                            mt="md"
+                            disabled={!form.isValid}
+                        >
+                            Login
+                        </Button>
+                    </Stack>
+                </Conditional>
+            </Paper>
+        </Container>
     )
 }
 
