@@ -13,8 +13,15 @@ const validationSchema = yup.object().shape({
     .required(""),
   password: yup
     .string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters long"),
+    .required("")
+    .min(
+      8,
+      "Password must be at least 8 characters long, include (A-Z), (a-z), (1-9), and a special character"
+    )
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
+      "Password must be at least 8 characters long, include (A-Z), (a-z), (1-9), and a special character"
+    ),
 });
 
 export const useRegisterForm = () => {

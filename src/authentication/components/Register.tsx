@@ -15,7 +15,7 @@ import { Conditional } from "src/components";
 import { VerifyOtp } from "./VerifyOtp";
 
 export const Register: React.FC = () => {
-  const [showOtp, setShowOtp] = useState(true);
+  const [showOtp, setShowOtp] = useState(false);
   const [phoneNumber, sesPhoneNumber] = useState<string>("");
   const form = useRegisterForm();
   const { register, loading } = useRegisterMutation();
@@ -65,6 +65,7 @@ export const Register: React.FC = () => {
               placeholder="Enter phone Number"
               value={form.values.phoneNumber}
               onChange={form.handleChange}
+              onBlur={form.handleBlur}
               error={form.errors.phoneNumber}
             />
             <PasswordInput
@@ -75,7 +76,7 @@ export const Register: React.FC = () => {
               placeholder="Enter password"
               value={form.values.password}
               onChange={form.handleChange}
-              error={form.touched.password ? form.errors.password : ""}
+              error={form.errors.password}
             />
             <Checkbox label="Remember me" />
             <Button
