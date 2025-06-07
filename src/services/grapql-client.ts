@@ -30,7 +30,7 @@ const middleware = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      ...(token && { authorization: `Bearer ${token}` }),
+      ...(token && { Authorization: `Bearer ${token}` }),
     },
   };
 });

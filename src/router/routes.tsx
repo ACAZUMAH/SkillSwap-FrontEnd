@@ -16,18 +16,21 @@ export const routes = [
         index: true,
         element: <LandingPage />,
       },
+    ],
+  },
+  {
+
+  },
+  {
+    element: <Authentication />,
+    children: [
       {
-        element: <Authentication />,
-        children: [
-          {
-            path: routerEndPoints.register,
-            element: <Register />
-          },
-          {
-            path: routerEndPoints.login,
-            element: <Login />
-          }
-        ]
+        path: routerEndPoints.register,
+        element: <Register />,
+      },
+      {
+        path: routerEndPoints.login,
+        element: <Login />,
       },
     ],
   },
