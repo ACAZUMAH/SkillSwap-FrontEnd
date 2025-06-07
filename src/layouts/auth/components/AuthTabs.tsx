@@ -30,7 +30,7 @@ export const AuthTabs: React.FC = () => {
         <Text ta="center" c="dimmed" size="md" fw="350" mb="sm">
           your learning journey starts here!
         </Text>
-        <Center w="100%" maw={500}>
+        <Center w="100%" maw={450}>
           <SegmentedControl
             data={views}
             value={currentTab}

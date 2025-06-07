@@ -25,7 +25,7 @@ export const Authentication: React.FC = () => {
       <Grid.Col span={5.5} bg="brand" h="100vh" visibleFrom="md">
         <Box p="xl" h="100%">
           <Image src={collaborate} w="100%" />
-          <Title c="white" ta="center" mt="xl" order={3}>
+          <Title c="white" ta="center" mt="xl" order={3} >
             Connect, Learn, and Grow Together
           </Title>
           <Text c="gray.5" ta="center" mt="xs" size="md">

@@ -13,7 +13,7 @@ import { IconBrandFacebook, IconBrandX, IconMail } from "@tabler/icons-react";
 import React from "react";
 import { useAppSettings } from "src/hooks";
 
-export const AuthFooter: React.FC = () => {
+export const Footer: React.FC = () => {
   const { isDarkMode } = useAppSettings();
   return (
     <>

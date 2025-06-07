@@ -11,6 +11,9 @@ const slice = createSlice({
     reducers: {
         update: (state, action: AuthenticationsActions) => {
             return { ...state, ...action.payload };
+        },
+        reset: () => {
+            return initialState;
         }
     }
 })

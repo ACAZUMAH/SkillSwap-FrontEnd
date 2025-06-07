@@ -29,7 +29,7 @@ export const HowIteWorks: React.FC = () => {
           <Title order={1} fw={700} className={classes.title} px="xs">
             Smart Skill Swapping in<span style={{ color: "#1f5de5" }}> 3 Steps </span>
           </Title>
-          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} mt={50} spacing="xl">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} mt={50} spacing="xl" mb="lg">
             <Gasture>
               <Card withBorder>
                 <Center>
