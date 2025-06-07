@@ -30,7 +30,7 @@ export const useRegisterMutation = () => {
         color: "blue"
       })
       return true;
-    } catch (error) {
+    } catch (error: any) {
       showNotification({
         title: "Error",
         message: "Failed to create account. Please try again.",

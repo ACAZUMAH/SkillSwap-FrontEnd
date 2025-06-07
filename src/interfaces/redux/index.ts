@@ -2,7 +2,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface Authentication {
     user?: any
-    token?: string;
+    token?: string | null;
     isAuthenticated: boolean;
 }
 

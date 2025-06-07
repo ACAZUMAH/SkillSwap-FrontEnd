@@ -6,11 +6,20 @@ import { LandingPage } from "src/layouts/Landing/components";
 import { Authentication } from "src/layouts/auth";
 import Login from "src/authentication/components/Login";
 import { Register } from "src/authentication";
+import { Mainlayout } from "src/layouts/main";
+import { routesProtector } from "./routes-protector";
 
 export const routes = [
   {
     path: routerEndPoints.home,
+    element: <Mainlayout />,
+    loader: routesProtector().requireLoggedIn(),
+    children: [{}],
+  },
+  {
+    path: routerEndPoints.root,
     element: <LandingLayout />,
+    loader: routesProtector().requireNotLoggedIn(),
     children: [
       {
         index: true,
@@ -19,10 +28,8 @@ export const routes = [
     ],
   },
   {
-
-  },
-  {
     element: <Authentication />,
+    loader: routesProtector().requireNotLoggedIn(),
     children: [
       {
         path: routerEndPoints.register,

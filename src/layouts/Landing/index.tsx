@@ -1,7 +1,7 @@
 import { AppShell } from "@mantine/core";
 import { AuthHeader } from "./components/landingHeader";
 import { Outlet } from "react-router-dom";
-import { AuthFooter } from "./components/landingFooter";
+import { Footer } from "src/components";
 
 export const LandingLayout = () => {
   return (
@@ -14,7 +14,7 @@ export const LandingLayout = () => {
             <Outlet />
         </AppShell.Main>
         <AppShell.Footer pos="relative">
-            <AuthFooter />
+            <Footer />
         </AppShell.Footer>
       </AppShell>
     </>

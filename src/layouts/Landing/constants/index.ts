@@ -9,7 +9,7 @@ export const testimonies = [
   },
   {
     testimony:
-      "Traded UI design lessons for guitar classes. In 3 months, I can play full songs while my partner launched their portfolio!",
+      "Traded UI design lessons for guitar classes.now I can play full songs while my partner launched their portfolio!",
     name: "Alex K.",
     image: "",
     skill: "Designer → Guitarist",
@@ -25,7 +25,7 @@ export const testimonies = [
   },
   {
     testimony:
-      "I learned digital marketing in exchange for teaching my partner how to play the piano. Now we both have new skills!",
+      "I learned digital marketing in exchange for teaching my partner how to play the piano. I enjoyed it!",
     name: "Liam S.",
     image: "",
     skill: "Digital Marketer → Pianist",
@@ -41,7 +41,7 @@ export const testimonies = [
   },
   {
     testimony:
-      "I taught my partner how to design websites in exchange for learning how to play the drums. Now we both have new skills!",
+      "I taught my partner how to design websites in exchange for learning how to play the drums.",
     name: "Olivia M.",
     image: "",
     skill: "Web Designer → Drummer",
@@ -49,7 +49,7 @@ export const testimonies = [
   },
   {
     testimony:
-      "Learned Python in exchange for teaching photography. Now I automate my photo edits and my partner has a new coding project!",
+      "Learned Python in exchange for teaching photography.I can Now automate photo edits and my partner can code!",
     name: "Maria L.",
     image: "",
     skill: "Photographer → Python",
@@ -57,7 +57,7 @@ export const testimonies = [
   },
   {
     testimony:
-      "I taught my partner how to code in exchange for learning photography. Now we both have new skills!",
+      "I taught my partner how to code in exchange for learning photography.It was a great experience!",
     name: "Emma W.",
     image: "",
     skill: "Software Engineer → Photographer",
