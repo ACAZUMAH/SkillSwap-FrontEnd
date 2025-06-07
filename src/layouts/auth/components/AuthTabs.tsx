@@ -5,7 +5,7 @@ import { useRouteNavigation } from "src/hooks";
 import { useLocation } from "react-router-dom";
 
 export const AuthTabs: React.FC = () => {
-  const loacation = useLocation()
+  const loacation = useLocation();
   const views = authTabs.map((tab) => tab.label);
 
   const navigateToRegister = useRouteNavigation(authTabs[0].route);
@@ -23,26 +23,26 @@ export const AuthTabs: React.FC = () => {
 
   return (
     <>
-      <Stack align="center" justify="center" gap="3" mt="md">
+      <Stack align="center" justify="center" gap="3" mt="xl">
         <Title order={2} fs="italic" ta="center" c="brand" fw={700}>
           Join SkillSwap
         </Title>
         <Text ta="center" c="dimmed" size="md" fw="350" mb="sm">
-          Connect, Learn, and Grow Together
+          your learning journey starts here!
         </Text>
+        <Center w="100%" maw={500}>
+          <SegmentedControl
+            data={views}
+            value={currentTab}
+            onChange={handleTabChange}
+            size="md"
+            radius="xl"
+            color="brand"
+            w="80%"
+            mb="xl"
+          />
+        </Center>
       </Stack>
-      <Center>
-        <SegmentedControl
-          data={views}
-          value={currentTab}
-          onChange={handleTabChange}
-          size="md"
-          radius="xl"
-          color="brand"
-          w="80%"
-          mb="xl"
-        />
-      </Center>
     </>
   );
 };

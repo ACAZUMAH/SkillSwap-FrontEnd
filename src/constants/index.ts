@@ -1,7 +1,7 @@
 export const routerEndPoints = {
     home: '/',
-    login: '/login',
-    register: '/register',
+    login: '/signin',
+    register: '/signup',
     profile: '/profile'
 }
 
