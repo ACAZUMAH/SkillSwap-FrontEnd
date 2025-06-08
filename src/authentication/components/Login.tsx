@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { VerifyOtp } from "./VerifyOtp";
 import { Conditional } from "src/components";
 import { useRegisterForm } from "../hooks/useRegisterForm";
+import { useLoginMutation } from "../hooks/useLoginMutation";
 import { getPhoneNumberWithCode } from "src/helpers/phone-numbers";
 import { Paper, Stack, TextInput, Container, Button, PasswordInput } from "@mantine/core";
-import { VerifyOtp } from "./VerifyOtp";
 
 const Login: React.FC = () => {
     const form = useRegisterForm();
-    const [showOtp, setShowOtp] = useState(false)
-    const [phoneNumber, setPhoneNumber] = useState("")
+    const [showOtp, setShowOtp] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const { login, loading } = useLoginMutation();
 
     const handleSubmit = async () => {
         const created = await login({
@@ -50,6 +52,7 @@ const Login: React.FC = () => {
                             size="md"
                             radius="xl"
                             mt="md"
+                            loading={loading}
                             disabled={!form.isValid}
                             onClick={handleSubmit}
                         >
