@@ -4,9 +4,9 @@ import { CreateUserInput, MutationLoginArgs, Response } from "src/interfaces";
 
 const loginMutationGql = gql`
     mutation Login($data: loginUserInput!){
-       login(data: $data){
-         message
-      }
+        login(data: $data){
+            message
+        }
     }
 `;
 
