@@ -56,7 +56,7 @@ export const AuthHeader: React.FC = () => {
                 component="a"
                 target="_blank"
                 radius="xl"
-                href={routerEndPoints.register}
+                href={routerEndPoints.SIGNUP}
                 // onClick={naviggateToRegister}
               >
                 Sign Up
@@ -66,7 +66,7 @@ export const AuthHeader: React.FC = () => {
                 target="_blank"
                 variant="outline"
                 radius="xl"
-                href={routerEndPoints.login}
+                href={routerEndPoints.SIGNIN}
                 // onClick={naviggateToLogin}
               >
                 Sign In

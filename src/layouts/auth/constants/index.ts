@@ -4,12 +4,12 @@ import { AuthTabs } from "src/layouts/interfaces";
 
 export const authTabs: AuthTabs[] = [
     {
-        label: "Register",
-        route: routerEndPoints.register,
+        label: "Sign Up",
+        route: routerEndPoints.SIGNUP,
     },
     {
-        label: "Login",
-        route: routerEndPoints.login,
+        label: "Sign In",
+        route: routerEndPoints.SIGNIN,
     },
 ]
 

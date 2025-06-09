@@ -40,13 +40,18 @@ export const Testimonies: React.FC = () => {
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.2 } },
+    show: { opacity: 1, transition: { staggerChildren: 0.2, ease:"easeIn" } },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, x: isPrev ? -200 : 200 },
     show: { opacity: 1, x: 0 },
   };
+
+  // const itemParent = {
+  //   hidden: { opacity: 0, x: 50 },
+  //   show: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+  // }
 
   return (
     <>
@@ -73,13 +78,13 @@ export const Testimonies: React.FC = () => {
               variants={containerVariants}
               key={currentIndex}
             >
-              <SimpleGrid cols={{ base: 1, md: 2 }} mt={50} spacing="xl">
-                {currentTestimony.map((testimony, _) => (
-                  <motion.div key={testimony?.name} variants={itemVariants}>
-                    <Testimony {...testimony} key={testimony?.name} />
-                  </motion.div>
-                ))}
-              </SimpleGrid>
+                <SimpleGrid cols={{ base: 1, md: 2 }} mt={50} spacing="xl">
+                  {currentTestimony.map((testimony, _) => (
+                    <motion.div key={testimony?.name} variants={itemVariants}>
+                      <Testimony {...testimony} key={testimony?.name} />
+                    </motion.div>
+                  ))}
+                </SimpleGrid>
             </motion.div>
           </Box>
         </Container>
