@@ -56,7 +56,7 @@ export const HeroSection: React.FC = () => {
           className={classes.hero}
         />
       </Group>
-      <Container size="75%" hiddenFrom="lg" py={60}>
+      <Container w="100%" maw={1450} hiddenFrom="lg" py={60}>
         <Stack gap={3}>
           <Text size="3rem" fw={700} lh={1} ta="center" mt={30}>
             <span style={{ color: "#1f5de5" }}>Share</span> Your Expertise.

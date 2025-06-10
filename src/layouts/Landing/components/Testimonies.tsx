@@ -56,7 +56,7 @@ export const Testimonies: React.FC = () => {
   return (
     <>
       <Box bg={isDarkMode ? "dark.8" : "gray.0"}>
-        <Container size="80%" py={40}>
+        <Container w="100%" maw={1300} py={40}>
           <Group justify="space-between">
             <Title order={1} fw={700} className={classes.title} px="xs">
               <span style={{ color: "#1f5de5" }}>Real Swaps</span>, Real Results
