@@ -41,7 +41,7 @@ export const Register: React.FC = () => {
               size="md"
               radius="xl"
               name="firstName"
-              label="First Nmae"
+              label="First Name"
               placeholder="Enter first name"
               value={form.values.firstName}
               onChange={form.handleChange}
