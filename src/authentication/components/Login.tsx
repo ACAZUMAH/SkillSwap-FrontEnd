@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { VerifyOtp } from "./VerifyOtp";
 import { Conditional } from "src/components";
-//mport { useRegisterForm } from "../hooks/useRegisterForm";
+import { useLoginForm } from "../hooks/useLoginForm";
 import { useLoginMutation } from "../hooks/useLoginMutation";
 import { getPhoneNumberWithCode } from "src/helpers/phone-numbers";
 import { Paper, Stack, TextInput, Container, Button, PasswordInput } from "@mantine/core";
-import { useLoginForm } from "../hooks/useLoginForm";
 
 export const Login: React.FC = () => {
     const form = useLoginForm();
@@ -27,12 +26,13 @@ export const Login: React.FC = () => {
 
     return (
         <Container size="x5">
-            <Paper shadow="md" p="xl" w={500} withBorder>
+            <Paper p="xl" radius="xl" w={500} withBorder>
                 <Conditional condition={!showOtp}>
                     <Stack gap="sm" w={400} mx="auto">
                         <TextInput
                             size="md"
                             radius="xl"
+                            withAsterisk
                             name="phoneNumber"
                             label="Phone Number"
                             placeholder="Enter Phone Number"
@@ -42,6 +42,7 @@ export const Login: React.FC = () => {
                         <PasswordInput
                             size="md"
                             radius="xl"
+                            withAsterisk
                             name="password"
                             label="Password"
                             placeholder="Enter password"
