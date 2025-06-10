@@ -21,7 +21,7 @@ export const routesProtector = () => {
       const authentication = store.getState().authentication;
 
       if (!authentication.isAuthenticated) {
-        return redirect(routerEndPoints.register);
+        return redirect(routerEndPoints.SIGNIN);
       }
 
       return null;
@@ -34,7 +34,7 @@ export const routesProtector = () => {
         const authentication = store.getState().authentication;
     
         if (authentication.isAuthenticated) {
-            return redirect(routerEndPoints.home);
+            return redirect(routerEndPoints.HOME);
         }
     
         return null;

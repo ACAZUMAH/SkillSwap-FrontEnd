@@ -40,7 +40,7 @@ export const Testimonies: React.FC = () => {
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.2 } },
+    show: { opacity: 1, transition: { staggerChildren: 0.2, ease:"easeIn" } },
   };
 
   const itemVariants = {
@@ -48,10 +48,15 @@ export const Testimonies: React.FC = () => {
     show: { opacity: 1, x: 0 },
   };
 
+  // const itemParent = {
+  //   hidden: { opacity: 0, x: 50 },
+  //   show: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+  // }
+
   return (
     <>
       <Box bg={isDarkMode ? "dark.8" : "gray.0"}>
-        <Container size="80%" py={40}>
+        <Container w="100%" maw={1300} py={40}>
           <Group justify="space-between">
             <Title order={1} fw={700} className={classes.title} px="xs">
               <span style={{ color: "#1f5de5" }}>Real Swaps</span>, Real Results
@@ -73,13 +78,13 @@ export const Testimonies: React.FC = () => {
               variants={containerVariants}
               key={currentIndex}
             >
-              <SimpleGrid cols={{ base: 1, md: 2 }} mt={50} spacing="xl">
-                {currentTestimony.map((testimony, _) => (
-                  <motion.div key={testimony?.name} variants={itemVariants}>
-                    <Testimony {...testimony} key={testimony?.name} />
-                  </motion.div>
-                ))}
-              </SimpleGrid>
+                <SimpleGrid cols={{ base: 1, md: 2 }} mt={50} spacing="xl">
+                  {currentTestimony.map((testimony, _) => (
+                    <motion.div key={testimony?.name} variants={itemVariants}>
+                      <Testimony {...testimony} key={testimony?.name} />
+                    </motion.div>
+                  ))}
+                </SimpleGrid>
             </motion.div>
           </Box>
         </Container>

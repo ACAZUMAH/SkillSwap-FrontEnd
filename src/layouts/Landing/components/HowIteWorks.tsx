@@ -25,7 +25,7 @@ export const HowIteWorks: React.FC = () => {
   return (
     <>
       <Box bg={isDarkMode ? "dark.8" : "gray.0"}>
-        <Container size="80%" py={60} px={16}>
+        <Container w="100%" maw={1300} py={60} px={16}>
           <Title order={1} fw={700} className={classes.title} px="xs">
             Smart Skill Swapping in<span style={{ color: "#1f5de5" }}> 3 Steps </span>
           </Title>

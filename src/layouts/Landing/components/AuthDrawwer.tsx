@@ -9,8 +9,8 @@ interface AuthDrawerProps {
 }
 
 export const AuthDrawwer: React.FC<AuthDrawerProps> = ({ opened, onClose }) => {
-  const naviggateToRegister = useRouteNavigation(routerEndPoints.register);
-  const naviggateToLogin = useRouteNavigation(routerEndPoints.login);
+  const naviggateToSignup = useRouteNavigation(routerEndPoints.SIGNUP);
+  const naviggateToSignin = useRouteNavigation(routerEndPoints.SIGNIN);
 
   return (
     <>
@@ -18,7 +18,7 @@ export const AuthDrawwer: React.FC<AuthDrawerProps> = ({ opened, onClose }) => {
         <NavLink
           label="Sign Up"
           onClick={() => {
-            naviggateToRegister();
+            naviggateToSignup();
             onClose();
           }}
           component="a"
@@ -26,7 +26,7 @@ export const AuthDrawwer: React.FC<AuthDrawerProps> = ({ opened, onClose }) => {
         <NavLink
           label="Sign In"
           onClick={() => {
-            naviggateToLogin()
+            naviggateToSignin()
             onClose();
           }}
           component="a"

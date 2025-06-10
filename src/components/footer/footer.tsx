@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
   const { isDarkMode } = useAppSettings();
   return (
     <>
-      <Container size="80%" pt={10}>
+      <Container w="100%" maw={1450} pt={10}>
         <Group justify="space-between" mt={30} mb={20}>
           <Box maw={300}>
             <Stack gap={15}>
@@ -88,7 +88,7 @@ export const Footer: React.FC = () => {
             </Stack>
           </Group>
         </Group>
-        <Divider size="md" color={isDarkMode ? "gray.0" : "dark.8"} />
+        <Divider size="md" color={isDarkMode ? "gray.8" : "dark.0"} />
         <Group justify="space-between" mt={20} mb={30}>
           <Text>Copyright. All Right Reserved</Text>
 
@@ -97,7 +97,7 @@ export const Footer: React.FC = () => {
             <Divider
               orientation="vertical"
               size="md"
-              color={isDarkMode ? "gray.0" : "dark.8"}
+              color={isDarkMode ? "gray.8" : "dark.0"}
             />
             <Text>Terms of Service</Text>
           </Flex>

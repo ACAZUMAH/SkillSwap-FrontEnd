@@ -56,8 +56,8 @@ export const useVerifyOtpMutation = () => {
     MutationCompleteAuthAndSignTokenArgs
   >(verifyOtpMutationgql, { fetchPolicy: "network-only" });
 
-  const navigateToLogin = useRouteNavigation(routerEndPoints.login);
-  const navigateToHome = useRouteNavigation(routerEndPoints.home);
+  const navigateToSignin = useRouteNavigation(routerEndPoints.SIGNIN)
+  const navigateToHome = useRouteNavigation(routerEndPoints.HOME);
   const { registerUser } = useAppAuthentication();
 
   const verifyOtp = useCallback(
@@ -91,10 +91,10 @@ export const useVerifyOtpMutation = () => {
           message: error.message,
           color: "red",
         });
-        navigateToLogin();
+        navigateToSignin();
       }
     },
-    [registerUser, navigateToLogin]
+    [registerUser, navigateToSignin, navigateToHome, mutate]
   );
 
   return { verifyOtp, ...result };

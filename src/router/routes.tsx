@@ -1,22 +1,37 @@
 import { routerEndPoints } from "src/constants";
 import { LandingLayout } from "src/layouts/Landing";
-//import { Authentication } from "src/authentication";
 import type { RouteObject } from "react-router-dom";
 import { LandingPage } from "src/layouts/Landing/components";
 import { Authentication } from "src/layouts/auth";
 import { Login, Register } from "src/authentication";
 import { Mainlayout } from "src/layouts/main";
 import { routesProtector } from "./routes-protector";
+import { Home } from "src/home";
+import { Learning } from "src/learning";
+import { Teaching } from "src/teaching";
 
 export const routes = [
   {
-    path: routerEndPoints.home,
+    path: routerEndPoints.HOME,
     element: <Mainlayout />,
     loader: routesProtector().requireLoggedIn(),
-    children: [{}],
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: routerEndPoints.MY_LEARNING,
+        element: <Learning />,
+      },
+      {
+        path: routerEndPoints.MY_TEACHING,
+        element: <Teaching />,
+      },
+    ],
   },
   {
-    path: routerEndPoints.root,
+    path: routerEndPoints.ROOT,
     element: <LandingLayout />,
     loader: routesProtector().requireNotLoggedIn(),
     children: [
@@ -31,11 +46,11 @@ export const routes = [
     loader: routesProtector().requireNotLoggedIn(),
     children: [
       {
-        path: routerEndPoints.register,
+        path: routerEndPoints.SIGNUP,
         element: <Register />,
       },
       {
-        path: routerEndPoints.login,
+        path: routerEndPoints.SIGNIN,
         element: <Login />,
       },
     ],
