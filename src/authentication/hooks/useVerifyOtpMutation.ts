@@ -2,8 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { showNotification } from "@mantine/notifications";
 import { useCallback } from "react";
 import { routerEndPoints } from "src/constants";
-import { useRouteNavigation } from "src/hooks";
-import { useAppAuthentication } from "src/hooks/useAppAuthentication";
+import { useAppAuthentication, useRouteNavigation } from "src/hooks";
 import {
   Authenticated,
   MutationCompleteAuthAndSignTokenArgs,
@@ -79,7 +78,7 @@ export const useVerifyOtpMutation = () => {
 
         showNotification({
           title: "Success",
-          message: "",
+          message: "Account verified successfully",
           color: "blue",
         });
 

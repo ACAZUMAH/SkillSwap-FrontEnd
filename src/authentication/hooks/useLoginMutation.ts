@@ -26,7 +26,7 @@ export const useLoginMutation = () => {
 
             showNotification({
                 title: "Success",
-                message: "Login successful",
+                message: "OTP sent successfully",
                 color: "blue"
             })
             return true;

@@ -17,8 +17,8 @@ export const useAppAuthentication = () => {
   );
 
   const logoutUser = useCallback(() => {
-    authenticationActions.reset();
+    dispatch(authenticationActions.reset());
   }, [dispatch]);
 
-  return { registerUser, authentication, logoutUser };
+  return { registerUser, ...authentication, logoutUser };
 };
