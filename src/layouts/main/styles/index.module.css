@@ -9,8 +9,7 @@
 }
 
 .mainLink {
-  font-size: var(--mantine-font-size-lg);
-  font-weight: 300;
+  font-size: var(--mantine-font-size-md);
   padding: 5px 9px 12px;
   margin-top: 5px;
   color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-1));
@@ -23,7 +22,8 @@
   }
 
   &[data-active]{
+    font-weight: 500;
     color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-    border-bottom-color: var(--mantine-color-blue-6);
+    border-bottom-color: #1f5de5;
   }
 }

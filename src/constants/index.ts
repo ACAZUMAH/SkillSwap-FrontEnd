@@ -5,6 +5,7 @@ export const routerEndPoints = {
     SIGNIN: '/signin',
     SIGNUP: '/signup',
     PROFILE: '/profile',
+    SWAPS: '/home/swaps',
     MY_LEARNING: '/home/my-learning',
     MY_TEACHING: '/home/my-teaching'
 }

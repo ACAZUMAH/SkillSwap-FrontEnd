@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useAppDispatch, useAppSelctor } from "./useReduxHooks";
-import { Authenticated } from "src/interfaces";
+import { Authenticated, Authentication } from "src/interfaces";
 import { authenticationActions } from "src/redux/authentication/slice";
 
 export const useAppAuthentication = () => {
@@ -20,5 +20,12 @@ export const useAppAuthentication = () => {
     dispatch(authenticationActions.reset());
   }, [dispatch]);
 
-  return { registerUser, ...authentication, logoutUser };
+  const updateAuthencation = useCallback(
+    (authentication: Partial<Authentication>) => {
+      dispatch(authenticationActions.update(authentication));
+    },
+    [dispatch]
+  );
+
+  return { registerUser, ...authentication, logoutUser, updateAuthencation };
 };

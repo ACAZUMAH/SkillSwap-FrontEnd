@@ -9,9 +9,11 @@ import {
   TextInput,
 } from "@mantine/core";
 import React from "react";
-import { useUpdateSkillForm } from "../hooks/useUpdateSkillForm";
+import { useUpdateSkillForm } from "./hooks/useUpdateSkillForm";
 import { useAppAuthentication } from "src/hooks";
-import { SkillsGroup } from "./SkillsGroup";
+import { SkillsGroup } from "./components/SkillsGroup";
+import { useSkillsActions } from "./hooks/useSkillsActions";
+import { useUpdateSkillsMutation } from "./hooks/useUpdateSkillsMutation";
 
 interface Props {
   opened: boolean;
@@ -21,39 +23,31 @@ interface Props {
 export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
   const { user } = useAppAuthentication();
   const form = useUpdateSkillForm(user);
-  const [proficientSkills, setProficientSkills] = React.useState("");
-  const [proficientSkillLevel, setProficientSkillLevel] = React.useState(1);
-  const [skillsToLearn, setSkillsToLearn] = React.useState("");
-  const [skillsToLearnLevel, setSkillsToLearnLevel] = React.useState(1);
+  const {
+    proficientSkills,
+    setProficientSkills,
+    proficientSkillLevel,
+    setProficientSkillLevel,
+    skillsToLearn,
+    setSkillsToLearn,
+    skillsToLearnLevel,
+    setSkillsToLearnLevel,
+    addProficientSkills,
+    addSkillsToLearn,
+    removeProficientSkills,
+    removeSkillsToLearn,
+  } = useSkillsActions(form);
+  const { updateSkills, loading } = useUpdateSkillsMutation();
 
-  const addProficientSkills = () => {
-    if (proficientSkills.trim() === "") return;
+  const handleUpdate = async () => {
+    const update = await updateSkills({
+      ...form.values,
+    });
 
-    form.setFieldValue("skillsProficientAt", [
-      ...form.values.skillsProficientAt,
-      { name: proficientSkills, level: proficientSkillLevel },
-    ]);
-    setProficientSkills("");
-  };
-
-  const addSkillsToLearn = () => {
-    if (skillsToLearn.trim() === "") return;
-
-    form.setFieldValue("skillsToLearn", [
-      ...form.values.skillsToLearn,
-      { name: skillsToLearn, level: skillsToLearnLevel },
-    ]);
-    setSkillsToLearn("");
-  };
-
-  const removeProficientSkills = (index: number) => {
-    const update = form.values.skillsProficientAt.filter((_, i) => i !== index);
-    form.setFieldValue("skillsProficientAt", update)
-  };
-
-  const removeSkillsToLearn = (index: number) => {
-    const update = form.values.skillsToLearn.filter((_, i) => i !== index);
-    form.setFieldValue("skillsToLearn", update)
+    if (update?.id) {
+      form.resetForm();
+      onClose();
+    }
   };
 
   return (
@@ -132,7 +126,9 @@ export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
         </Paper>
       </Group>
       <Flex justify="flex-end" mt="lg">
-        <Button radius="xl">Save</Button>
+        <Button radius="xl" onClick={handleUpdate} loading={loading}>
+          Save
+        </Button>
       </Flex>
     </Modal>
   );

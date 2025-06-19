@@ -6,14 +6,14 @@ import { MainHeader } from './components/MainHeader'
 
 export const Mainlayout: React.FC = () => {
   return (
-    <AppShell header={{ height: 120 }}>
+    <AppShell header={{ height: 125 }}>
         <AppShell.Header>
             <MainHeader />
         </AppShell.Header>
         <AppShell.Main>
             <Outlet />
         </AppShell.Main>
-        <AppShell.Footer>
+        <AppShell.Footer pos="relative">
             <Footer />
         </AppShell.Footer>
     </AppShell>

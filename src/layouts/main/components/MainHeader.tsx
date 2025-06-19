@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Anchor,
+  Box,
   Burger,
   Container,
   Group,
@@ -33,21 +34,22 @@ export const MainHeader: React.FC = () => {
         <Group justify="space-between" h="100%">
           <Group justify="space-between" align="center" gap="xl">
             <Burger
-              hiddenFrom="lg"
+              hiddenFrom="md"
               size="md"
               lineSize={2}
               onClick={() => setOpened(true)}
             />
             <Anchor underline="never" href="/home">
-              <Title c="brand" fs="italic" order={1} size={30}>
+              <Title c="brand" fs="italic" order={1} size={35}>
                 SkillSwap
               </Title>
             </Anchor>
             <TextInput
               flex={1}
               w={500}
+              size="md"
               radius="xl"
-              visibleFrom="lg"
+              visibleFrom="md"
               placeholder="Search for skills, users, or topics..."
               rightSection={<IconSearch stroke={1.5} />}
             />
@@ -72,14 +74,16 @@ export const MainHeader: React.FC = () => {
               <IconBrandMessenger size={50} stroke={1.5} />
             </ActionIcon>
             <Tooltip label="Search" position="bottom" withArrow>
-              <ActionIcon hiddenFrom="lg" variant="light" radius="xl" size="md">
+              <ActionIcon hiddenFrom="md" variant="light" radius="xl" size="md">
                 <IconSearch
                   stroke={1.5}
                   onClick={() => SetOpenedSearch(true)}
                 />
               </ActionIcon>
             </Tooltip>
-            <MainDropdown />
+            <Box visibleFrom="md">
+              <MainDropdown />
+            </Box>
           </Group>
         </Group>
         <HeaderTabs />

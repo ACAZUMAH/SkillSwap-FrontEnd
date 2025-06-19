@@ -17,20 +17,21 @@ const verifyOtpMutationgql = gql`
         profile_img
         firstName
         lastName
-        email
         phoneNumber
+        email
+        portfolio
+        linkedIn
+        gitHub
         bio
         availability
         averageRating
         education {
           institution
           degree
+          fieldOfStudy
           level
           endDate
         }
-        linkedIn
-        gitHub
-        portfolio
         skillsProficientAt {
           id
           level
@@ -41,9 +42,8 @@ const verifyOtpMutationgql = gql`
           level
           name
         }
-        isAuthenticated
-        updatedAt
         createdAt
+        updatedAt
       }
     }
   }
@@ -55,7 +55,7 @@ export const useVerifyOtpMutation = () => {
     MutationCompleteAuthAndSignTokenArgs
   >(verifyOtpMutationgql, { fetchPolicy: "network-only" });
 
-  const navigateToSignin = useRouteNavigation(routerEndPoints.SIGNIN)
+  const navigateToSignin = useRouteNavigation(routerEndPoints.SIGNIN);
   const navigateToHome = useRouteNavigation(routerEndPoints.HOME);
   const { registerUser } = useAppAuthentication();
 
@@ -67,10 +67,10 @@ export const useVerifyOtpMutation = () => {
             otp: data.otp,
           },
         });
- 
+
         const auth = res.data?.completeAuthAndSignToken;
 
-        console.log(auth)
+        console.log(auth);
 
         if (!auth) throw Error("Invalid token");
 

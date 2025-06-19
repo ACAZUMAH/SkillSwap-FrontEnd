@@ -459,8 +459,8 @@ export type UpdateUserInput = {
   linkedIn?: InputMaybe<Scalars['String']['input']>;
   portfolio?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
-  skillsProficientAt?: InputMaybe<Array<SkillInput>>;
-  skillsToLearn?: InputMaybe<Array<SkillInput>>;
+  skillsProficientAt?: InputMaybe<Array<InputMaybe<SkillInput>>>;
+  skillsToLearn?: InputMaybe<Array<InputMaybe<SkillInput>>>;
 };
 
 export type User = {

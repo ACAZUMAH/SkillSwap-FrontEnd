@@ -1,8 +1,11 @@
-import { useProfileImageform, useUpdateProfileForm } from "../hooks/useUpdateProfileForm";
+import {
+  useProfileImageform,
+  useUpdateProfileForm,
+} from "../hooks/useUpdateProfileForm";
 
 export interface UpdateProfileModalProps {
   opened: boolean;
-    onClose: () => void;
+  onClose: () => void;
 }
 
 export interface PersonalInfoProps {
@@ -17,11 +20,10 @@ export interface ProfileImageProps {
 
 export interface UpdateSkillSetProps {
   updateForm: ReturnType<typeof useUpdateProfileForm>;
-  handlePrevious?: () => void;  
+  handlePrevious?: () => void;
   handleNext?: () => void;
 }
 
 export interface EducationInfoProps {
   updateForm: ReturnType<typeof useUpdateProfileForm>;
 }
-

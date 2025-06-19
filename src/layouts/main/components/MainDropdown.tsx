@@ -1,4 +1,4 @@
-import { Anchor, Avatar, Divider, Group, Menu } from "@mantine/core";
+import { Anchor, Avatar, Divider, Group, Menu, Text } from "@mantine/core";
 import {
   IconChevronDown,
   IconLogout,
@@ -8,7 +8,10 @@ import {
 import React from "react";
 import { routerEndPoints } from "src/constants";
 import { getInitialsNameLatter } from "src/helpers";
-import { useAppAuthentication, useRouteNavigation } from "src/hooks";
+import {
+  useAppAuthentication,
+  useRouteNavigation,
+} from "src/hooks";
 
 export const MainDropdown: React.FC = () => {
   const { user, logoutUser } = useAppAuthentication();
@@ -33,7 +36,9 @@ export const MainDropdown: React.FC = () => {
               }}
               size="md"
             >
-              {getInitialsNameLatter(user?.firstName!)}
+              <Text c="white" fw="bold" size="xl">
+                {getInitialsNameLatter(user?.firstName!)}
+              </Text>
             </Avatar>
             <IconChevronDown stroke={1.5} color="white" />
           </Group>
@@ -54,7 +59,7 @@ export const MainDropdown: React.FC = () => {
           color="red"
           onClick={() => {
             logoutUser();
-            navigateToLanding()
+            navigateToLanding();
           }}
         >
           Logout
