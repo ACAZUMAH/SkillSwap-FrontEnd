@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
   const { isDarkMode } = useAppSettings();
   return (
     <>
-      <Container w="100%" maw={1450} pt={10}>
+      <Container w="100%" maw={1400} pt={10}>
         <Group justify="space-between" mt={30} mb={20}>
           <Box maw={300}>
             <Stack gap={15}>

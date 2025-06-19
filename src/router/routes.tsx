@@ -9,6 +9,7 @@ import { routesProtector } from "./routes-protector";
 import { Home } from "src/home";
 import { Learning } from "src/learning";
 import { Teaching } from "src/teaching";
+import { UserProfile } from "src/profile";
 
 export const routes = [
   {
@@ -19,6 +20,10 @@ export const routes = [
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: routerEndPoints.PROFILE,
+        element: <UserProfile />
       },
       {
         path: routerEndPoints.MY_LEARNING,

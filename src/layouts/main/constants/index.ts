@@ -6,11 +6,15 @@ export const headerItems = [
         route: routerEndPoints.HOME,
     },
     {
-        label: "My learning",
+        label: "Swaps",
+        route: routerEndPoints.SWAPS,
+    },
+    {
+        label: "My Learning",
         route: routerEndPoints.MY_LEARNING,
     },
     {
-        label: "My teaching",
+        label: "My Teaching",
         route: routerEndPoints.MY_TEACHING,
     }
 ]

@@ -212,6 +212,7 @@ export type Education = {
   __typename?: 'Education';
   degree?: Maybe<Scalars['String']['output']>;
   endDate?: Maybe<Scalars['DateTime']['output']>;
+  fieldOfStudy?: Maybe<Scalars['String']['output']>;
   institution?: Maybe<Scalars['String']['output']>;
   level?: Maybe<Scalars['String']['output']>;
 };
@@ -219,6 +220,7 @@ export type Education = {
 export type EducationInput = {
   degree: Scalars['String']['input'];
   endDate: Scalars['Date']['input'];
+  fieldOfStudy?: InputMaybe<Scalars['String']['input']>;
   institution: Scalars['String']['input'];
   level: Scalars['String']['input'];
 };
@@ -446,23 +448,24 @@ export type TimeTableInput = {
 };
 
 export type UpdateUserInput = {
-  availability?: InputMaybe<Scalars['String']['input']>;
+  availability?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   bio?: InputMaybe<Scalars['String']['input']>;
   education?: InputMaybe<EducationInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
   gitHub?: InputMaybe<Scalars['String']['input']>;
+  isProfileComplete?: InputMaybe<Scalars['Boolean']['input']>;
   lastName?: InputMaybe<Scalars['String']['input']>;
   linkedIn?: InputMaybe<Scalars['String']['input']>;
   portfolio?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
-  skillsProficientAt?: InputMaybe<Array<SkillInput>>;
-  skillsToLearn?: InputMaybe<Array<SkillInput>>;
+  skillsProficientAt?: InputMaybe<Array<InputMaybe<SkillInput>>>;
+  skillsToLearn?: InputMaybe<Array<InputMaybe<SkillInput>>>;
 };
 
 export type User = {
   __typename?: 'User';
-  availability?: Maybe<Scalars['String']['output']>;
+  availability?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   averageRating?: Maybe<Scalars['Int']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
@@ -472,6 +475,7 @@ export type User = {
   gitHub?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isAuthenticated?: Maybe<Scalars['Boolean']['output']>;
+  isProfileComplete?: Maybe<Scalars['Boolean']['output']>;
   lastName?: Maybe<Scalars['String']['output']>;
   linkedIn?: Maybe<Scalars['String']['output']>;
   password?: Maybe<Scalars['String']['output']>;
@@ -480,7 +484,7 @@ export type User = {
   profile_img?: Maybe<Scalars['String']['output']>;
   skillsProficientAt?: Maybe<Array<Maybe<Skill>>>;
   skillsToLearn?: Maybe<Array<Maybe<Skill>>>;
-  updateAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type UserConnection = {
