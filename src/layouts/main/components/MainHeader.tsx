@@ -23,11 +23,14 @@ import { HeaderTabs } from "./HeaderTabs";
 import { MainDrawer } from "./MainDrawer";
 import { SearchDropdown } from "./SearchDropdown";
 import { MainDropdown } from "./MainDropdown";
+import { useLocation } from "react-router-dom";
+import { routerEndPoints } from "src/constants";
 
 export const MainHeader: React.FC = () => {
   const [opened, setOpened] = React.useState(false);
   const [openedSearch, SetOpenedSearch] = React.useState(false);
   const settings = useAppSettings();
+  const location = useLocation();
   return (
     <div className={classes.header}>
       <Container w="100%" maw={1400} h="100%">
@@ -86,7 +89,9 @@ export const MainHeader: React.FC = () => {
             </Box>
           </Group>
         </Group>
-        <HeaderTabs />
+        <Conditional condition={location.pathname !== routerEndPoints.PROFILE}>
+          <HeaderTabs />
+        </Conditional>
         <MainDrawer opened={opened} onClose={() => setOpened(!opened)} />
         <SearchDropdown
           opened={openedSearch}

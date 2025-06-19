@@ -1,7 +1,7 @@
 import React from 'react'
 
-export const AccountProfile: React.FC = () =>{
+export const UserProfile: React.FC = () =>{
   return (
-    <div>inde</div>
+    <div>index</div>
   )
 }

@@ -16,6 +16,7 @@ import {
 export const MainDropdown: React.FC = () => {
   const { user, logoutUser } = useAppAuthentication();
   const navigateToLanding = useRouteNavigation(routerEndPoints.ROOT);
+  const navigateToProfile = useRouteNavigation(routerEndPoints.PROFILE);
 
   return (
     <Menu trigger="hover" width={230} offset={10}>
@@ -45,7 +46,7 @@ export const MainDropdown: React.FC = () => {
         </Anchor>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item leftSection={<IconUser stroke={1.5} />} p="xs">
+        <Menu.Item leftSection={<IconUser stroke={1.5} />} p="xs" onClick={navigateToProfile}>
           Profile
         </Menu.Item>
         <Divider />
