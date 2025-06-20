@@ -4,10 +4,12 @@ export const routerEndPoints = {
     HOME: '/home',
     SIGNIN: '/signin',
     SIGNUP: '/signup',
+    CHAT: '/home/chat',
     PROFILE: '/home/profile',
     SWAPS: '/home/swaps',
     MY_LEARNING: '/home/my-learning',
-    MY_TEACHING: '/home/my-teaching'
+    MY_TEACHING: '/home/my-teaching',
+    USER: '/home/user/:id',
 }
 
 export * from './theme/theme'

@@ -10,10 +10,12 @@ import { routerEndPoints } from "src/constants";
 import { getInitialsNameLatter } from "src/helpers";
 import {
   useAppAuthentication,
+  useAppSettings,
   useRouteNavigation,
 } from "src/hooks";
 
 export const MainDropdown: React.FC = () => {
+  const { isDarkMode } = useAppSettings();
   const { user, logoutUser } = useAppAuthentication();
   const navigateToLanding = useRouteNavigation(routerEndPoints.ROOT);
   const navigateToProfile = useRouteNavigation(routerEndPoints.PROFILE);
@@ -41,12 +43,19 @@ export const MainDropdown: React.FC = () => {
                 {getInitialsNameLatter(user?.firstName!)}
               </Text>
             </Avatar>
-            <IconChevronDown stroke={1.5} color="white" />
+            <IconChevronDown
+              stroke={1.5}
+              color={isDarkMode ? "white" : "black"}
+            />
           </Group>
         </Anchor>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item leftSection={<IconUser stroke={1.5} />} p="xs" onClick={navigateToProfile}>
+        <Menu.Item
+          leftSection={<IconUser stroke={1.5} />}
+          p="xs"
+          onClick={navigateToProfile}
+        >
           Profile
         </Menu.Item>
         <Divider />

@@ -10,6 +10,9 @@ import { Home } from "src/home";
 import { Learning } from "src/learning";
 import { Teaching } from "src/teaching";
 import { UserProfile } from "src/profile";
+import { Swaps } from "src/swaps";
+import { Chats } from "src/chats";
+import { UserDetails } from "src/user";
 
 export const routes = [
   {
@@ -26,8 +29,20 @@ export const routes = [
         element: <UserProfile />
       },
       {
+        path: routerEndPoints.CHAT,
+        element: <Chats />
+      },
+      {
+        path: routerEndPoints.SWAPS,
+        element: <Swaps />
+      },
+      {
         path: routerEndPoints.MY_LEARNING,
         element: <Learning />,
+      },
+      {
+        path: routerEndPoints.USER,
+        element: <UserDetails />
       },
       {
         path: routerEndPoints.MY_TEACHING,

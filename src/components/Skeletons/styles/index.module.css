@@ -1,0 +1,11 @@
+.card {
+   background-color: var(--mntine-color-body);
+   height: 170px;
+   display: flex;
+   flex-wrap: nowrap; 
+   flex-direction: row;
+}
+
+.body {
+   padding: var(--mantine-spacing-xs);
+}

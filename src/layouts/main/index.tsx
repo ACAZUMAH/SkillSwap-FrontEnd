@@ -9,7 +9,12 @@ export const Mainlayout: React.FC = () => {
   const location = useLocation();
 
   const height = useMemo(() => {
-    if (location.pathname === routerEndPoints.PROFILE) {
+    const currentPath = location.pathname;
+    if (
+      currentPath === routerEndPoints.PROFILE ||
+      currentPath === routerEndPoints.CHAT ||
+      currentPath.startsWith(routerEndPoints.USER.replace(":id", ""))
+    ) {
       return 80;
     } else {
       return 125;

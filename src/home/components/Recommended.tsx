@@ -11,12 +11,13 @@ import {
 import { IconArrowRight, IconInfoCircle } from "@tabler/icons-react";
 import React from "react";
 import { useRecommendQuery } from "../hooks/useRecommendQuery";
-import { Conditional, UserCard } from "src/components";
+import { Conditional, UserCard, UserCardSkeleton } from "src/components";
 
 export const Recommended: React.FC = () => {
   const { recommendations, loading, error } = useRecommendQuery();
 
   const showData = !loading && !error && recommendations.length > 0;
+  const showLoading = loading && !error;
   const showErrorAlert = !loading && error;
 
   return (
@@ -38,14 +39,26 @@ export const Recommended: React.FC = () => {
           variant="light"
           radius="md"
           mb="xl"
-          title={<Title order={4} fw="normal">Error</Title>}
+          title={
+            <Title order={4} fw="normal">
+              Error
+            </Title>
+          }
         >
-          <Text size="md">Failed to load recommendations. Please try again later.</Text>
+          <Text size="md">
+            Failed to load recommendations. Please try again later.
+          </Text>
         </Alert>
       </Conditional>
 
-      <Conditional condition={showData}>
-        <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2.5rem" mb="xl">
+      <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" mb="xl">
+        <Conditional condition={showLoading}>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <UserCardSkeleton key={index} />
+          ))}
+        </Conditional>
+
+        <Conditional condition={showData}>
           {recommendations?.map((rec, index) => (
             <UserCard
               key={index}
@@ -55,8 +68,8 @@ export const Recommended: React.FC = () => {
               matchScore={rec?.matchScore!}
             />
           ))}
-        </SimpleGrid>
-      </Conditional>
+        </Conditional>
+      </SimpleGrid>
     </Box>
   );
 };

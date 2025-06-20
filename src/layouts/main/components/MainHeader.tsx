@@ -15,9 +15,9 @@ import {
   IconSearch,
   IconSunHigh,
 } from "@tabler/icons-react";
-import React from "react";
+import React, { useMemo } from "react";
 import { Conditional } from "src/components";
-import { useAppSettings } from "src/hooks";
+import { useAppSettings, useRouteNavigation } from "src/hooks";
 import classes from "../styles/index.module.css";
 import { HeaderTabs } from "./HeaderTabs";
 import { MainDrawer } from "./MainDrawer";
@@ -29,8 +29,19 @@ import { routerEndPoints } from "src/constants";
 export const MainHeader: React.FC = () => {
   const [opened, setOpened] = React.useState(false);
   const [openedSearch, SetOpenedSearch] = React.useState(false);
+  const navigateToChats = useRouteNavigation(routerEndPoints.CHAT);
   const settings = useAppSettings();
   const location = useLocation();
+
+  const showTabs = useMemo(() => {
+    const currentPath = location.pathname;
+    return (
+      currentPath !== routerEndPoints.PROFILE &&
+      currentPath !== routerEndPoints.CHAT && 
+      !currentPath.startsWith(routerEndPoints.USER.replace(":id", ""))
+    );
+  }, [location.pathname]);
+
   return (
     <div className={classes.header}>
       <Container w="100%" maw={1400} h="100%">
@@ -73,7 +84,12 @@ export const MainHeader: React.FC = () => {
                 <IconMoon />
               </Conditional>
             </ActionIcon>
-            <ActionIcon variant="light" radius="xl" size="md">
+            <ActionIcon
+              variant="light"
+              radius="xl"
+              size="md"
+              onClick={navigateToChats}
+            >
               <IconBrandMessenger size={50} stroke={1.5} />
             </ActionIcon>
             <Tooltip label="Search" position="bottom" withArrow>
@@ -89,7 +105,9 @@ export const MainHeader: React.FC = () => {
             </Box>
           </Group>
         </Group>
-        <Conditional condition={location.pathname !== routerEndPoints.PROFILE}>
+        <Conditional
+          condition={showTabs}
+        >
           <HeaderTabs />
         </Conditional>
         <MainDrawer opened={opened} onClose={() => setOpened(!opened)} />
