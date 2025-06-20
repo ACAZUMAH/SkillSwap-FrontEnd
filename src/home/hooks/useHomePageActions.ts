@@ -1,32 +1,27 @@
-import { useEffect, useState } from "react";
-import { useGetUsersQuery } from "src/home/hooks/useGetUsersQuery";
-import { useAppAuthentication } from "../../hooks/useAppAuthentication";
+import { useState } from "react";
+import { initialState } from "../constant";
 
 export const useHomeActions = () => {
-  const { user } = useAppAuthentication();
-  const [opened, setOpened] = useState(false);
+  const [state, setState] = useState(initialState)
 
-  const { users, pageInfo, loading, fetchMore } = useGetUsersQuery({ page: 1, limit: 9 });
+  const updateState = (newState: Partial<typeof initialState>) => {
+    setState((prev) => ({ ...prev, ...newState }));
+  };
 
-  const showData = !loading && users?.length > 0;
+  const onSearchChange = (search: string) => {
+    updateState({ search });
+  }
 
-  useEffect(() => {
-    if (
-      (user && !user.skillsProficientAt?.length) ||
-      !user?.skillsToLearn?.length
-    ) {
-      setOpened(true);
-    }
-  }, [user]);
-
+  const onPageChange = (page: number) => {
+    updateState({ page });
+  }
 
   return {
-    opened,
-    setOpened,
-    users,
-    pageInfo,
-    loading,
-    fetchMore,
-    showData,
+    state,
+    actions: {
+      onSearchChange,
+      onPageChange,
+      updateState
+    }
   };
 };
