@@ -6,22 +6,11 @@
    flex-direction: row;
 }
 
-@media (max-width: 768px) {
-   .card {
-      flex-direction: column;
-   }
-}
 
 .image {
    max-width: 170px;
 }
 
-@media (max-width: 768px) {
-   .image {
-      max-width: 100%;
-      max-height: 180px;
-   }
-}
 
 .body {
    padding: var(--mantine-spacing-xs);
@@ -30,4 +19,24 @@
 .title {
    font-weight: 500;
    line-height: 1.2;
+}
+
+/* @media screen and (max-width: 768px) {
+   .card {
+      flex-direction: column;
+      height: 600px;
+   }
+}
+
+@media screen and (max-width: 768px) {
+   .image {
+      max-width: 100%;
+      max-height: 130px;
+   }
+} */
+
+@media screen and (max-width: 890px) {
+   .card {
+      height: 200px;
+   }
 }

@@ -1,19 +1,12 @@
-import {
-  Button,
-  Flex,
-  Group,
-  Modal,
-  NumberInput,
-  Paper,
-  Text,
-  TextInput,
-} from "@mantine/core";
-import React from "react";
+import { Button, Divider, Flex, Group, Modal, Paper, Text } from "@mantine/core";
+import React, { useState } from "react";
 import { useUpdateSkillForm } from "./hooks/useUpdateSkillForm";
 import { useAppAuthentication } from "src/hooks";
-import { SkillsGroup } from "./components/SkillsGroup";
 import { useSkillsActions } from "./hooks/useSkillsActions";
 import { useUpdateSkillsMutation } from "./hooks/useUpdateSkillsMutation";
+import { SkillsForm } from "./components/SkillsForm";
+import { SkillsTable } from "./components/SkillsTable";
+import { Conditional } from "src/components";
 
 interface Props {
   opened: boolean;
@@ -21,6 +14,8 @@ interface Props {
 }
 
 export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
+  const [proficientForm, setShowProfienctForm] = useState(false);
+  const [learnForm, setLearnForm] = useState(false);
   const { user } = useAppAuthentication();
   const form = useUpdateSkillForm(user);
   const {
@@ -37,10 +32,17 @@ export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
     removeProficientSkills,
     removeSkillsToLearn,
   } = useSkillsActions(form);
-  const { updateSkills, loading } = useUpdateSkillsMutation();
+  const { updateUser, loading } = useUpdateSkillsMutation();
+
+  if (!user?.skillsProficientAt?.length) {
+    setShowProfienctForm(true);
+  }
+  if (!user?.skillsToLearn?.length) {
+    setLearnForm(true);
+  }
 
   const handleUpdate = async () => {
-    const update = await updateSkills({
+    const update = await updateUser({
       ...form.values,
     });
 
@@ -55,74 +57,59 @@ export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
       opened={opened}
       onClose={onClose}
       title="Update Your Skills"
-      size="70%"
+      size="80%"
+      overlayProps={{ backgroundOpacity: 0.55, blur: 4 }}
     >
       <Group align="flex-start" grow>
-        <Paper p="xs" withBorder>
-          <Text>List the skills you are proficient in.</Text>
-          <Group my="md" gap="sm">
-            {form.values.skillsProficientAt.map((skill, index) => (
-              <SkillsGroup
-                key={index}
-                skill={skill!}
-                remove={() => removeProficientSkills(index)}
-              />
-            ))}
-          </Group>
-          <Group align="flex-end" gap="xs" mt="md">
-            <TextInput
-              flex={3}
-              label="Skill"
-              placeholder="Enter skill name e.g Java"
-              value={proficientSkills}
-              onChange={(e) => setProficientSkills(e.target.value)}
+        <Paper w="auto" withBorder>
+          <Text mt="xs" px="xs">
+            List the skills you are proficient in.
+          </Text>
+          <Conditional condition={proficientForm}>
+            <SkillsForm
+              skill={proficientSkills}
+              setSkill={setProficientSkills}
+              level={String(proficientSkillLevel)}
+              setLevel={(value: string) =>
+                setProficientSkillLevel(Number(value))
+              }
+              addSkill={() => {
+                addProficientSkills();
+                setShowProfienctForm(false);
+              }}
             />
-            <NumberInput
-              min={1}
-              max={3}
-              flex={1}
-              label="Level"
-              placeholder="Enter skill level e.g 1-3"
-              value={proficientSkillLevel}
-              onChange={(value) => setProficientSkillLevel(Number(value))}
-            />
-            <Button onClick={addProficientSkills} flex={1} radius="xl">
-              Add
-            </Button>
-          </Group>
+          </Conditional>
+
+          <Divider mt="md" />
+          <SkillsTable
+            skills={form.values.skillsProficientAt}
+            remove={removeProficientSkills}
+            addSkill={() => setShowProfienctForm(true)}
+          />
         </Paper>
-        <Paper p="xs" withBorder>
-          <Text>List the skills you are interested in learning.</Text>
-          <Group my="md" gap="sm">
-            {form.values.skillsToLearn.map((skill, index) => (
-              <SkillsGroup
-                key={index}
-                skill={skill!}
-                remove={() => removeSkillsToLearn(index)}
-              />
-            ))}
-          </Group>
-          <Group align="flex-end" gap="sm" mt="md">
-            <TextInput
-              flex={3}
-              label="Skill"
-              placeholder="Enter skill name e.g Java"
-              value={skillsToLearn}
-              onChange={(e) => setSkillsToLearn(e.target.value)}
+        <Paper w="auto" withBorder>
+          <Text mt="xs" px="xs">
+            List the skills you are interested in learning.
+          </Text>
+          <Conditional condition={learnForm}>
+            <SkillsForm
+              skill={skillsToLearn}
+              setSkill={setSkillsToLearn}
+              level={String(skillsToLearnLevel)}
+              setLevel={(value: string) => setSkillsToLearnLevel(Number(value))}
+              addSkill={() => {
+                addSkillsToLearn();
+                setLearnForm(false);
+              }}
             />
-            <NumberInput
-              min={1}
-              max={3}
-              flex={1}
-              label="Level"
-              placeholder="Enter skill level e.g 1-3"
-              value={skillsToLearnLevel}
-              onChange={(value) => setSkillsToLearnLevel(Number(value))}
-            />
-            <Button flex={1} onClick={addSkillsToLearn} radius="xl">
-              Add
-            </Button>
-          </Group>
+          </Conditional>
+
+          <Divider mt="md" />
+          <SkillsTable
+            skills={form.values.skillsToLearn}
+            remove={removeSkillsToLearn}
+            addSkill={() => setLearnForm(true)}
+          />
         </Paper>
       </Group>
       <Flex justify="flex-end" mt="lg">

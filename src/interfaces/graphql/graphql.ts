@@ -300,16 +300,29 @@ export type Query = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['String']['output']>;
   getRequestedSwaps?: Maybe<SwapConnection>;
+  getSwapByUsers?: Maybe<Swap>;
+  getSwapRequest?: Maybe<Swap>;
   getSwapRequests?: Maybe<SwapConnection>;
   hello?: Maybe<Scalars['String']['output']>;
   me?: Maybe<User>;
   recommendation?: Maybe<Array<Maybe<Recomendation>>>;
   search?: Maybe<UserConnection>;
+  user?: Maybe<User>;
 };
 
 
 export type QueryGetRequestedSwapsArgs = {
   filter?: InputMaybe<SwapFilter>;
+};
+
+
+export type QueryGetSwapByUsersArgs = {
+  data?: InputMaybe<SwapByUsers>;
+};
+
+
+export type QueryGetSwapRequestArgs = {
+  swapId: Scalars['ID']['input'];
 };
 
 
@@ -320,6 +333,11 @@ export type QueryGetSwapRequestsArgs = {
 
 export type QuerySearchArgs = {
   filters?: InputMaybe<Filters>;
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type Recomendation = {
@@ -397,6 +415,11 @@ export type Swap = {
   status: Status;
   timeTable?: Maybe<Array<Maybe<TimeTable>>>;
   updatedAt: Scalars['DateTime']['output'];
+};
+
+export type SwapByUsers = {
+  receiverId: Scalars['ID']['input'];
+  senderId: Scalars['ID']['input'];
 };
 
 export type SwapConnection = {

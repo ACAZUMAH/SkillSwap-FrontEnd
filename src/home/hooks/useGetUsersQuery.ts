@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { Filters, Query } from "src/interfaces";
+import { Filters, QuerySearchArgs, UserConnection } from "src/interfaces";
 
 export const getUsersQueryGql = gql`
   query Search($filters: Filters) {
@@ -33,14 +33,14 @@ export const getUsersQueryGql = gql`
 `;
 
 export const useGetUsersQuery = (filters: Filters) => {
-  const { data, ...result } = useQuery<Pick<Query, "search">>(
-    getUsersQueryGql,
-    {
-      fetchPolicy: "network-only",
-      notifyOnNetworkStatusChange: true,
-      variables: { filters },
-    }
-  );
+  const { data, ...result } = useQuery<
+    { search: UserConnection },
+    QuerySearchArgs
+  >(getUsersQueryGql, {
+    fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true,
+    variables: { filters },
+  });
 
   const users = data?.search?.edges || [];
   const pageInfo = data?.search?.pageInfo;
