@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { showNotification } from "@mantine/notifications";
-import { MutationUpdateUserArgs, UpdateUserInput, User } from "src/interfaces";
+import { Mutation, MutationUpdateUserArgs, UpdateUserInput } from "src/interfaces";
 
 const updateSkillsMutationGql = gql`
   mutation UpdateUser($data: UpdateUserInput) {
@@ -42,11 +42,11 @@ const updateSkillsMutationGql = gql`
 
 export const useUpdateSkillsMutation = () => {
   const [mutate, result] = useMutation<
-    { updateUser: User },
+    { updateUser: Mutation["updateUser"] },
     MutationUpdateUserArgs
   >(updateSkillsMutationGql, {});
 
-  const updateSkills = async (data: UpdateUserInput) => {
+  const updateUser = async (data: UpdateUserInput) => {
     try {
       const response = await mutate({
         variables: {
@@ -71,5 +71,5 @@ export const useUpdateSkillsMutation = () => {
     }
   };
 
-  return { updateSkills, ...result };
+  return { updateUser, ...result };
 };

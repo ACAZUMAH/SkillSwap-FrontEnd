@@ -13,11 +13,12 @@ export const Mainlayout: React.FC = () => {
     if (
       currentPath === routerEndPoints.PROFILE ||
       currentPath === routerEndPoints.CHAT ||
-      currentPath.startsWith(routerEndPoints.USER.replace(":id", ""))
+      currentPath.startsWith(routerEndPoints.USER.replace(":id", "")) 
+      || `${currentPath}${location.search}`.startsWith(`/home/?query=`)
     ) {
-      return 80;
+      return 70;
     } else {
-      return 125;
+      return 110;
     }
   }, [location.pathname]);
 

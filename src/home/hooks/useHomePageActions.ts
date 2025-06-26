@@ -8,10 +8,6 @@ export const useHomeActions = () => {
     setState((prev) => ({ ...prev, ...newState }));
   };
 
-  const onSearchChange = (search: string) => {
-    updateState({ search });
-  }
-
   const onPageChange = (page: number) => {
     updateState({ page });
   }
@@ -19,7 +15,6 @@ export const useHomeActions = () => {
   return {
     state,
     actions: {
-      onSearchChange,
       onPageChange,
       updateState
     }

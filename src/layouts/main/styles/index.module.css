@@ -10,8 +10,9 @@
 
 .mainLink {
   font-size: var(--mantine-font-size-md);
-  padding: 5px 9px 12px;
-  margin-top: 5px;
+  font-weight: 500;
+  line-height: 1.5;
+  padding: 5px 7px 7.5px;
   color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-1));
   border-bottom: 4px solid transparent;
   transition: border-color 100ms ease, color 100ms ease;
@@ -19,6 +20,12 @@
   &:hover {
     color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
     text-decoration: none;
+        &:not([data-active]) {
+      border-bottom-color: light-dark(
+        var(--mantine-color-gray-2),
+        var(--mantine-color-dark-4)
+      );
+    }
   }
 
   &[data-active]{

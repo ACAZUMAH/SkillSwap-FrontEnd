@@ -1,7 +1,6 @@
 import { Filters } from "src/interfaces";
 
 export const initialState: Filters = {
-    limit: 9,
+    limit: 12,
     page: 1,
-    search: "",
 }

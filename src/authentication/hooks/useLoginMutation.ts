@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { showNotification } from "@mantine/notifications";
-import { CreateUserInput, MutationLoginArgs, Response } from "src/interfaces";
+import { CreateUserInput, Mutation, MutationLoginArgs } from "src/interfaces";
 
 const loginMutationGql = gql`
     mutation Login($data: loginUserInput!){
@@ -12,7 +12,7 @@ const loginMutationGql = gql`
 
 export const useLoginMutation = () => {
     const [mutate, loginResult] = useMutation<
-        { loginResponse: Response },
+        { login: Mutation["login"] },
         MutationLoginArgs
     >(loginMutationGql, { fetchPolicy: "network-only", notifyOnNetworkStatusChange: true });
 
