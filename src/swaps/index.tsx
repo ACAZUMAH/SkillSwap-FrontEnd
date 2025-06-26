@@ -1,7 +1,12 @@
-import React from 'react'
+import { Paper, Image } from "@mantine/core";
 
 export const Swaps: React.FC = () => {
   return (
-    <div>swaps</div>
+    <Paper>
+      <Image
+        radius="md"
+        h = {60}
+      />
+    </Paper>
   )
 };
