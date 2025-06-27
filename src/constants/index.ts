@@ -9,6 +9,7 @@ export const routerEndPoints = {
     SWAPS: '/home/swaps',
     MY_LEARNING: '/home/my-learning',
     MY_TEACHING: '/home/my-teaching',
+    RECOMMENDATIONS: '/home/recommendations',
     USER: '/home/user/:id',
 }
 

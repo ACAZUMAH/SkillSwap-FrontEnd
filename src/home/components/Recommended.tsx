@@ -12,14 +12,17 @@ import { IconArrowRight, IconInfoCircle } from "@tabler/icons-react";
 import React from "react";
 import { useRecommendQuery } from "../hooks/useRecommendQuery";
 import { Conditional, UserCard, UserCardSkeleton } from "src/components";
+import { useRouteNavigation } from "src/hooks";
+import { routerEndPoints } from "src/constants";
 
 export const Recommended: React.FC = () => {
+  const navigateToMore = useRouteNavigation(routerEndPoints.RECOMMENDATIONS);
   const { recommendations, loading, error } = useRecommendQuery();
 
   const showData = !loading && !error && recommendations.length > 0;
   const showLoading = loading && !error;
   const showErrorAlert = !loading && error;
-  const showRecommendations = showData || showLoading
+  const showRecommendations = showData || showLoading;
 
   return (
     <Conditional condition={showRecommendations}>
@@ -32,9 +35,11 @@ export const Recommended: React.FC = () => {
             </Title>
           </Flex>
 
-          <Button variant="outline" size="xs" radius="xl">
-            <IconArrowRight />
-          </Button>
+          <Conditional condition={Boolean(recommendations.length > 6)}>
+            <Button variant="outline" size="xs" radius="xl" onClick={navigateToMore}>
+              <IconArrowRight />
+            </Button>
+          </Conditional>
         </Group>
         <Conditional condition={!!showErrorAlert}>
           <Alert

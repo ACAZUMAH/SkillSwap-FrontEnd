@@ -13,6 +13,7 @@ import { UserProfile } from "src/profile";
 import { Swaps } from "src/swaps";
 import { Chats } from "src/chats";
 import { UserDetails } from "src/user";
+import { Recommendations } from "src/recommendations";
 
 export const routes = [
   {
@@ -23,6 +24,10 @@ export const routes = [
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: routerEndPoints.RECOMMENDATIONS,
+        element: <Recommendations />
       },
       {
         path: routerEndPoints.PROFILE,
