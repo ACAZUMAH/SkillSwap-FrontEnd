@@ -13,6 +13,7 @@ import { useSearchParams } from "react-router-dom";
 export const Home: React.FC = () => {
   const { user } = useAppAuthentication();
   const [opened, setOpened] = useState(false);
+  const [noRecommendations, setNoRecommendations] = useState(false)
   const { state, actions } = useHomeActions();
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("query") || "";
@@ -28,8 +29,9 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     if (
-      (user && !user.skillsProficientAt?.length) ||
-      !user?.skillsToLearn?.length
+      !opened &&
+      ((user && !user.skillsProficientAt?.length) ||
+        !user?.skillsToLearn?.length)
     ) {
       setOpened(true);
     }
@@ -51,8 +53,8 @@ export const Home: React.FC = () => {
           </Conditional>
         </SimpleGrid>
       </Conditional>
-      <Conditional condition={!searchQuery}>
-        <Recommended />
+      <Conditional condition={!searchQuery || !opened}>
+        <Recommended setNoRecommendations={setNoRecommendations} />
 
         <Space h="md" />
 
@@ -63,10 +65,14 @@ export const Home: React.FC = () => {
             users={users}
             pageInfo={pageInfo!}
             onPageChange={actions.onPageChange}
+            noRecommendations={noRecommendations}
           />
         </Conditional>
       </Conditional>
-      <UpdateSkills opened={opened} onClose={() => setOpened(!opened)} />
+      <UpdateSkills
+        opened={opened}
+        onClose={() => setOpened((prev) => !prev)}
+      />
     </Container>
   );
 };

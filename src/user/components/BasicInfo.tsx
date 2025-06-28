@@ -38,14 +38,12 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({ user, swapData }) => {
     swapData?.status === "PENDING" ||
     swapData?.status === "DECLINED";
 
-  //console.log(disablemessageButton)
-
   const handleSendSwap = async () => {
     await swap({ receiverId: user?.id! });
   };
 
   return (
-    <Paper withBorder shadow="md" p="sm" h="100%" w="100%">
+    <Paper withBorder shadow="0" p="sm" h="100%" w="100%">
       <Center>
         <Avatar
           src={user?.profile_img}

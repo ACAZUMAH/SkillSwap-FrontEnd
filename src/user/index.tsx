@@ -26,10 +26,10 @@ export const UserDetails: React.FC = () => {
       <Conditional condition={Boolean(showDetails)}>
         <Group align="flex-start" gap={35} className={classes.group}>
           <div className={classes.basic}>
-            <BasicInfo user={user} swapData={swap} />
+            <BasicInfo user={user!} swapData={swap} />
           </div>
           <div className={classes.other}>
-            <SkillsInfo user={user} />
+            <SkillsInfo user={user!} />
 
             <EducationInfo educationalInfo={user?.education!} />
 

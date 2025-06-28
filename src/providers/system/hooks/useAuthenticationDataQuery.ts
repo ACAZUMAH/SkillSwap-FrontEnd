@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
+import { Query } from "src/interfaces";
 
 const authenticationDataQueryGql = gql`
   query Me {
@@ -38,9 +39,10 @@ const authenticationDataQueryGql = gql`
   }
 `;
 
-export const useAuthenticationDataQuery = () => {
-    const { data } = useQuery(authenticationDataQueryGql, {
+export const useAuthenticationDataQuery = (isAuthenticated: boolean) => {
+    const { data } = useQuery<Pick<Query, "me">>(authenticationDataQueryGql, {
         fetchPolicy: "network-only",
+        skip: !isAuthenticated,
     })
 
     return { currentUser: data?.me }
