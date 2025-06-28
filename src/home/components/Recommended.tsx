@@ -9,13 +9,17 @@ import {
   Title,
 } from "@mantine/core";
 import { IconArrowRight, IconInfoCircle } from "@tabler/icons-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRecommendQuery } from "../hooks/useRecommendQuery";
 import { Conditional, UserCard, UserCardSkeleton } from "src/components";
 import { useRouteNavigation } from "src/hooks";
 import { routerEndPoints } from "src/constants";
 
-export const Recommended: React.FC = () => {
+interface RecommendationProps {
+  setNoRecommendations?: (value: boolean) => void;
+}
+
+export const Recommended: React.FC<RecommendationProps> = ({ setNoRecommendations }) => {
   const navigateToMore = useRouteNavigation(routerEndPoints.RECOMMENDATIONS);
   const { recommendations, loading, error } = useRecommendQuery();
 
@@ -23,6 +27,12 @@ export const Recommended: React.FC = () => {
   const showLoading = loading && !error;
   const showErrorAlert = !loading && error;
   const showRecommendations = showData || showLoading;
+
+  useEffect(() => {
+    if(!showRecommendations && setNoRecommendations) {
+      setNoRecommendations(true);
+    }
+  }, [showRecommendations]);
 
   return (
     <Conditional condition={showRecommendations}>
@@ -66,7 +76,7 @@ export const Recommended: React.FC = () => {
           </Conditional>
 
           <Conditional condition={showData}>
-            {recommendations?.map((rec, index) => (
+            {recommendations?.slice(0, 5).map((rec, index) => (
               <UserCard
                 key={index}
                 user={rec?.user!}

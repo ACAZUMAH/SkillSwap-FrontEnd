@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { QueryUserArgs, User } from "src/interfaces";
+import { Query, QueryUserArgs } from "src/interfaces";
 
 const userQuerygql = gql`
   query User($id: ID!) {
@@ -38,7 +38,7 @@ const userQuerygql = gql`
 `;
 
 export const useGetUserQuery = (id: string) => {
-  const { data, ...result } = useQuery<{ user: User }, QueryUserArgs>(
+  const { data, ...result } = useQuery<Pick<Query, "user">, QueryUserArgs>(
     userQuerygql,
     {
       fetchPolicy: "network-only",

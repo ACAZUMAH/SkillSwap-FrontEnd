@@ -7,7 +7,7 @@ import classes from "../styles/index.module.css";
 export const HeaderTabs: React.FC = () => {
   return (
     <ScrollArea scrollbars="x" scrollbarSize={0} w="auto">
-      <Paper className={classes.paper} mt="3px">
+      <Paper className={classes.paper} mt="3.5px">
         <Group justify="flex-start" gap={20} style={{ width: "max-content" }}>
           {headerItems.map((item, index) => (
             <HeaderTabsItem {...item} key={index} />

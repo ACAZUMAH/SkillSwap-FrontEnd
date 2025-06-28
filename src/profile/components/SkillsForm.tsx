@@ -1,6 +1,7 @@
 import { Button, Group, Select, TextInput } from "@mantine/core";
 import React from "react";
 import { leveldata } from "src/helpers";
+import { CapitalizeFirstLetter } from "../helpers";
 
 interface SkillsFormProps {
   skill: string;
@@ -23,7 +24,7 @@ export const SkillsForm: React.FC<SkillsFormProps> = ({
         flex={4}
         placeholder="Enter skill name e.g Java"
         value={skill}
-        onChange={(e) => setSkill(e.target.value)}
+        onChange={(e) => setSkill(CapitalizeFirstLetter(e.target.value))}
       />
       <Select
         flex={4}

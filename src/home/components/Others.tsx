@@ -10,6 +10,7 @@ interface Props {
   showLoading?: boolean;
   pageInfo?: PageInfo;
   onPageChange?: (page: number) => void;
+  noRecommendations?: boolean;
 }
 
 export const Others: React.FC<Props> = ({
@@ -17,13 +18,16 @@ export const Others: React.FC<Props> = ({
   showData,
   showLoading,
   pageInfo,
-  onPageChange
+  onPageChange,
+  noRecommendations,
 }) => {
   return (
     <Box mb="5rem">
-      <Title order={2} fw={500} mb="xl">
-        Others you may know
-      </Title>
+      <Conditional condition={!noRecommendations}>
+        <Title order={2} fw={500} mb="xl">
+          Others you may know
+        </Title>
+      </Conditional>
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" mb="xl">
         <Conditional condition={showLoading!}>
           {Array.from({ length: 12 }).map((_, index) => (
@@ -44,7 +48,7 @@ export const Others: React.FC<Props> = ({
             justifyContent: "flex-end",
           }}
         >
-          <Paginations pageInfo={pageInfo!} onPageChange={onPageChange}/>
+          <Paginations pageInfo={pageInfo!} onPageChange={onPageChange} />
         </div>
       </Conditional>
     </Box>
