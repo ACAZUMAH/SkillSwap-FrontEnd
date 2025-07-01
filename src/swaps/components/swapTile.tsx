@@ -1,6 +1,6 @@
-import { Card, Image, Text, Group, Badge, Avatar, ActionIcon, Tooltip } from "@mantine/core";
-import { IconHeart, IconShare, IconMessage, IconCheck, IconX } from "@tabler/icons-react";
 import { User } from "src/interfaces";
+import { IconHeart, IconShare, IconMessage, IconCheck, IconX } from "@tabler/icons-react";
+import { Card, Image, Text, Group, Badge, Avatar, ActionIcon, Center, Tooltip, Stack, Box } from "@mantine/core";
 
 interface SwapTileProps {
     user?: User;
@@ -8,7 +8,6 @@ interface SwapTileProps {
     shares: number;
     status: boolean;
     comments: number;
-    imagePath: string;
     experience: number;
 }
 
@@ -18,57 +17,65 @@ const SwapTile: React.FC<SwapTileProps> = ({
     shares,
     status,
     comments,
-    imagePath,
     experience,
 }) => {
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <Card.Section>
-                <Image src={imagePath} height={180} alt="Swap image" />
-            </Card.Section>
+            <Group align="flex-start" gap="md">
+                {/* Profile image as rounded box */}
+                <Center>
+                    <Box>
+                        <Avatar
+                            src={user?.profile_img}
+                            radius={16}
+                            size={100}
+                            alt={user?.firstName || "Unknown"}
+                            styles={{
+                                root: { borderRadius: 16, width: 100, height: 100, objectFit: "cover" }
+                            }}
+                        />
+                    </Box>
+                </Center>
+                {/* All other info in a column */}
+                <Stack gap={8} style={{ flex: 1 }}>
+                    <Group justify="space-between" align="center">
+                        <div>
+                            <Text fw={500}>{user?.lastName || "Anonymous"}</Text>
+                            <Text size="xs">
+                                {experience} years experience
+                            </Text>
+                        </div>
+                        <Badge color={status ? "green" : "red"} variant="light">
+                            {status ? (
+                                <Group gap={4}><IconCheck size={14} />Swap</Group>
+                            ) : (
+                                <Group gap={4}><IconX size={14} />Un-swap</Group>
+                            )}
+                        </Badge>
+                    </Group>
+                    <Group mt="xs" gap="xs">
+                        <Tooltip label="Likes">
+                            <ActionIcon variant="light" color="red">
+                                <IconHeart size={18} />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Text size="sm">{likes}</Text>
 
-            <Group gap="apart" mt="md" mb="xs">
-                <Group>
-                    {user && (
-                        <Avatar src={user.profile_img} radius="xl" size="md" alt={user?.firstName || "Unknown"} />
-                    )}
-                    <div>
-                        <Text fw={500}>{user?.lastName || "Anonymous"}</Text>
-                        <Text size="xs" color="dimmed">
-                            {experience} years experience
-                        </Text>
-                    </div>
-                </Group>
-                <Badge color={status ? "green" : "red"} variant="light">
-                    {status ? (
-                        <Group gap={4}><IconCheck size={14} />Active</Group>
-                    ) : (
-                        <Group gap={4}><IconX size={14} />Inactive</Group>
-                    )}
-                </Badge>
-            </Group>
+                        <Tooltip label="Shares">
+                            <ActionIcon variant="light" color="blue">
+                                <IconShare size={18} />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Text size="sm">{shares}</Text>
 
-            <Group mt="md" gap="xs">
-                <Tooltip label="Likes">
-                    <ActionIcon variant="light" color="red">
-                        <IconHeart size={18} />
-                    </ActionIcon>
-                </Tooltip>
-                <Text size="sm">{likes}</Text>
-
-                <Tooltip label="Shares">
-                    <ActionIcon variant="light" color="blue">
-                        <IconShare size={18} />
-                    </ActionIcon>
-                </Tooltip>
-                <Text size="sm">{shares}</Text>
-
-                <Tooltip label="Comments">
-                    <ActionIcon variant="light" color="teal">
-                        <IconMessage size={18} />
-                    </ActionIcon>
-                </Tooltip>
-                <Text size="sm">{comments}</Text>
+                        <Tooltip label="Comments">
+                            <ActionIcon variant="light" color="teal">
+                                <IconMessage size={18} />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Text size="sm">{comments}</Text>
+                    </Group>
+                </Stack>
             </Group>
         </Card>
     );
