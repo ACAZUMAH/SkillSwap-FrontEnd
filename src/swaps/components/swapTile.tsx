@@ -1,6 +1,6 @@
 import { User } from "src/interfaces";
 import { IconHeart, IconShare, IconMessage, IconCheck, IconX } from "@tabler/icons-react";
-import { Card, Image, Text, Group, Badge, Avatar, ActionIcon, Center, Tooltip, Stack, Box } from "@mantine/core";
+import { Card, Text, Group, Badge, Avatar, ActionIcon, Center, Tooltip, Stack, Box } from "@mantine/core";
 
 interface SwapTileProps {
     user?: User;
