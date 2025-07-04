@@ -305,7 +305,7 @@ export type Query = {
   getSwapRequests?: Maybe<SwapConnection>;
   hello?: Maybe<Scalars['String']['output']>;
   me?: Maybe<User>;
-  recommendation?: Maybe<Array<Maybe<Recomendation>>>;
+  recommendation?: Maybe<RecomendationConnection>;
   search?: Maybe<UserConnection>;
   user?: Maybe<User>;
 };
@@ -331,6 +331,11 @@ export type QueryGetSwapRequestsArgs = {
 };
 
 
+export type QueryRecommendationArgs = {
+  filters?: InputMaybe<RecommendationFilters>;
+};
+
+
 export type QuerySearchArgs = {
   filters?: InputMaybe<Filters>;
 };
@@ -345,7 +350,14 @@ export type Recomendation = {
   levelDifference?: Maybe<Scalars['Int']['output']>;
   matchScore?: Maybe<Scalars['Float']['output']>;
   matchedSkill?: Maybe<Scalars['String']['output']>;
+  mutualExchange?: Maybe<Scalars['Boolean']['output']>;
   user?: Maybe<User>;
+};
+
+export type RecomendationConnection = {
+  __typename?: 'RecomendationConnection';
+  edges?: Maybe<Array<Maybe<Recomendation>>>;
+  pageInfo?: Maybe<PageInfo>;
 };
 
 export type Response = {
@@ -528,6 +540,12 @@ export type LoginUserInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type RecommendationFilters = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateSwapInput = {

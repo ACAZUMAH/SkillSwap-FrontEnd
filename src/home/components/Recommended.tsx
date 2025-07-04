@@ -10,10 +10,10 @@ import {
 } from "@mantine/core";
 import { IconArrowRight, IconInfoCircle } from "@tabler/icons-react";
 import React, { useEffect } from "react";
-import { useRecommendQuery } from "../hooks/useRecommendQuery";
 import { Conditional, UserCard, UserCardSkeleton } from "src/components";
 import { useRouteNavigation } from "src/hooks";
 import { routerEndPoints } from "src/constants";
+import { useGetRecommendationsQuery } from "../hooks/useRecommendQuery";
 
 interface RecommendationProps {
   setNoRecommendations?: (value: boolean) => void;
@@ -21,7 +21,7 @@ interface RecommendationProps {
 
 export const Recommended: React.FC<RecommendationProps> = ({ setNoRecommendations }) => {
   const navigateToMore = useRouteNavigation(routerEndPoints.RECOMMENDATIONS);
-  const { recommendations, loading, error } = useRecommendQuery();
+  const { recommendations, pageInfo, loading, error } = useGetRecommendationsQuery({ page: 1, limit: 6 });
 
   const showData = !loading && !error && recommendations.length > 0;
   const showLoading = loading && !error;
@@ -45,7 +45,7 @@ export const Recommended: React.FC<RecommendationProps> = ({ setNoRecommendation
             </Title>
           </Flex>
 
-          <Conditional condition={Boolean(recommendations.length > 6)}>
+          <Conditional condition={pageInfo?.hasNextPage!}>
             <Button variant="outline" size="xs" radius="xl" onClick={navigateToMore}>
               <IconArrowRight />
             </Button>
@@ -76,7 +76,7 @@ export const Recommended: React.FC<RecommendationProps> = ({ setNoRecommendation
           </Conditional>
 
           <Conditional condition={showData}>
-            {recommendations?.slice(0, 5).map((rec, index) => (
+            {recommendations?.map((rec, index) => (
               <UserCard
                 key={index}
                 user={rec?.user!}

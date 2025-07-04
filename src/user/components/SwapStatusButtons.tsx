@@ -2,7 +2,9 @@ import { Button } from "@mantine/core";
 import { IconClock } from "@tabler/icons-react";
 import React from "react";
 import { Conditional } from "src/components";
-import { Swap } from "src/interfaces";
+import { useAppAuthentication } from "src/hooks";
+import { Status, Swap } from "src/interfaces";
+import { useUpdateSwapMutation } from "../hooks/useUpdateSwapMutation";
 
 interface SwapStatusButtonsProps {
   swapData?: Swap | null;
@@ -11,6 +13,18 @@ interface SwapStatusButtonsProps {
 export const SwapStatusButtons: React.FC<SwapStatusButtonsProps> = ({
   swapData,
 }) => {
+  const { user } = useAppAuthentication();
+  const { updateHandler, loading } = useUpdateSwapMutation()
+
+  const handleAcceptRequest = () => {
+    if(user?.id === swapData?.receiverId){
+      updateHandler({
+        swapId: swapData?.id!,
+        status: Status.Accepted
+      })
+    }
+  }
+
   return (
     <>
       {" "}
@@ -21,8 +35,10 @@ export const SwapStatusButtons: React.FC<SwapStatusButtonsProps> = ({
           variant="outline"
           color="yellow"
           w="40%"
+          loading={loading}
+          onClick={handleAcceptRequest}
         >
-          Pending
+        { swapData?.receiverId === user?.id ? 'Accept Request' : 'Pending' }
         </Button>
       </Conditional>
       <Conditional condition={swapData?.status! === "ACCEPTED"}>
@@ -32,7 +48,7 @@ export const SwapStatusButtons: React.FC<SwapStatusButtonsProps> = ({
       </Conditional>
       <Conditional condition={swapData?.status! === "DECLINED"}>
         <Button variant="outline" color="red" radius="xl" disabled w="40%">
-          Rejected
+          {swapData?.senderId === user?.id ? 'Rejected' : 'Declined' }
         </Button>
       </Conditional>
       <Conditional condition={swapData?.status! === "COMPLETED"}>

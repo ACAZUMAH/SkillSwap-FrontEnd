@@ -56,7 +56,7 @@ export const Home: React.FC = () => {
       <Conditional condition={!searchQuery || !opened}>
         <Recommended setNoRecommendations={setNoRecommendations} />
 
-        <Space h="md" />
+        <Space h="xl" />
 
         <Conditional condition={showOthers}>
           <Others
