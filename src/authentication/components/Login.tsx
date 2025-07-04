@@ -44,6 +44,7 @@ export const Login: React.FC = () => {
               label="Phone Number"
               placeholder="Enter Phone Number"
               value={form.values.phoneNumber}
+              onChange={form.handleChange}
               onBlur={form.handleBlur}
               error={form.errors.phoneNumber}
             />

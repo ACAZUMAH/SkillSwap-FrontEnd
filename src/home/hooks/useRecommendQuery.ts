@@ -1,45 +1,58 @@
 import { gql, useQuery } from "@apollo/client";
-import { Query } from "src/interfaces";
+import {
+  QueryRecommendationArgs,
+  RecomendationConnection,
+  RecommendationFilters,
+} from "src/interfaces";
 
 const recommendQueryGql = gql`
-  query Recommendation {
-    recommendation {
-      user {
-        id
-        profile_img
-        firstName
-        lastName
-        bio
-        averageRating
-        availability
-        skillsProficientAt {
+  query Recommendation($filters: recommendationFilters) {
+    recommendation(filters: $filters) {
+      edges {
+        user {
           id
-          level
-          name
+          profile_img
+          firstName
+          lastName
+          bio
+          averageRating
+          availability
+          skillsProficientAt {
+            id
+            level
+            name
+          }
+          skillsToLearn {
+            id
+            level
+            name
+          }
         }
-        skillsToLearn {
-          id
-          level
-          name
-        }
+        matchScore
+        mutualExchange
       }
-      matchScore
-      matchedSkill
-      levelDifference
+      pageInfo {
+        hasNextPage
+        limit
+        page
+        total
+      }
     }
   }
 `;
 
-export const useRecommendQuery = () => {
-  const { data, ...result } = useQuery<Pick<Query, "recommendation">>(
-    recommendQueryGql,
-    {
-      fetchPolicy: "network-only",
-      notifyOnNetworkStatusChange: true,
-    }
-  );
+export const useGetRecommendationsQuery = (filters?: RecommendationFilters) => {
+  const { data, ...result } = useQuery<
+    { recommendation: RecomendationConnection },
+    QueryRecommendationArgs
+  >(recommendQueryGql, {
+    variables: { filters },
+    fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true,
+  });
 
-  const recommendations = data?.recommendation || [];
+  const recommendations = data?.recommendation.edges || [];
+  const pageInfo = data?.recommendation.pageInfo;
 
-  return { recommendations, ...result };
+  return { recommendations, pageInfo, ...result };
 };
