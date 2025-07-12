@@ -38,7 +38,7 @@ export const SwapStatusButtons: React.FC<SwapStatusButtonsProps> = ({
           loading={loading}
           onClick={handleAcceptRequest}
         >
-        { swapData?.receiverId === user?.id ? 'Accept Request' : 'Pending' }
+        { swapData?.receiverId === user?.id ? 'Accept' : 'Pending' }
         </Button>
       </Conditional>
       <Conditional condition={swapData?.status! === "ACCEPTED"}>

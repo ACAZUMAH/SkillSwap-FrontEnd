@@ -13,6 +13,7 @@ import { useSearchParams } from "react-router-dom";
 export const Home: React.FC = () => {
   const { user } = useAppAuthentication();
   const [opened, setOpened] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const [noRecommendations, setNoRecommendations] = useState(false)
   const { state, actions } = useHomeActions();
   const [searchParams] = useSearchParams();
@@ -37,9 +38,17 @@ export const Home: React.FC = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (searchQuery) {
+      setShowSearch(true);
+    } else {
+      setShowSearch(false);
+    }
+  }, [searchQuery])
+  
   return (
     <Container w="100%" maw={1400}>
-      <Conditional condition={Boolean(searchQuery)}>
+      <Conditional condition={showSearch}>
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" my="xl">
           <Conditional condition={showLoading!}>
             {Array.from({ length: 9 }).map((_, index) => (
@@ -53,7 +62,7 @@ export const Home: React.FC = () => {
           </Conditional>
         </SimpleGrid>
       </Conditional>
-      <Conditional condition={!searchQuery || !opened}>
+      <Conditional condition={!showSearch && !opened}>
         <Recommended setNoRecommendations={setNoRecommendations} />
 
         <Space h="xl" />
