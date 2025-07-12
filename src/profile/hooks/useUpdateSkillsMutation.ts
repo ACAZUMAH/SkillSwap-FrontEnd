@@ -44,7 +44,7 @@ export const useUpdateSkillsMutation = () => {
   const [mutate, result] = useMutation<
     { updateUser: Mutation["updateUser"] },
     MutationUpdateUserArgs
-  >(updateSkillsMutationGql, {});
+  >(updateSkillsMutationGql, { refetchQueries: ["Recommendation", "Search"] });
 
   const updateUser = async (data: UpdateUserInput) => {
     try {
