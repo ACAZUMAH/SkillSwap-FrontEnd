@@ -16,19 +16,19 @@ interface Props {
   noRecommendations?: boolean;
 }
 
-export const Others: React.FC<Props> = () => {
+export const Recent: React.FC<Props> = () => {
   const [oponed, { open, close }] = useDisclosure(false);
-  const { othersState } = useHomeActions();
+  const { recentState } = useHomeActions();
 
-  const { users, loading, error } = useGetUsersQuery({ ...othersState });
+  const { users, loading, error } = useGetUsersQuery({ ...recentState });
 
   const showData = !loading && !error && users?.length > 0;
   const showLoading = !error && loading;
 
   return (
-    <Box mb="5rem">
+    <Box mb="3.5rem">
       <Title order={2} fw={500} mb="lg">
-        Other users you may know
+        Recent users you may know
       </Title>
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" mb="md">
         <Conditional condition={showLoading!}>

@@ -24,7 +24,7 @@ export const useUpdateSwapMutation = () => {
     },
     MutationAcceptOrDeclineSwapRequestArgs
   >(updateSwapMutationGql, {
-    refetchQueries: ["GetSwapByUsers"],
+    refetchQueries: ["GetSwapByUsers", "User"],
     fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
   });
