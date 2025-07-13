@@ -2,31 +2,32 @@ import { Container, SimpleGrid, Space } from "@mantine/core";
 import { UpdateSkills } from "src/profile/UpdateSkills";
 //import { HomeHeader } from "./components/HomeHeader";
 import { Recommended } from "./components/Recommended";
-import { Others } from "./components/Others";
+import { Popular } from "./components/Popular";
 import { useHomeActions } from "src/home/hooks/useHomePageActions";
 import { useGetUsersQuery } from "./hooks/useGetUsersQuery";
 import { useEffect, useState } from "react";
 import { useAppAuthentication } from "src/hooks";
 import { Conditional, UserCard, UserCardSkeleton } from "src/components";
 import { useSearchParams } from "react-router-dom";
+import { Others } from "./components/Others";
+import { Recent } from "./components/recent";
 
 export const Home: React.FC = () => {
   const { user } = useAppAuthentication();
   const [opened, setOpened] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const [noRecommendations, setNoRecommendations] = useState(false)
-  const { state, actions } = useHomeActions();
+  const [noRecommendations, setNoRecommendations] = useState(false);
+  const { state } = useHomeActions();
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("query") || "";
-  const { users, pageInfo, loading, error } = useGetUsersQuery({
+
+  const { users, loading, error } = useGetUsersQuery({
     ...state,
     search: searchQuery,
   });
 
   const showData = !loading && !error && users?.length > 0;
   const showLoading = !error && loading;
-
-  const showOthers = showData || showLoading;
 
   useEffect(() => {
     if (
@@ -44,8 +45,8 @@ export const Home: React.FC = () => {
     } else {
       setShowSearch(false);
     }
-  }, [searchQuery])
-  
+  }, [searchQuery]);
+
   return (
     <Container w="100%" maw={1400}>
       <Conditional condition={showSearch}>
@@ -65,18 +66,12 @@ export const Home: React.FC = () => {
       <Conditional condition={!showSearch && !opened}>
         <Recommended setNoRecommendations={setNoRecommendations} />
 
-        <Space h="xl" />
+        <Space h="lg" />
+        <Popular noRecommendations={noRecommendations} />
 
-        <Conditional condition={showOthers}>
-          <Others
-            showData={showData}
-            showLoading={showLoading}
-            users={users}
-            pageInfo={pageInfo!}
-            onPageChange={actions.onPageChange}
-            noRecommendations={noRecommendations}
-          />
-        </Conditional>
+        <Recent />
+
+        <Others />
       </Conditional>
       <UpdateSkills
         opened={opened}

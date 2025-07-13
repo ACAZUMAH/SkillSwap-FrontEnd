@@ -42,7 +42,7 @@ export const SwapStatusButtons: React.FC<SwapStatusButtonsProps> = ({
         </Button>
       </Conditional>
       <Conditional condition={swapData?.status! === "ACCEPTED"}>
-        <Button variant="filled" color="green" radius="xl" w="40%">
+        <Button variant="default" c="red" radius="xl" w="40%">
           Cancel Swap
         </Button>
       </Conditional>

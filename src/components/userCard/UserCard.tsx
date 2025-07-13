@@ -21,7 +21,6 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
     <>
       <Gasture>
         <Card
-          shadow="sm"
           radius="lg"
           withBorder
           p={0}
@@ -64,7 +63,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
               <Text fw="bold" c="brand">
                 Seeking:{" "}
               </Text>
-              {user?.skillsToLearn?.slice(0, 3).map((s, i) => (
+              {user?.skillsToLearn?.slice(0, 2).map((s, i) => (
                 <Badge key={i} size="xs" variant="outline">
                   {s?.name}
                 </Badge>

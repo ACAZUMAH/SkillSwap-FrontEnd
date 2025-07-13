@@ -16,7 +16,7 @@ export const useSwapMutation = () => {
     { createSwapRequest: Mutation["createSwapRequest"] },
     MutationCreateSwapRequestArgs
   >(swapMutationgql, {
-    refetchQueries: ["GetSwapByUsers"],
+    refetchQueries: ["GetSwapByUsers", "User"],
     fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
   });

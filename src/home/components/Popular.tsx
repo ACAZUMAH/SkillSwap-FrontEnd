@@ -4,8 +4,8 @@ import { UserCard, UserCardSkeleton } from "src/components";
 import { PageInfo, User } from "src/interfaces";
 import { Conditional } from "src/components";
 import { useDisclosure } from "@mantine/hooks";
-import { useHomeActions } from "../hooks/useHomePageActions";
 import { useGetUsersQuery } from "../hooks/useGetUsersQuery";
+import { useHomeActions } from "../hooks/useHomePageActions";
 
 interface Props {
   users?: Array<User | null>;
@@ -16,20 +16,21 @@ interface Props {
   noRecommendations?: boolean;
 }
 
-export const Others: React.FC<Props> = () => {
+export const Popular: React.FC<Props> = ({ noRecommendations }) => {
   const [oponed, { open, close }] = useDisclosure(false);
-  const { othersState } = useHomeActions();
-
-  const { users, loading, error } = useGetUsersQuery({ ...othersState });
+  const { populerState } = useHomeActions();
+  const { users, loading, error } = useGetUsersQuery({ ...populerState });
 
   const showData = !loading && !error && users?.length > 0;
   const showLoading = !error && loading;
 
   return (
-    <Box mb="5rem">
-      <Title order={2} fw={500} mb="lg">
-        Other users you may know
-      </Title>
+    <Box mb="3.5rem">
+      <Conditional condition={!noRecommendations}>
+        <Title order={2} fw={500} mb="lg">
+          Populer users you may know
+        </Title>
+      </Conditional>
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" mb="md">
         <Conditional condition={showLoading!}>
           {Array.from({ length: 6 }).map((_, index) => (
