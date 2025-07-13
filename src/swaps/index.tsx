@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { sentSwaps } from "./sentSwaps";
-import { receivedSwaps } from "./receivedSwaps";
+import { sentSwaps } from "./components/sentSwaps";
+import { receivedSwaps } from "./components/receivedSwaps";
 import { SegmentedControl, Paper, Space, Center } from "@mantine/core";
 
 export const Swaps: React.FC = () => {

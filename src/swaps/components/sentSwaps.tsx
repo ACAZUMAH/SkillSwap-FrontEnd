@@ -1,4 +1,4 @@
-import SwapTile from "./components/swapTile";
+import SwapTile from "./swapTile";
 import { Paper, SimpleGrid, Space } from "@mantine/core";
 
 // Trying to replicate what the actual page would look like when it fetches and displays
@@ -6,7 +6,7 @@ import { Paper, SimpleGrid, Space } from "@mantine/core";
 export const sentSwaps = () => {
     return (
         <>
-            <Space h="md" />
+            <Space h="md"/>
             <Paper p="md">
                 <SimpleGrid cols={3} spacing="lg">
                     {[1, 2, 3].map((i) => (
@@ -27,6 +27,7 @@ export const sentSwaps = () => {
                             status={i % 2 === 0}
                             comments={2 * i}
                             experience={3 + i}
+                            sentSwaps={true}
                         />
                     ))}
                 </SimpleGrid>

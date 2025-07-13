@@ -1,6 +1,6 @@
 import { User } from "src/interfaces";
 import { IconHeart, IconShare, IconMessage, IconCheck, IconX } from "@tabler/icons-react";
-import { Card, Text, Group, Badge, Avatar, ActionIcon, Center, Tooltip, Stack, Box, Space } from "@mantine/core";
+import { Card, Text, Group, Badge, Avatar, ActionIcon, Center, Tooltip, Stack, Box, Space, Button } from "@mantine/core";
 
 type SwapStatus = "completed" | "in-progress" | "starts-in";
 
@@ -11,6 +11,7 @@ interface SwapTileProps {
     status: boolean;
     comments: number;
     experience: number;
+    sentSwaps: boolean;
     swapStatus?: SwapStatus; // New prop for status
 }
 // Showing a Demo of the swaps
@@ -26,6 +27,7 @@ const SwapTile: React.FC<SwapTileProps> = ({
     shares,
     status,
     comments,
+    sentSwaps,
     experience,
     swapStatus = "in-progress", // Default value
 }) => {
@@ -50,7 +52,9 @@ const SwapTile: React.FC<SwapTileProps> = ({
                 <Stack gap={8} style={{ flex: 1 }}>
                     <Group justify="space-between" align="center">
                         <div>
-                            <Text fw={500}>{user?.lastName || "Anonymous"}</Text>
+                            <Text fw={500}>
+                                {(user?.firstName || "") + (user?.lastName ? ` ${user.lastName}` : "") || "Anonymous"}
+                            </Text>
                             <Text size="xs">
                                 {experience} years experience
                             </Text>
@@ -79,18 +83,32 @@ const SwapTile: React.FC<SwapTileProps> = ({
                         <Text size="sm">{comments}</Text>
                         <Space h="lg" />
                     </Group>
-                    <Group gap="xs" mt="md">
-                        <Badge color={status ? "green" : "red"} variant="light">
-                            {status ? (
-                                <Group gap={4}><IconCheck size={14} />Swap</Group>
-                            ) : (
-                                <Group gap={4}><IconX size={14} />Un-swap</Group>
-                            )}
-                        </Badge>
-                        <Badge color={statusBadgeMap[swapStatus].color} variant="light">
-                            {statusBadgeMap[swapStatus].label}
-                        </Badge>
-                    </Group>
+                    {
+                        sentSwaps ? (
+                            <Group gap="xs" mt="md">
+                                <Badge color={status ? "green" : "red"} variant="light">
+                                    {status ? (
+                                        <Group gap={4}><IconCheck size={14} />Swap</Group>
+                                    ) : (
+                                        <Group gap={4}><IconX size={14} />Un-swap</Group>
+                                    )}
+                                </Badge>
+                                <Badge color={statusBadgeMap[swapStatus].color} variant="light">
+                                    {statusBadgeMap[swapStatus].label}
+                                </Badge>
+                            </Group>
+
+                        ) : (
+                            <Stack gap="xs" mt="md">
+                                <Button fullWidth variant="light" color="lime" radius="md">
+                                    A C C E P T
+                                </Button>
+                                <Button fullWidth variant="light" color="red" radius="md">
+                                    R E J E C T
+                                </Button>
+                            </Stack>
+                        )
+                    }
                 </Stack>
             </Group>
         </Card>
