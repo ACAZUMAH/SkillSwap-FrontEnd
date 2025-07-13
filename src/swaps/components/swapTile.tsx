@@ -12,7 +12,7 @@ interface SwapTileProps {
     comments: number;
     experience: number;
     sentSwaps: boolean;
-    swapStatus?: SwapStatus; // New prop for status
+    swapStatus?: SwapStatus;
 }
 // Showing a Demo of the swaps
 const statusBadgeMap: Record<SwapStatus, { color: string; label: string }> = {
@@ -29,7 +29,7 @@ const SwapTile: React.FC<SwapTileProps> = ({
     comments,
     sentSwaps,
     experience,
-    swapStatus = "in-progress", // Default value
+    swapStatus = "in-progress",
 }) => {
     return (
         <Card shadow="sm" padding="md" radius="md" withBorder>

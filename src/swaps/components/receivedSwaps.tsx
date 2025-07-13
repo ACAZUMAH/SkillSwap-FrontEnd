@@ -25,7 +25,7 @@ export const receivedSwaps = () => {
                             status={i % 2 === 0}
                             comments={3 * i}
                             experience={2 + i}
-                            sentSwaps={false} // This indicates it's a received swap
+                            sentSwaps={false}
                         />
                     ))}
                 </SimpleGrid>
