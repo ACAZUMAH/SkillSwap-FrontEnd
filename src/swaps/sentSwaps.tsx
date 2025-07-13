@@ -7,7 +7,7 @@ export const sentSwaps = () => {
     return (
         <>
             <Space h="md" />
-            <Paper>
+            <Paper p="md">
                 <SimpleGrid cols={3} spacing="lg">
                     {[1, 2, 3].map((i) => (
                         <SwapTile

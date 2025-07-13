@@ -1,6 +1,8 @@
 import { User } from "src/interfaces";
 import { IconHeart, IconShare, IconMessage, IconCheck, IconX } from "@tabler/icons-react";
-import { Card, Text, Group, Badge, Avatar, ActionIcon, Center, Tooltip, Stack, Box } from "@mantine/core";
+import { Card, Text, Group, Badge, Avatar, ActionIcon, Center, Tooltip, Stack, Box, Space } from "@mantine/core";
+
+type SwapStatus = "completed" | "in-progress" | "starts-in";
 
 interface SwapTileProps {
     user?: User;
@@ -9,7 +11,14 @@ interface SwapTileProps {
     status: boolean;
     comments: number;
     experience: number;
+    swapStatus?: SwapStatus; // New prop for status
 }
+// Showing a Demo of the swaps
+const statusBadgeMap: Record<SwapStatus, { color: string; label: string }> = {
+    "completed": { color: "green", label: "Completed" },
+    "in-progress": { color: "yellow", label: "In-progress" },
+    "starts-in": { color: "blue", label: "Starts in" },
+};
 
 const SwapTile: React.FC<SwapTileProps> = ({
     user,
@@ -18,9 +27,10 @@ const SwapTile: React.FC<SwapTileProps> = ({
     status,
     comments,
     experience,
+    swapStatus = "in-progress", // Default value
 }) => {
     return (
-        <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <Card shadow="sm" padding="md" radius="md" withBorder>
             <Group align="flex-start" gap="md">
                 {/* Profile image as rounded box */}
                 <Center>
@@ -36,7 +46,7 @@ const SwapTile: React.FC<SwapTileProps> = ({
                         />
                     </Box>
                 </Center>
-                {/* All other info in a column */}
+                <Space w="md" />
                 <Stack gap={8} style={{ flex: 1 }}>
                     <Group justify="space-between" align="center">
                         <div>
@@ -45,13 +55,6 @@ const SwapTile: React.FC<SwapTileProps> = ({
                                 {experience} years experience
                             </Text>
                         </div>
-                        <Badge color={status ? "green" : "red"} variant="light">
-                            {status ? (
-                                <Group gap={4}><IconCheck size={14} />Swap</Group>
-                            ) : (
-                                <Group gap={4}><IconX size={14} />Un-swap</Group>
-                            )}
-                        </Badge>
                     </Group>
                     <Group mt="xs" gap="xs">
                         <Tooltip label="Likes">
@@ -74,6 +77,19 @@ const SwapTile: React.FC<SwapTileProps> = ({
                             </ActionIcon>
                         </Tooltip>
                         <Text size="sm">{comments}</Text>
+                        <Space h="lg" />
+                    </Group>
+                    <Group gap="xs" mt="md">
+                        <Badge color={status ? "green" : "red"} variant="light">
+                            {status ? (
+                                <Group gap={4}><IconCheck size={14} />Swap</Group>
+                            ) : (
+                                <Group gap={4}><IconX size={14} />Un-swap</Group>
+                            )}
+                        </Badge>
+                        <Badge color={statusBadgeMap[swapStatus].color} variant="light">
+                            {statusBadgeMap[swapStatus].label}
+                        </Badge>
                     </Group>
                 </Stack>
             </Group>
