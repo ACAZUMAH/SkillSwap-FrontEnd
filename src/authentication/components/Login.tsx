@@ -32,7 +32,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <Container size="x5">
+    <Container size="xs">
       <Paper p="xl" radius="xl" w={500} withBorder>
         <Conditional condition={!showOtp}>
           <Stack gap="sm" w={400} mx="auto">
