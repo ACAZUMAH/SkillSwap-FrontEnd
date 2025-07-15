@@ -21,6 +21,10 @@ Object.defineProperty(window, 'matchMedia', {
     })),
 });
 
+vi.mock('@excalidraw/excalidraw', () => ({
+  Excalidraw: () => null,
+}))
+
 class ResizeObserver {
     observe() {}
     unobserve() {}

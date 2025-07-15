@@ -35,6 +35,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.1",
     "redux-persist": "^6.0.0",
+    "roughjs": "^4.6.6",
     "socket.io-client": "^4.8.1",
     "uuid": "^11.1.0",
     "yup": "^1.6.1"
