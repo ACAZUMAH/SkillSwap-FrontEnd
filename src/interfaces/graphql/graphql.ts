@@ -208,6 +208,25 @@ export type CancelSwapRequestInput = {
   userId: Scalars['ID']['input'];
 };
 
+export type Chat = {
+  __typename?: 'Chat';
+  createdAt: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  messages: Array<Message>;
+  recentMessage?: Maybe<Message>;
+  updatedAt: Scalars['String']['output'];
+  users: Array<ChatUser>;
+};
+
+export type ChatUser = {
+  __typename?: 'ChatUser';
+  firstName?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  lastName?: Maybe<Scalars['String']['output']>;
+  profile_img?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
+};
+
 export type Education = {
   __typename?: 'Education';
   degree?: Maybe<Scalars['String']['output']>;
@@ -235,17 +254,38 @@ export type Filters = {
   userId?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type Message = {
+  __typename?: 'Message';
+  id: Scalars['ID']['output'];
+  isDeleted: Scalars['Boolean']['output'];
+  isRead: Scalars['Boolean']['output'];
+  mediaUrl?: Maybe<Scalars['String']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  messageType: MessageType;
+  sender?: Maybe<ChatUser>;
+  timestamp: Scalars['String']['output'];
+};
+
+export enum MessageType {
+  Document = 'DOCUMENT',
+  Image = 'IMAGE',
+  Text = 'TEXT',
+  Video = 'VIDEO'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']['output']>;
   acceptOrDeclineSwapRequest: Swap;
   cancelSwapRequest: Swap;
+  changePassword: Response;
   completeAuthAndSignToken: Authenticated;
   createAccount: Response;
   createSwapRequest: Swap;
   login?: Maybe<Response>;
   updateSwap: Swap;
   updateUser: User;
+  verifyOtpAndSaveNewPassword: Response;
 };
 
 
@@ -256,6 +296,11 @@ export type MutationAcceptOrDeclineSwapRequestArgs = {
 
 export type MutationCancelSwapRequestArgs = {
   input: CancelSwapRequestInput;
+};
+
+
+export type MutationChangePasswordArgs = {
+  data: UpdatePasswordInput;
 };
 
 
@@ -288,6 +333,11 @@ export type MutationUpdateUserArgs = {
   data?: InputMaybe<UpdateUserInput>;
 };
 
+
+export type MutationVerifyOtpAndSaveNewPasswordArgs = {
+  otp: Scalars['String']['input'];
+};
+
 export type PageInfo = {
   __typename?: 'PageInfo';
   hasNextPage: Scalars['Boolean']['output'];
@@ -299,6 +349,8 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['String']['output']>;
+  allChats: Array<Maybe<Chat>>;
+  getChatById?: Maybe<Chat>;
   getRequestedSwaps?: Maybe<SwapConnection>;
   getSwapByUsers?: Maybe<Swap>;
   getSwapRequest?: Maybe<Swap>;
@@ -308,6 +360,16 @@ export type Query = {
   recommendation?: Maybe<RecomendationConnection>;
   search?: Maybe<UserConnection>;
   user?: Maybe<User>;
+};
+
+
+export type QueryAllChatsArgs = {
+  userId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryGetChatByIdArgs = {
+  chatId: Scalars['ID']['input'];
 };
 
 
@@ -349,7 +411,7 @@ export type Recomendation = {
   __typename?: 'Recomendation';
   levelDifference?: Maybe<Scalars['Int']['output']>;
   matchScore?: Maybe<Scalars['Float']['output']>;
-  matchedSkill?: Maybe<Scalars['String']['output']>;
+  matchedSkill?: Maybe<Array<Maybe<Skill>>>;
   mutualExchange?: Maybe<Scalars['Boolean']['output']>;
   user?: Maybe<User>;
 };
@@ -480,6 +542,11 @@ export type TimeTableInput = {
   startDate: Scalars['Date']['input'];
   taughtBy: Scalars['ID']['input'];
   time: Scalars['String']['input'];
+};
+
+export type UpdatePasswordInput = {
+  newPassword: Scalars['String']['input'];
+  oldPassword: Scalars['String']['input'];
 };
 
 export type UpdateUserInput = {

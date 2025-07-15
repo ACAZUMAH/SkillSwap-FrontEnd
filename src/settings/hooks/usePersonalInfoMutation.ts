@@ -18,7 +18,11 @@ export const usePersonalInfoMutation = () => {
   const [mutate, result] = useMutation<
     { updateUser: Mutation["updateUser"] },
     MutationUpdateUserArgs
-  >(updatePersonalInfoMutation, { refetchQueries: ["Me", ]});
+  >(updatePersonalInfoMutation, {
+    fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true,
+    refetchQueries: ["Me"],
+  });
 
   const updateHandler = async (data: UpdateUserInput) => {
     try {

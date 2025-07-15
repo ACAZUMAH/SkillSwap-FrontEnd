@@ -14,7 +14,7 @@ export const VerifyOtp: React.FC<Props> = ({ phoneNumber }) => {
 
   const { verifyOtp, loading } = useVerifyOtpMutation()
 
-  const handleVerity = async () => {
+  const handleVerify = async () => {
     const verified = await verifyOtp({ ...form.values })
 
     if (verified) {
@@ -44,7 +44,7 @@ export const VerifyOtp: React.FC<Props> = ({ phoneNumber }) => {
         radius="xl"
         mt="sm"
         fullWidth
-        onClick={handleVerity}
+        onClick={handleVerify}
         disabled={!form.isValid || !form.values.otp}
         loading={loading}
       >
