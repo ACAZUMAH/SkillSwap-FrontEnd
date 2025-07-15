@@ -26,7 +26,7 @@ export const Popular: React.FC<Props> = ({ noRecommendations }) => {
 
   return (
     <Box mb="3.5rem">
-      <Conditional condition={!noRecommendations}>
+      <Conditional condition={!noRecommendations || showData}>
         <Title order={2} fw={500} mb="lg">
           Populer users you may know
         </Title>

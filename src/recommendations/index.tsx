@@ -58,9 +58,6 @@ export const Recommendations: React.FC = () => {
             <UserCard
               key={index}
               user={rec?.user!}
-              matchedSkill={rec?.matchedSkill!}
-              levelDifference={rec?.levelDifference!}
-              matchScore={rec?.matchScore!}
             />
           ))}
         </Conditional>

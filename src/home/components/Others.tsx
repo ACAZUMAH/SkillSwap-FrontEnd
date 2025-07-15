@@ -27,9 +27,11 @@ export const Others: React.FC<Props> = () => {
 
   return (
     <Box mb="5rem">
-      <Title order={2} fw={500} mb="lg">
-        Other users you may know
-      </Title>
+      <Conditional condition={showData}>
+        <Title order={2} fw={500} mb="lg">
+          Other users you may know
+        </Title>
+      </Conditional>
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" mb="md">
         <Conditional condition={showLoading!}>
           {Array.from({ length: 6 }).map((_, index) => (

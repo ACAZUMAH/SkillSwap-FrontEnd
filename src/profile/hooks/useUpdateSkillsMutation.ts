@@ -6,36 +6,6 @@ const updateSkillsMutationGql = gql`
   mutation UpdateUser($data: UpdateUserInput) {
     updateUser(data: $data) {
       id
-      profile_img
-      firstName
-      lastName
-      phoneNumber
-      email
-      portfolio
-      linkedIn
-      gitHub
-      bio
-      availability
-      averageRating
-      education {
-        institution
-        degree
-        fieldOfStudy
-        level
-        endDate
-      }
-      skillsProficientAt {
-        id
-        level
-        name
-      }
-      skillsToLearn {
-        id
-        level
-        name
-      }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -44,7 +14,7 @@ export const useUpdateSkillsMutation = () => {
   const [mutate, result] = useMutation<
     { updateUser: Mutation["updateUser"] },
     MutationUpdateUserArgs
-  >(updateSkillsMutationGql, { refetchQueries: ["Recommendation", "Search"] });
+  >(updateSkillsMutationGql, { refetchQueries: ["Recommendation", "Search", "Me"] });
 
   const updateUser = async (data: UpdateUserInput) => {
     try {

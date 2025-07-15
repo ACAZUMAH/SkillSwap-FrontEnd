@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
+    "@excalidraw/excalidraw": "^0.18.0",
     "@mantine/core": "^8.0.1",
     "@mantine/dates": "^8.1.0",
     "@mantine/dropzone": "^8.1.0",
@@ -34,7 +35,9 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.1",
     "redux-persist": "^6.0.0",
+    "roughjs": "^4.6.6",
     "socket.io-client": "^4.8.1",
+    "uuid": "^11.1.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {
@@ -46,6 +49,7 @@
     "@testing-library/react": "^16.3.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
