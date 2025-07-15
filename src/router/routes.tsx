@@ -14,6 +14,8 @@ import { Swaps } from "src/swaps";
 import { Chats } from "src/chats";
 import { UserDetails } from "src/user";
 import { Recommendations } from "src/recommendations";
+import { Settings } from "src/settings";
+import { WhiteBoard } from "src/whiteboard";
 
 export const routes = [
   {
@@ -53,6 +55,14 @@ export const routes = [
         path: routerEndPoints.MY_TEACHING,
         element: <Teaching />,
       },
+      {
+        path: routerEndPoints.SETTINGS,
+        element: <Settings />
+      },
+      {
+        path: routerEndPoints.WHITEBOARD,
+        element: <WhiteBoard />
+      }
     ],
   },
   {

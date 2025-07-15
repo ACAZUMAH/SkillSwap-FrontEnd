@@ -1,5 +1,6 @@
 import { Anchor, Avatar, Divider, Group, Menu, Text } from "@mantine/core";
 import {
+  IconChalkboard,
   IconChevronDown,
   IconLogout,
   IconSettings,
@@ -19,6 +20,8 @@ export const MainDropdown: React.FC = () => {
   const { user, logoutUser } = useAppAuthentication();
   const navigateToLanding = useRouteNavigation(routerEndPoints.ROOT);
   const navigateToProfile = useRouteNavigation(routerEndPoints.PROFILE);
+  const navigateToSettings = useRouteNavigation(routerEndPoints.SETTINGS);
+  const navigateToWhiteBoard = useRouteNavigation(routerEndPoints.WHITEBOARD);
 
   return (
     <Menu trigger="hover" width={230} offset={10}>
@@ -59,8 +62,20 @@ export const MainDropdown: React.FC = () => {
           Profile
         </Menu.Item>
         <Divider />
-        <Menu.Item leftSection={<IconSettings stroke={1.5} />} p="xs">
+        <Menu.Item
+          leftSection={<IconSettings stroke={1.5} />}
+          p="xs"
+          onClick={navigateToSettings}
+        >
           Settings
+        </Menu.Item>
+        <Divider />
+        <Menu.Item
+          leftSection={<IconChalkboard stroke={1.5} />}
+          p="xs"
+          onClick={navigateToWhiteBoard}
+        >
+          WhiteBoard
         </Menu.Item>
         <Divider />
         <Menu.Item

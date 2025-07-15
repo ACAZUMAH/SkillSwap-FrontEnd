@@ -13,6 +13,8 @@ export const Mainlayout: React.FC = () => {
     if (
       currentPath === routerEndPoints.PROFILE ||
       currentPath === routerEndPoints.CHAT ||
+      currentPath === routerEndPoints.SETTINGS ||
+      currentPath === routerEndPoints.WHITEBOARD ||
       currentPath.startsWith(routerEndPoints.USER.replace(":id", "")) 
       || `${currentPath}${location.search}`.startsWith(`/home/?query=`)
     ) {

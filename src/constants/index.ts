@@ -11,6 +11,8 @@ export const routerEndPoints = {
     MY_TEACHING: '/home/my-teaching',
     RECOMMENDATIONS: '/home/recommendations',
     USER: '/home/user/:id',
+    SETTINGS: '/home/account-settings',
+    WHITEBOARD: '/home/whiteboard',
 }
 
 export * from './theme/theme'
