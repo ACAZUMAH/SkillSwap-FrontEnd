@@ -36,11 +36,12 @@ const middleware = setContext(async (_, { headers }) => {
 });
 
 const httpLink = createHttpLink({
-  uri: `${import.meta.env.VITE_API_BASE_URL}/graphql`,
+  uri: "http://localhost:8800/graphql",
   fetchOptions: {
     mode: "cors",
   },
 });
+
 
 const link = ApolloLink.from([errorLink, middleware, httpLink]);
 

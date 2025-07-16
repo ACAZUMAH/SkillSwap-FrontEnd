@@ -1,7 +1,10 @@
 import React from 'react'
+import ProfilePage from './components/profilepage'
 
 export const UserProfile: React.FC = () =>{
   return (
-    <div>index</div>
+    <div>
+      <ProfilePage/>
+    </div>
   )
 }
