@@ -1,28 +1,26 @@
-import { useState } from "react";
-import { sentSwaps } from "./components/sentSwaps";
-import { receivedSwaps } from "./components/receivedSwaps";
-import { SegmentedControl, Paper, Space, Center } from "@mantine/core";
+import React from "react";
+import {
+  Container,
+  Tabs,
+} from "@mantine/core";
+import { SentSwaps } from "./components/sentSwaps";
+import { ReceivedSwaps } from "./components/receivedSwaps";
 
 export const Swaps: React.FC = () => {
-  const [view, setView] = useState<"sent" | "received">("sent")
   return (
-    <Paper>
-      <Space h="md"/>
-      <Center>
-        <SegmentedControl
-          value={view}
-          radius="md"
-          size="md"
-          onChange={(val) => setView(val as "sent" | "received")}
-          data={[
-            { label: "Sent Swaps", value: "sent" },
-            { label: "Received Swaps", value: "received" },
-          ]}
-          mb="lg"
-        />
-      </Center>
-      {view === "sent" && sentSwaps()}
-      {view === "received" && receivedSwaps()}
-    </Paper>
-  )
+    <Container w="100%" maw={1400} py={20}>
+      <Tabs defaultValue="sent" mb="md">
+        <Tabs.List>
+          <Tabs.Tab value="sent" fz="md">Sent Swaps</Tabs.Tab>
+          <Tabs.Tab value="received" fz="md">Received Swaps</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="sent">
+          <SentSwaps />
+        </Tabs.Panel>
+        <Tabs.Panel value="received">
+          <ReceivedSwaps />
+        </Tabs.Panel>
+      </Tabs>
+    </Container>
+  );
 };

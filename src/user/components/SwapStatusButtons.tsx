@@ -28,12 +28,12 @@ export const SwapStatusButtons: React.FC<SwapStatusButtonsProps> = ({
   return (
     <>
       {" "}
-      <Conditional condition={swapData?.status! === "PENDING"}>
+      <Conditional condition={swapData?.status! === Status.Pending}>
         <Button
           leftSection={<IconClock stroke={1.5} />}
           radius="xl"
-          variant="outline"
-          color="yellow"
+          variant="default"
+          c="yellow"
           w="40%"
           loading={loading}
           onClick={handleAcceptRequest}
@@ -41,18 +41,18 @@ export const SwapStatusButtons: React.FC<SwapStatusButtonsProps> = ({
         { swapData?.receiverId === user?.id ? 'Accept' : 'Pending' }
         </Button>
       </Conditional>
-      <Conditional condition={swapData?.status! === "ACCEPTED"}>
+      <Conditional condition={swapData?.status! === Status.Accepted}>
         <Button variant="default" c="red" radius="xl" w="40%">
           Cancel Swap
         </Button>
       </Conditional>
-      <Conditional condition={swapData?.status! === "DECLINED"}>
-        <Button variant="outline" color="red" radius="xl" disabled w="40%">
+      <Conditional condition={swapData?.status! === Status.Declined}>
+        <Button variant="default" c="red" radius="xl" disabled w="40%">
           {swapData?.senderId === user?.id ? 'Rejected' : 'Declined' }
         </Button>
       </Conditional>
-      <Conditional condition={swapData?.status! === "COMPLETED"}>
-        <Button variant="filled" radius="xl" w="40%">
+      <Conditional condition={swapData?.status! === Status.Completed}>
+        <Button variant="filled" c="green" radius="xl" w="40%">
           Completed
         </Button>
       </Conditional>

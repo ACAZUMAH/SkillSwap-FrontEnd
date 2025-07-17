@@ -1,68 +1,49 @@
-import SwapTile from "./swapTile";
-import { Paper, SimpleGrid, Space } from "@mantine/core";
+import { Alert, Group, SimpleGrid } from "@mantine/core";
+import { useGetReceivedSwapsQuery } from "../hooks/useGetReceivedSwapsQuery";
+import { SwapUserCard, SwapUserCardSkeleton } from "./swapTile";
+import React from "react";
+import { Conditional, Paginations } from "src/components";
 
+export const ReceivedSwaps: React.FC = () => {
+  const { swaps, pageInfo, loading, error } = useGetReceivedSwapsQuery();
 
-const dummySwaps = [
-    {
-        user: {
-            firstName: "John",
-            lastName: "Doe",
-            // TODO: insert profile picture here @ACAZUMAH
-            profile_img: "Some placeholder image",
-            createdAt: new Date().toISOString(),
-            id: "1",
-            averageRating: 4.5,
-            phoneNumber: "",
-            updatedAt: null,
-        },
-        swapStatus: "pending",
-    },
-    {
-        user: {
-            firstName: "Jane",
-            lastName: "Smith",
-            // TODO: insert profile picture here @ACAZUMAH
-            profile_img: "Some placeholder image",
-            createdAt: new Date().toISOString(),
-            id: "2",
-            averageRating: 4.8,
-            phoneNumber: "",
-            updatedAt: null,
-        },
-        swapStatus: "in-progress",
-    },
-    {
-        user: {
-            firstName: "Alice",
-            lastName: "Johnson",
-            // TODO: insert profile picture here @ACAZUMAH
-            profile_img: "Some placeholder image",
-            createdAt: new Date().toISOString(),
-            id: "3",
-            averageRating: 4.2,
-            phoneNumber: "",
-            updatedAt: null,
-        },
-        swapStatus: "completed",
-    },
-];
+  const showData: boolean = !!(swaps && swaps.length > 0);
+  const showLoading = loading && !error;
+  const showError = Boolean(error) && !loading;
 
-export const receivedSwaps = () => {
-    return (
-        <>
-            <Space h="md"/>
-            <Paper p="md">
-                <SimpleGrid cols={3} spacing="lg">
-                    {dummySwaps.map((straw, i) => (
-						<SwapTile key={i}
-                            user={straw.user}
-                            sentSwaps={false}
-                            // @ts-ignore
-                            swapStatus={straw.swapStatus}
-                        />
-					))}
-                </SimpleGrid>
-            </Paper>
-        </>
-    )
-}
+  return (
+    <>
+      <Conditional condition={showLoading}>
+        <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" mt="xl">
+            {Array.from({ length: 9 }).map((_, index) => (
+                <SwapUserCardSkeleton key={index} />
+            ))}
+        </SimpleGrid>
+      </Conditional>
+      <Conditional condition={showData}>
+        <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" mt="xl">
+          {swaps?.map((swap) => (
+            <SwapUserCard
+              key={swap.id}
+              swapUser={swap?.sender!}
+              senderId={swap.senderId}
+              receiverId={swap.receiverId}
+              status={swap.status}
+            />
+          ))}
+        </SimpleGrid>
+        <Group justify="flex-end" mt="xl">
+          <Paginations pageInfo={pageInfo!} />
+        </Group>
+      </Conditional>
+      <Conditional condition={!showData && !showLoading}>
+        <Alert mt="md">You have not received any swaps yet.</Alert>
+      </Conditional>
+      <Conditional condition={showError}>
+        <Alert color="red" mt="md">
+          There was an error loading the received swaps. Please try again later.
+        </Alert>
+      </Conditional>
+    </>
+  );
+};
