@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import {
   Container,
   Grid,
@@ -49,22 +49,10 @@ export default function ProfilePage() {
     education: false,
   });
 
-  const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-  
-
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    
     setProfile((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setProfileImage(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    }
   };
 
   const handleUpdate = () => {
@@ -78,7 +66,6 @@ export default function ProfilePage() {
         {/* LEFT SIDE */}
         <Grid.Col span={{ base: 12, md: 5 }}>
           <Card shadow="md" padding="xl" radius="md" withBorder style={{ position: 'relative' }}>
-           
             <ActionIcon
               onClick={() => setEdit((prev) => ({ ...prev, profile: !prev.profile }))}
               variant="light"
@@ -89,26 +76,9 @@ export default function ProfilePage() {
             </ActionIcon>
 
             <Center style={{ flexDirection: 'column' }} mb="md">
-              <Avatar size={180} radius={90} src={previewUrl || undefined} color="blue">
-                {!previewUrl && profile.name.charAt(0).toUpperCase()}
+              <Avatar size={180} radius={90} color="blue">
+                {profile.name.charAt(0).toUpperCase()}
               </Avatar>
-
-              {edit.profile && (
-                <>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="upload-avatar"
-                    onChange={handleImageChange}
-                    style={{ display: 'none' }}
-                  />
-                  <label htmlFor="upload-avatar">
-                    <Button mt="sm" size="xs" variant="light" component="span">
-                      {previewUrl ? 'Change Photo' : 'Add Photo'}
-                    </Button>
-                  </label>
-                </>
-              )}
 
               <Title mt="sm" order={2}>
                 {profile.name || 'USER'}
@@ -134,7 +104,8 @@ export default function ProfilePage() {
               </Stack>
             )}
           </Card>
-            {/* Bio */}
+
+          {/* Bio */}
           <Card shadow="md" padding="xl" radius="md" withBorder>
             <Group justify="space-between" mb="sm">
               <Title order={4}>Bio</Title>
@@ -163,7 +134,7 @@ export default function ProfilePage() {
           </Card>
         </Grid.Col>
 
-        {/* RIGHT SIDE yarn dev */}
+        {/* RIGHT SIDE */}
         <Grid.Col span={{ base: 12, md: 7 }}>
           <Title mb="md">ABOUT</Title>
 
@@ -257,8 +228,6 @@ export default function ProfilePage() {
               <Text>{profile.education || 'Not provided yet.'}</Text>
             )}
           </Card>
-
-        
         </Grid.Col>
       </Grid>
     </Container>
