@@ -77,7 +77,7 @@ export const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ user }) => {
 
       <Conditional condition={!showDetials}>
         <Text>
-          Help others get know you better by describing more about your self and
+          Help other swappers get know you better by describing more about your self and
           sharing other links.
         </Text>
         <Button

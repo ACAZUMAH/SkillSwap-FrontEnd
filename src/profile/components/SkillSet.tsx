@@ -1,5 +1,13 @@
-import { Badge, Card, Flex, Group, Title } from "@mantine/core";
-import { IconInfoCircle } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Badge,
+  Card,
+  Flex,
+  Group,
+  rem,
+  Title,
+} from "@mantine/core";
+import { IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import React from "react";
 import { leveldata } from "src/helpers";
 import { User } from "src/interfaces";
@@ -16,10 +24,31 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
       </Title>
 
       <Card mb="xl" padding="md" radius="md" withBorder>
-        <Flex align="center" mb="md">
-          <Title order={4}>Proficient Skills</Title>
-          <IconInfoCircle stroke={1.5} size={20} color="blue" style={{ marginLeft: "2px"}}/>
-        </Flex>
+        <Group justify="space-between" mb="md">
+          <Flex align="center">
+            <Title order={4}>Proficient Skills</Title>
+            <IconInfoCircle
+              stroke={1.5}
+              size={20}
+              color="blue"
+              style={{ marginLeft: "2px" }}
+            />
+          </Flex>
+          <ActionIcon
+            onClick={() => {}}
+            variant="transparent"
+            style={{
+              position: "absolute",
+              top: rem(10),
+              right: rem(10),
+              zIndex: 1,
+            }}
+            aria-label="Edit profile"
+            mb="sm"
+          >
+            <IconPencil size={18} />
+          </ActionIcon>
+        </Group>
 
         <Group>
           {user?.skillsProficientAt?.map((skill) => (
@@ -32,10 +61,31 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
       </Card>
 
       <Card mb="md" padding="md" radius="md" withBorder>
-        <Flex align="center" mb="md">
-          <Title order={4}>Skills To Learn</Title>
-          <IconInfoCircle stroke={1.5} size={20} color="blue" style={{ marginLeft: "2px"}}/>
-        </Flex>
+        <Group justify="space-between" mb="md">
+          <Flex align="center">
+            <Title order={4}>Skills To Learn</Title>
+            <IconInfoCircle
+              stroke={1.5}
+              size={20}
+              color="blue"
+              style={{ marginLeft: "2px" }}
+            />
+          </Flex>
+
+          <ActionIcon
+            onClick={() => {}}
+            variant="transparent"
+            style={{
+              position: "absolute",
+              top: rem(10),
+              right: rem(10),
+              zIndex: 1,
+            }}
+            aria-label="Edit profile"
+          >
+            <IconPencil size={18} />
+          </ActionIcon>
+        </Group>
 
         <Group>
           {user?.skillsToLearn?.map((skill) => (

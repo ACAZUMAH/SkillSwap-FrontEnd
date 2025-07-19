@@ -5,6 +5,8 @@ import { PersonalDetails } from "./components/PersonalDetails";
 import { useAppAuthentication } from "src/hooks";
 import { AdditionalInfo } from "./components/AdditionalInfo";
 import { SkillSet } from "./components/SkillSet";
+import { EducationalInfo } from "./components/EducationalInfo";
+import { Availability } from "./components/Availability";
 
 export const UserProfile: React.FC = () => {
   const { user } = useAppAuthentication();
@@ -22,6 +24,10 @@ export const UserProfile: React.FC = () => {
           <Grid.Col span={{ base: 12, md: 8.3, lg: 8.5, xl: 8.95 }}>
             <div>
               <SkillSet user={user} />
+
+              <EducationalInfo user={user} />
+
+              <Availability user={user} />
             </div>
           </Grid.Col>
         </Grid>

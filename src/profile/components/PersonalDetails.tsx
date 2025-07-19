@@ -7,6 +7,7 @@ import {
   Group,
   Paper,
   rem,
+  Text,
   Title,
 } from "@mantine/core";
 import { IconCancel, IconLink, IconPencil } from "@tabler/icons-react";
@@ -16,10 +17,9 @@ import { getInitialsNameLatter } from "src/helpers";
 import { User } from "src/interfaces";
 
 interface PersonalDetailsProps {
-    user?: User
+  user?: User;
 }
 export const PersonalDetails: React.FC<PersonalDetailsProps> = ({ user }) => {
-
   return (
     <>
       <Card padding="md" radius="md" withBorder>
@@ -87,7 +87,9 @@ export const PersonalDetails: React.FC<PersonalDetailsProps> = ({ user }) => {
                       cursor: "pointer",
                     }}
                   >
-                    {getInitialsNameLatter(user?.firstName!)}
+                    <Text c="white" size="3rem" fw="bold">
+                      {getInitialsNameLatter(user?.firstName!)}
+                    </Text>
                   </Avatar>
                 </Dropzone.Idle>
               </Group>
