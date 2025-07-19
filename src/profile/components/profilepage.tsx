@@ -13,11 +13,12 @@ import {
   Center,
   Group,
   ActionIcon,
-  rem,
   Divider,
+  rem,
 } from '@mantine/core';
 import { IconPencil } from '@tabler/icons-react';
 
+// Profile Data Interface
 interface ProfileData {
   name: string;
   email: string;
@@ -30,6 +31,7 @@ interface ProfileData {
 }
 
 export default function ProfilePage() {
+  // Profile state
   const [profile, setProfile] = useState<ProfileData>({
     name: '',
     email: '',
@@ -41,6 +43,7 @@ export default function ProfilePage() {
     education: '',
   });
 
+  // Edit mode toggles
   const [edit, setEdit] = useState({
     profile: false,
     skillToLearn: false,
@@ -49,22 +52,22 @@ export default function ProfilePage() {
     education: false,
   });
 
+  // Handle form input changes
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleUpdate = () => {
-    console.log('Saved profile:', profile);
-    setEdit((prev) => ({ ...prev, profile: false }));
+    console.log('Profile saved:', profile);
   };
 
   return (
     <Container size="xl" px="md" style={{ minHeight: '100vh', paddingTop: '2rem' }}>
       <Grid gutter="xl">
-        {/* LEFT SIDE */}
+        {/* Left Column */}
         <Grid.Col span={{ base: 12, md: 5 }}>
+          {/* Profile Card */}
           <Card shadow="md" padding="xl" radius="md" withBorder style={{ position: 'relative' }}>
             <ActionIcon
               onClick={() => setEdit((prev) => ({ ...prev, profile: !prev.profile }))}
@@ -77,14 +80,14 @@ export default function ProfilePage() {
 
             <Center style={{ flexDirection: 'column' }} mb="md">
               <Avatar size={180} radius={90} color="blue">
-                {profile.name.charAt(0).toUpperCase()}
+                {(profile.name.charAt(0) || 'U').toUpperCase()}
               </Avatar>
-
               <Title mt="sm" order={2}>
                 {profile.name || 'USER'}
               </Title>
             </Center>
 
+            {/* Editable Form */}
             {edit.profile ? (
               <Stack gap="md">
                 <TextInput label="Name" name="name" value={profile.name} onChange={handleChange} />
@@ -99,14 +102,14 @@ export default function ProfilePage() {
               <Stack gap="xs" mt="md">
                 <Text size="md">{profile.email || 'example@gmail.com'}</Text>
                 <Divider />
-                <Text size="md" c="dimmed">LinkedIn: {profile.linkedIn || 'Not provided'}</Text>
-                <Text size="md" c="dimmed">GitHub: {profile.github || 'Not provided'}</Text>
+                <Text size="sm" c="dimmed">LinkedIn: {profile.linkedIn || 'Not provided'}</Text>
+                <Text size="sm" c="dimmed">GitHub: {profile.github || 'Not provided'}</Text>
               </Stack>
             )}
           </Card>
 
-          {/* Bio */}
-          <Card shadow="md" padding="xl" radius="md" withBorder>
+          {/* Bio Section */}
+          <Card shadow="md" padding="xl" radius="md" withBorder mt="lg">
             <Group justify="space-between" mb="sm">
               <Title order={4}>Bio</Title>
               <Button
@@ -120,6 +123,7 @@ export default function ProfilePage() {
                 {edit.bio ? 'Save' : 'Edit'}
               </Button>
             </Group>
+
             {edit.bio ? (
               <Textarea
                 name="bio"
@@ -134,7 +138,7 @@ export default function ProfilePage() {
           </Card>
         </Grid.Col>
 
-        {/* RIGHT SIDE */}
+        {/* Right Column: Skills and Education */}
         <Grid.Col span={{ base: 12, md: 7 }}>
           <Title mb="md">ABOUT</Title>
 
@@ -153,6 +157,7 @@ export default function ProfilePage() {
                 {edit.proficientSkill ? 'Save' : 'Edit'}
               </Button>
             </Group>
+
             {edit.proficientSkill ? (
               <Textarea
                 name="proficientSkill"
@@ -185,6 +190,7 @@ export default function ProfilePage() {
                 {edit.skillToLearn ? 'Save' : 'Edit'}
               </Button>
             </Group>
+
             {edit.skillToLearn ? (
               <Textarea
                 name="skillToLearn"
@@ -203,7 +209,7 @@ export default function ProfilePage() {
           </Card>
 
           {/* Education */}
-          <Card shadow="md" padding="xl" radius="md" withBorder mb="lg">
+          <Card shadow="md" padding="xl" radius="md" withBorder>
             <Group justify="space-between" mb="sm">
               <Title order={4}>Educational Background</Title>
               <Button
@@ -217,6 +223,7 @@ export default function ProfilePage() {
                 {edit.education ? 'Save' : 'Edit'}
               </Button>
             </Group>
+
             {edit.education ? (
               <TextInput
                 name="education"
