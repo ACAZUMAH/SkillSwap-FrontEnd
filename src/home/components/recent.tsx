@@ -27,7 +27,7 @@ export const Recent: React.FC<Props> = () => {
 
   return (
     <Box mb="3.5rem">
-      <Conditional condition={showData}>
+      <Conditional condition={showData || showLoading}>
         <Title order={2} fw={500} mb="lg">
           Recent users you may know
         </Title>

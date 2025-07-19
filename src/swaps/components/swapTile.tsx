@@ -122,7 +122,7 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
 
 export const SwapUserCardSkeleton: React.FC = () => {
   return (
-    <Card shadow="md" radius="lg" p={0} withBorder className={classes.card}>
+    <Card radius="lg" p={0} withBorder className={classes.card}>
       <Skeleton height={200} w={170} />
       <div className={classes.body}>
         <Skeleton height={20} w={160} mt="md" radius="xl" />
