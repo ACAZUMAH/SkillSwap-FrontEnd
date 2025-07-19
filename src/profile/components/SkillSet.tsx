@@ -1,69 +1,51 @@
-import {
-  Fieldset,
-  Group,
-  NumberInput,
-  Paper,
-  TagsInput,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Badge, Card, Flex, Group, Title } from "@mantine/core";
+import { IconInfoCircle } from "@tabler/icons-react";
 import React from "react";
+import { leveldata } from "src/helpers";
+import { User } from "src/interfaces";
 
-export const SkillSet: React.FC = () => {
-//   const [proficientSkill, setProficientSkill] = React.useState({});
-//   const [skillsToLearn, setSkillsToLearn] = React.useState({});
+interface SkillSetProps {
+  user?: User;
+}
 
-//   const addProficientSkill = () => {};
-//   const addSkillsToLearn = () => {};
-
-//   const updateProficientSkill = () => {};
-
-//   const updateSkillsToLearn = () => {};
-
+export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
   return (
     <>
-      <Paper p="md" withBorder>
-        <Text>
-          Please provide your skills and interests. This information will help
-          us understand your expertise and areas you want to improve.
-        </Text>
-        <Fieldset legend="Skills Proficient At" mb="md" mt="md">
-          <Group>
-            <TextInput
-              name="skillsProficientAt"
-              label="Skills Proficient At"
-              placeholder="Enter skills you are proficient at"
-            />
-            <NumberInput
-              name="skillLevel"
-              label="Skill Level"
-              placeholder="Enter your skill level"
-            />
-          </Group>
-        </Fieldset>
+      <Title order={3} mb="md">
+        Skills Set
+      </Title>
 
-        <Fieldset legend="Skills to Learn" mb="md">
-          <Group>
-            <TextInput
-              name="skillsToLearn"
-              label="Skills to Learn"
-              placeholder="Enter skills you want to learn"
-            />
-            <NumberInput
-              name="learningPriority"
-              label="Learning Priority"
-              placeholder="Enter priority for learning this skill"
-            />
-          </Group>
-        </Fieldset>
+      <Card mb="xl" padding="md" radius="md" withBorder>
+        <Flex align="center" mb="md">
+          <Title order={4}>Proficient Skills</Title>
+          <IconInfoCircle stroke={1.5} size={20} color="blue" style={{ marginLeft: "2px"}}/>
+        </Flex>
 
-        <TagsInput
-          mt="md"
-          name="avilability"
-          label="Availability"
-          placeholder="Enter your availability"
-        />
-      </Paper>
+        <Group>
+          {user?.skillsProficientAt?.map((skill) => (
+            <Badge key={skill?.id} variant="default" size="lg" radius="sm">
+              Name: {skill?.name} Level:{" "}
+              {leveldata.find((l) => l.value === String(skill?.level))?.label}
+            </Badge>
+          ))}
+        </Group>
+      </Card>
+
+      <Card mb="md" padding="md" radius="md" withBorder>
+        <Flex align="center" mb="md">
+          <Title order={4}>Skills To Learn</Title>
+          <IconInfoCircle stroke={1.5} size={20} color="blue" style={{ marginLeft: "2px"}}/>
+        </Flex>
+
+        <Group>
+          {user?.skillsToLearn?.map((skill) => (
+            <Badge key={skill?.id} variant="default" size="lg" radius="sm">
+              Name: {skill?.name} Level:{" "}
+              {leveldata.find((l) => l.value === String(skill?.level))?.label}
+            </Badge>
+          ))}
+        </Group>
+      </Card>
     </>
   );
 };

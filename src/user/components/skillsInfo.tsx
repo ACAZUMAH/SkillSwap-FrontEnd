@@ -18,7 +18,7 @@ export const SkillsInfo: React.FC<SkillsInfoProps> = ({ user }) => {
         <Group gap="md" wrap="wrap" mb="xs">
           {user?.skillsProficientAt?.map((item) => (
             <Badge key={item?.id} variant="default" size="lg" radius="sm">
-              name: {item?.name} level:{" "}
+              Name: {item?.name} Level:{" "}
               {leveldata.find((l) => l.value === String(item?.level))?.label}
             </Badge>
           ))}
@@ -31,7 +31,7 @@ export const SkillsInfo: React.FC<SkillsInfoProps> = ({ user }) => {
         <Group gap="md" wrap="wrap" mb="xs">
           {user?.skillsToLearn?.map((item) => (
             <Badge key={item?.id} variant="default" size="lg" radius="sm">
-              name: {item?.name} level:{" "}
+              Name: {item?.name} Level:{" "}
               {leveldata.find((l) => l.value === String(item?.level))?.label}
             </Badge>
           ))}

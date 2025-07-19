@@ -43,7 +43,12 @@ export const Recommended: React.FC<RecommendationProps> = ({
       <Box mt="lg" mb="xl">
         <Group justify="space-between" mb="md">
           <Flex align="center">
-            <IconInfoCircle stroke={1.5} size={20} />
+            <IconInfoCircle
+              stroke={1.5}
+              size={20}
+              color="blue"
+              style={{ marginLeft: "2px" }}
+            />
             <Title order={2} fw={500}>
               Recommended
             </Title>

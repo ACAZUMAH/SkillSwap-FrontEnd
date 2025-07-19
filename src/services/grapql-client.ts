@@ -36,7 +36,7 @@ const middleware = setContext(async (_, { headers }) => {
 });
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:8800/graphql",
+  uri: `${import.meta.env.VITE_API_BASE_URL}/graphql`,
   fetchOptions: {
     mode: "cors",
   },
