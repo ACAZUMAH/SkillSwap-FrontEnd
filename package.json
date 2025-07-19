@@ -34,6 +34,7 @@
     "react-intersection-observer": "^9.16.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.1",
+    "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "roughjs": "^4.6.6",
     "socket.io-client": "^4.8.1",
@@ -61,7 +62,7 @@
     "postcss-simple-vars": "^7.0.1",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
-    "vite": "^6.3.5",
+    "vite": "^7.0.4",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.1.4"
   }
