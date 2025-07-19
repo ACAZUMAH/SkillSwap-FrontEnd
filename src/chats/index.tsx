@@ -1,7 +1,7 @@
-import React from 'react'
-
+import React from 'react';
+import { InboxPage } from "src/chats/components/inboxPage"
 export const Chats: React.FC = () => {
   return (
-    <div>index</div>
+    <InboxPage/>
   )
 }
