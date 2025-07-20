@@ -11,12 +11,21 @@ import { IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import React from "react";
 import { leveldata } from "src/helpers";
 import { User } from "src/interfaces";
+import { UpdateProficientSkillsModal } from "../modals/UpdateProficientSkillsModal";
+import { useDisclosure } from "@mantine/hooks";
+import { UpdateSkillsToLearnModal } from "../modals/UpdateSkillsToLearnModall";
 
 interface SkillSetProps {
   user?: User;
 }
 
 export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
+  const [
+    opennedProfficient,
+    { open: openProfficient, close: closeProfficient },
+  ] = useDisclosure(false);
+  const [openedToLearn, { open: openToLearn, close: closeToLearn }] =
+    useDisclosure(false);
   return (
     <>
       <Title order={3} mb="md">
@@ -35,7 +44,7 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
             />
           </Flex>
           <ActionIcon
-            onClick={() => {}}
+            onClick={openProfficient}
             variant="transparent"
             style={{
               position: "absolute",
@@ -73,7 +82,7 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
           </Flex>
 
           <ActionIcon
-            onClick={() => {}}
+            onClick={openToLearn}
             variant="transparent"
             style={{
               position: "absolute",
@@ -96,6 +105,18 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
           ))}
         </Group>
       </Card>
+
+      <UpdateProficientSkillsModal
+        opened={opennedProfficient}
+        onClose={closeProfficient}
+        user={user}
+      />
+
+      <UpdateSkillsToLearnModal
+        opened={openedToLearn}
+        onClose={closeToLearn}
+        user={user}
+      />
     </>
   );
 };

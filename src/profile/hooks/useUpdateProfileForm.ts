@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import { User } from "src/interfaces";
 import * as yup from "yup";
 import { usePhoneNumberValidaator } from "src/hooks";
-import { IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useMemo } from "react";
 const { title, message, validatePhoneNumber } = usePhoneNumberValidaator();
 
@@ -32,30 +31,6 @@ const validationSchema = yup.object().shape({
   availability: yup.array().of(yup.string()).nullable(),
 });
 
-const validateProfileImage = yup.object().shape({
-  profile_img: yup
-    .mixed()
-    .test("fileTyps", "Invalid file type", (value: any) => {
-      return [...IMAGE_MIME_TYPE].includes(value?.type);
-    }),
-});
-
-export const useProfileImageform = () => {
-  const form = useFormik({
-    initialValues: {
-      profile_img: "",
-    },
-    validateOnMount: true,
-    validationSchema: validateProfileImage,
-    onSubmit: () => {},
-  });
-
-  const handleFileChange = (file: File) => {
-    form.setFieldValue("profile_img", file);
-  };
-
-  return { ...form, handleFileChange };
-};
 
 export const useUpdateProfileForm = (currentUser?: User) => {
   const initialValues = useMemo(

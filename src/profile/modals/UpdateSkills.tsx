@@ -8,12 +8,12 @@ import {
   Text,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import { useUpdateSkillForm } from "./hooks/useUpdateSkillForm";
+import { useUpdateSkillForm } from "../hooks/useUpdateSkillForm";
 import { useAppAuthentication } from "src/hooks";
-import { useSkillsActions } from "./hooks/useSkillsActions";
-import { useUpdateSkillsMutation } from "./hooks/useUpdateSkillsMutation";
-import { SkillsForm } from "./components/SkillsForm";
-import { SkillsTable } from "./components/SkillsTable";
+import { useSkillsActions } from "../hooks/useSkillsActions";
+import { useUpdateSkillsMutation } from "../hooks/useUpdateSkillsMutation";
+import { SkillsForm } from "./SkillsForm";
+import { SkillsTable } from "./SkillsTable";
 import { Conditional } from "src/components";
 
 interface Props {
@@ -90,8 +90,8 @@ export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
             />
           </Conditional>
 
-          <Divider mt="md" />
           <Conditional condition={form.values.skillsProficientAt.length > 0}>
+            <Divider mt="md" />
             <SkillsTable
               skills={form.values.skillsProficientAt}
               remove={removeProficientSkills}
@@ -116,8 +116,8 @@ export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
             />
           </Conditional>
 
-          <Divider mt="md" />
           <Conditional condition={form.values.skillsToLearn.length > 0}>
+            <Divider mt="md" />
             <SkillsTable
               skills={form.values.skillsToLearn}
               remove={removeSkillsToLearn}
