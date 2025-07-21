@@ -27,7 +27,7 @@ export const Others: React.FC<Props> = () => {
 
   return (
     <Box mb="5rem">
-      <Conditional condition={showData}>
+      <Conditional condition={showData || showLoading}>
         <Title order={2} fw={500} mb="lg">
           Other users you may know
         </Title>

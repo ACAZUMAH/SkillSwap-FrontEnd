@@ -1,5 +1,5 @@
 import { Container, SimpleGrid, Space } from "@mantine/core";
-import { UpdateSkills } from "src/profile/UpdateSkills";
+import { UpdateSkills } from "src/profile/modals/UpdateSkills";
 //import { HomeHeader } from "./components/HomeHeader";
 import { Recommended } from "./components/Recommended";
 import { Popular } from "./components/Popular";

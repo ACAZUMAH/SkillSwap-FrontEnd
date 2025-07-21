@@ -1,69 +1,133 @@
 import {
-  Fieldset,
+  ActionIcon,
+  Badge,
+  Card,
+  Flex,
   Group,
-  NumberInput,
-  Paper,
-  TagsInput,
-  Text,
-  TextInput,
+  rem,
+  Title,
 } from "@mantine/core";
+import { IconCode, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import React from "react";
+import { leveldata } from "src/helpers";
+import { UpdateProficientSkillsModal } from "../modals/UpdateProficientSkillsModal";
+import { useDisclosure } from "@mantine/hooks";
+import { UpdateSkillsToLearnModal } from "../modals/UpdateSkillsToLearnModall";
+import { SkillSetProps } from "../interfaces";
 
-export const SkillSet: React.FC = () => {
-//   const [proficientSkill, setProficientSkill] = React.useState({});
-//   const [skillsToLearn, setSkillsToLearn] = React.useState({});
 
-//   const addProficientSkill = () => {};
-//   const addSkillsToLearn = () => {};
-
-//   const updateProficientSkill = () => {};
-
-//   const updateSkillsToLearn = () => {};
-
+export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
+  const [
+    opennedProfficient,
+    { open: openProfficient, close: closeProfficient },
+  ] = useDisclosure(false);
+  const [openedToLearn, { open: openToLearn, close: closeToLearn }] =
+    useDisclosure(false);
   return (
     <>
-      <Paper p="md" withBorder>
-        <Text>
-          Please provide your skills and interests. This information will help
-          us understand your expertise and areas you want to improve.
-        </Text>
-        <Fieldset legend="Skills Proficient At" mb="md" mt="md">
-          <Group>
-            <TextInput
-              name="skillsProficientAt"
-              label="Skills Proficient At"
-              placeholder="Enter skills you are proficient at"
-            />
-            <NumberInput
-              name="skillLevel"
-              label="Skill Level"
-              placeholder="Enter your skill level"
-            />
-          </Group>
-        </Fieldset>
+      <Title order={3} mb="md">
+        Skills Set
+      </Title>
 
-        <Fieldset legend="Skills to Learn" mb="md">
-          <Group>
-            <TextInput
-              name="skillsToLearn"
-              label="Skills to Learn"
-              placeholder="Enter skills you want to learn"
+      <Card mb="xl" padding="md" radius="md" withBorder>
+        <Group justify="space-between" mb="md">
+          <Flex align="center">
+            <Title order={4}>Proficient Skills</Title>
+            <IconInfoCircle
+              stroke={1.5}
+              size={20}
+              color="blue"
+              style={{ marginLeft: "2px" }}
             />
-            <NumberInput
-              name="learningPriority"
-              label="Learning Priority"
-              placeholder="Enter priority for learning this skill"
-            />
-          </Group>
-        </Fieldset>
+          </Flex>
+          <ActionIcon
+            onClick={openProfficient}
+            variant="transparent"
+            style={{
+              position: "absolute",
+              top: rem(10),
+              right: rem(10),
+              zIndex: 1,
+            }}
+            aria-label="Edit profile"
+            mb="sm"
+          >
+            <IconPencil size={18} />
+          </ActionIcon>
+        </Group>
 
-        <TagsInput
-          mt="md"
-          name="avilability"
-          label="Availability"
-          placeholder="Enter your availability"
-        />
-      </Paper>
+        <Group>
+          {user?.skillsProficientAt?.map((skill) => (
+            <Badge
+              key={skill?.id}
+              c="blue"
+              variant="light"
+              size="lg"
+              radius="xl"
+              leftSection={<IconCode size={16} stroke={1.5} />}
+            >
+              Name: {skill?.name} Level:{" "}
+              {leveldata.find((l) => l.value === String(skill?.level))?.label}
+            </Badge>
+          ))}
+        </Group>
+      </Card>
+
+      <Card mb="md" padding="md" radius="md" withBorder>
+        <Group justify="space-between" mb="md">
+          <Flex align="center">
+            <Title order={4}>Skills To Learn</Title>
+            <IconInfoCircle
+              stroke={1.5}
+              size={20}
+              color="blue"
+              style={{ marginLeft: "2px" }}
+            />
+          </Flex>
+
+          <ActionIcon
+            onClick={openToLearn}
+            variant="transparent"
+            style={{
+              position: "absolute",
+              top: rem(10),
+              right: rem(10),
+              zIndex: 1,
+            }}
+            aria-label="Edit profile"
+          >
+            <IconPencil size={18} />
+          </ActionIcon>
+        </Group>
+
+        <Group>
+          {user?.skillsToLearn?.map((skill) => (
+            <Badge
+              key={skill?.id}
+              c="green"
+              variant="light"
+              size="lg"
+              radius="xl"
+              leftSection={<IconCode size={16} stroke={1.5} />}
+            >
+              Name: {skill?.name} Level:{" "}
+              {leveldata.find((l) => l.value === String(skill?.level))?.label}
+            </Badge>
+          ))}
+        </Group>
+      </Card>
+
+      <UpdateProficientSkillsModal
+        opened={opennedProfficient}
+        onClose={closeProfficient}
+        user={user}
+      />
+
+      <UpdateSkillsToLearnModal
+        opened={openedToLearn}
+        onClose={closeToLearn}
+        user={user}
+      />
     </>
   );
 };

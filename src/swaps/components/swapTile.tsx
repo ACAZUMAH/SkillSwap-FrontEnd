@@ -1,75 +1,136 @@
-import { User } from "src/interfaces";
-
-import { Gasture } from "src/components/animation/gasture";
+import {
+  Button,
+  Card,
+  Group,
+  Image,
+  Rating,
+  Skeleton,
+  Title,
+} from "@mantine/core";
+import React from "react";
+import { Status, User } from "src/interfaces";
 import defaultProfiile from "../../assets/images/defualt-profile.avif";
-import { Card, Text, Group, Badge, Image, Stack, Box, Button } from "@mantine/core";
+import { useAppAuthentication, useRouteNavigation } from "src/hooks";
+import { routerEndPoints } from "src/constants";
+import { Conditional } from "src/components";
+import classes from "../styles/index.module.css";
+import { IconClock } from "@tabler/icons-react";
 
-type SwapStatus = "completed" | "in-progress" | "starts-in" | "pending";
-
-interface SwapTileProps {
-    user?: User;
-    sentSwaps: boolean;
-    swapStatus: SwapStatus;
+interface SwapUserCardProps {
+  swapUser?: User;
+  senderId?: string;
+  receiverId?: string;
+  status?: Status;
 }
 
-const statusBadgeMap: Record<SwapStatus, { color: string; label: string }> = {
-    "completed": { color: "green", label: "Completed" },
-    "in-progress": { color: "yellow", label: "In-progress" },
-    "starts-in": { color: "blue", label: "Starts in" },
-    "pending": { color: "gray", label: "Pending" },
-};
-
-const SwapTile: React.FC<SwapTileProps> = ({
-    user,
-    sentSwaps,
-    swapStatus = "in-progress",
+export const SwapUserCard: React.FC<SwapUserCardProps> = ({
+  swapUser,
+  receiverId,
+  senderId,
+  status,
 }) => {
-    return (
-        <Gasture>
-            <Card shadow="sm" padding="md" radius="md" withBorder style={{ overflow: "hidden" }}>
-                <Group align="stretch" gap={0} style={{ height: "100%" }}>
-                    <Box style={{ height: "100%", minWidth: 120, maxWidth: 140, flex: "0 0 120px" }}>
-                        <Image
-                            src={defaultProfiile}
-                            alt="Profile"
-                            height="100%"
-                            width="40%"
-                            radius="md 0 0 md"
-                        />
-                    </Box>
-                    <Stack gap={8} style={{ flex: 1, paddingLeft: 20, justifyContent: "center" }}>
-                        <Group justify="space-between" align="center">
-                            <div>
-                                <Text fw={500}>
-                                    {(user?.firstName || "") + (user?.lastName ? ` ${user.lastName}` : "") || "Anonymous"}
-                                </Text>
-                            </div>
-                        </Group>
-                        <Group gap="xs" mt="md">
-                            <Badge color={statusBadgeMap[swapStatus].color} variant="light">
-                                {statusBadgeMap[swapStatus].label}
-                            </Badge>
-                        </Group>
-                        {sentSwaps ? (
-                                    <Button fullWidth variant="light" color="red" radius="md" mt="md">
-                                        Cancel Swap
-                                    </Button>
-                                ) : (
-                                    <Stack gap="xs" mt="md">
-                                        <Button fullWidth variant="light" color="lime" radius="md">
-                                            A C C E P T
-                                        </Button>
-                                        <Button fullWidth variant="light" color="red" radius="md">
-                                            R E J E C T
-                                        </Button>
-                                    </Stack>
-                                )
-                            }
-                    </Stack>
-                </Group>
-            </Card>
-        </Gasture>
-    );
+  const { user } = useAppAuthentication();
+
+  const navigateToUserDetails = useRouteNavigation(
+    routerEndPoints.USER.replace(":id", swapUser?.id!)
+  );
+
+  return (
+    <>
+      <Card
+        radius="lg"
+        withBorder
+        p={0}
+        className={classes.card}
+        onClick={navigateToUserDetails}
+      >
+        <Image
+          src={swapUser?.profile_img || defaultProfiile}
+          className={classes.image}
+        />
+        <div className={classes.body}>
+          <Title order={2} className={classes.title}>
+            {swapUser?.firstName} {swapUser?.lastName}
+          </Title>
+
+          <Rating
+            size="sm"
+            readOnly
+            value={swapUser?.averageRating || 0}
+            mt="xs"
+          />
+          <Conditional
+            condition={
+              status !== Status.Completed && status !== Status.Accepted
+            }
+          >
+            <Group mt="md" gap={10}>
+              <Button w="47%" variant="default" radius="xl" c="red">
+                <Conditional
+                  condition={
+                    receiverId === user?.id && status === Status.Pending
+                  }
+                >
+                  Reject
+                </Conditional>
+                <Conditional
+                  condition={senderId === user?.id && status === Status.Pending}
+                >
+                  Cancel
+                </Conditional>
+              </Button>
+              <Button
+                w="47%"
+                variant="default"
+                radius="xl"
+                c="yellow"
+                leftSection={
+                  <Conditional
+                    condition={
+                      senderId === user?.id && status === Status.Pending
+                    }
+                  >
+                    <IconClock stroke={1.5} />
+                  </Conditional>
+                }
+              >
+                <Conditional
+                  condition={
+                    receiverId === user?.id && status === Status.Pending
+                  }
+                >
+                  Accept
+                </Conditional>
+                <Conditional
+                  condition={senderId === user?.id && status === Status.Pending}
+                >
+                  Pending
+                </Conditional>
+              </Button>
+            </Group>
+          </Conditional>
+          <Conditional condition={status === Status.Accepted}>
+            <Button fullWidth mt="md" variant="default" c="red" radius="xl">
+              Cancel Swap
+            </Button>
+          </Conditional>
+        </div>
+      </Card>
+    </>
+  );
 };
 
-export default SwapTile;
+export const SwapUserCardSkeleton: React.FC = () => {
+  return (
+    <Card radius="lg" p={0} withBorder className={classes.card}>
+      <Skeleton height={200} w={170} />
+      <div className={classes.body}>
+        <Skeleton height={20} w={160} mt="md" radius="xl" />
+
+        <Skeleton height={10} w={100} mt="md" radius="xl" />
+
+        <Skeleton height={30} w={240} mt="md" radius="xl" />
+      </div>
+    </Card>
+  );
+};

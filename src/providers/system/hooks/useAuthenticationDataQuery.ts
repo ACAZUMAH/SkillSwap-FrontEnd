@@ -21,6 +21,7 @@ const authenticationDataQueryGql = gql`
         degree
         fieldOfStudy
         level
+        startDate
         endDate
       }
       skillsProficientAt {

@@ -2,13 +2,7 @@ import { Anchor, Table, Text } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import React from "react";
 import { leveldata } from "src/helpers";
-import { Skill } from "src/interfaces";
-
-interface SkillsTableProps {
-  skills?: Array<Skill | null>;
-  addSkill?: () => void;
-  remove: (index: number) => void;
-}
+import { SkillsTableProps } from "../interfaces";
 
 export const SkillsTable: React.FC<SkillsTableProps> = ({
   skills,

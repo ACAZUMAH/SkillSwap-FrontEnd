@@ -1,4 +1,5 @@
 import { Badge, Box, Group, Paper, Title } from "@mantine/core";
+import { IconCode } from "@tabler/icons-react";
 import React from "react";
 import { leveldata } from "src/helpers";
 import { User } from "src/interfaces";
@@ -17,8 +18,15 @@ export const SkillsInfo: React.FC<SkillsInfoProps> = ({ user }) => {
         </Title>
         <Group gap="md" wrap="wrap" mb="xs">
           {user?.skillsProficientAt?.map((item) => (
-            <Badge key={item?.id} variant="default" size="lg" radius="sm">
-              name: {item?.name} level:{" "}
+            <Badge
+              key={item?.id}
+              c="blue"
+              variant="light"
+              size="lg"
+              radius="xl"
+              leftSection={<IconCode size={16} stroke={1.5} />}
+            >
+              Name: {item?.name} Level:{" "}
               {leveldata.find((l) => l.value === String(item?.level))?.label}
             </Badge>
           ))}
@@ -30,8 +38,15 @@ export const SkillsInfo: React.FC<SkillsInfoProps> = ({ user }) => {
         </Title>
         <Group gap="md" wrap="wrap" mb="xs">
           {user?.skillsToLearn?.map((item) => (
-            <Badge key={item?.id} variant="default" size="lg" radius="sm">
-              name: {item?.name} level:{" "}
+            <Badge
+              key={item?.id}
+              c="green"
+              variant="light"
+              size="lg"
+              radius="xl"
+              leftSection={<IconCode size={16} stroke={1.5} />}
+            >
+              Name: {item?.name} Level:{" "}
               {leveldata.find((l) => l.value === String(item?.level))?.label}
             </Badge>
           ))}

@@ -1,0 +1,30 @@
+.card {
+   background-color: var(--mntine-color-body);
+   height: 130px;
+   display: flex;
+   flex-wrap: nowrap; 
+   flex-direction: row;
+   width: 100%;
+}
+
+
+.image {
+   max-width: 160px;
+}
+
+
+.body {
+   padding: var(--mantine-spacing-xs);
+   width: 70%;
+}
+
+.title {
+   font-weight: 600;
+   line-height: 1.2;
+}
+
+@media screen and (max-width: 890px) {
+   .card {
+      height: 200px;
+   }
+}

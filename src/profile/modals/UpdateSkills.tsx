@@ -8,20 +8,16 @@ import {
   Text,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import { useUpdateSkillForm } from "./hooks/useUpdateSkillForm";
+import { useUpdateSkillForm } from "../hooks/useUpdateSkillForm";
 import { useAppAuthentication } from "src/hooks";
-import { useSkillsActions } from "./hooks/useSkillsActions";
-import { useUpdateSkillsMutation } from "./hooks/useUpdateSkillsMutation";
-import { SkillsForm } from "./components/SkillsForm";
-import { SkillsTable } from "./components/SkillsTable";
+import { useSkillsActions } from "../hooks/useSkillsActions";
+import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
+import { SkillsForm } from "./SkillsForm";
+import { SkillsTable } from "./SkillsTable";
 import { Conditional } from "src/components";
+import { UpdateSkillsModalProps } from "../interfaces";
 
-interface Props {
-  opened: boolean;
-  onClose: () => void;
-}
-
-export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
+export const UpdateSkills: React.FC<UpdateSkillsModalProps> = ({ opened, onClose }) => {
   const [proficientForm, setShowProfienctForm] = useState(false);
   const [learnForm, setLearnForm] = useState(false);
   const { user } = useAppAuthentication();
@@ -40,7 +36,7 @@ export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
     removeProficientSkills,
     removeSkillsToLearn,
   } = useSkillsActions(form);
-  const { updateUser, loading } = useUpdateSkillsMutation();
+  const { updateUser, loading } = useUpdateUserProfileMutation();
 
   useEffect(() => {
     if (!user?.skillsProficientAt?.length) {
@@ -90,8 +86,8 @@ export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
             />
           </Conditional>
 
-          <Divider mt="md" />
           <Conditional condition={form.values.skillsProficientAt.length > 0}>
+            <Divider mt="md" />
             <SkillsTable
               skills={form.values.skillsProficientAt}
               remove={removeProficientSkills}
@@ -116,8 +112,8 @@ export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
             />
           </Conditional>
 
-          <Divider mt="md" />
           <Conditional condition={form.values.skillsToLearn.length > 0}>
+            <Divider mt="md" />
             <SkillsTable
               skills={form.values.skillsToLearn}
               remove={removeSkillsToLearn}
