@@ -10,14 +10,11 @@ import {
 import { IconCode, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import React from "react";
 import { leveldata } from "src/helpers";
-import { User } from "src/interfaces";
 import { UpdateProficientSkillsModal } from "../modals/UpdateProficientSkillsModal";
 import { useDisclosure } from "@mantine/hooks";
 import { UpdateSkillsToLearnModal } from "../modals/UpdateSkillsToLearnModall";
+import { SkillSetProps } from "../interfaces";
 
-interface SkillSetProps {
-  user?: User;
-}
 
 export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
   const [

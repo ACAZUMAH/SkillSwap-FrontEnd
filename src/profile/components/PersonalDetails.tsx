@@ -14,14 +14,11 @@ import {
 import { IconCamera, IconLink, IconPencil } from "@tabler/icons-react";
 import React from "react";
 import { getInitialsNameLatter } from "src/helpers";
-import { User } from "src/interfaces";
 import { useDisclosure, useHover } from "@mantine/hooks";
 import { UpdatePersonalDetailsModal } from "../modals/UpdatePersonalDetailsModal";
 import { Conditional } from "src/components";
+import { PersonalDetailsProps } from "../interfaces";
 
-interface PersonalDetailsProps {
-  user?: User;
-}
 export const PersonalDetails: React.FC<PersonalDetailsProps> = ({ user }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const { hovered, ref } = useHover();

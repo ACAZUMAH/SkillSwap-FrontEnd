@@ -15,13 +15,9 @@ import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutat
 import { SkillsForm } from "./SkillsForm";
 import { SkillsTable } from "./SkillsTable";
 import { Conditional } from "src/components";
+import { UpdateSkillsModalProps } from "../interfaces";
 
-interface Props {
-  opened: boolean;
-  onClose: () => void;
-}
-
-export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
+export const UpdateSkills: React.FC<UpdateSkillsModalProps> = ({ opened, onClose }) => {
   const [proficientForm, setShowProfienctForm] = useState(false);
   const [learnForm, setLearnForm] = useState(false);
   const { user } = useAppAuthentication();

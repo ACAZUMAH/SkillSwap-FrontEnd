@@ -12,15 +12,10 @@ import { DateInput } from "@mantine/dates";
 import React from "react";
 import { createSelectDegreeData } from "src/profile/helpers";
 import { degrees } from "../constants";
-import { User } from "src/interfaces";
 import { useUpdateEducationForm } from "../hooks/useUpdateEducationForm";
 import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
+import { UpdateEducationModalProps } from "../interfaces";
 
-interface UpdateEducationModalProps {
-  opened: boolean;
-  onClose: () => void;
-  user?: User;
-}
 
 export const UpdateEducationModal: React.FC<UpdateEducationModalProps> = ({
   opened,

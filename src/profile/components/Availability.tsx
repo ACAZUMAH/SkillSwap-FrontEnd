@@ -16,13 +16,10 @@ import {
 } from "@tabler/icons-react";
 import React from "react";
 import { Conditional } from "src/components";
-import { User } from "src/interfaces";
 import { UpdateAvailabiltyModal } from "../modals/UpdateAvailabiltyModal";
 import { useDisclosure } from "@mantine/hooks";
+import { AvailabilityProps } from "../interfaces";
 
-interface AvailabilityProps {
-  user?: User;
-}
 
 export const Availability: React.FC<AvailabilityProps> = ({ user }) => {
   const [opened, { open, close }] = useDisclosure(false);

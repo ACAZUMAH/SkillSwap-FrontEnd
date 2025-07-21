@@ -12,17 +12,11 @@ import {
 import { IconPlus } from "@tabler/icons-react";
 import React, { useEffect, useState } from "react";
 import { useUpdateAdditionalInfoForm } from "../hooks/useUpdateAdditionalInfoForm";
-import { User } from "src/interfaces";
 import { Conditional } from "src/components";
 import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
+import { UpdateAditionalInfoProps } from "../interfaces";
 
-interface Props {
-  opened: boolean;
-  onClose: () => void;
-  user?: User;
-}
-
-export const UpdateAditionalInfo: React.FC<Props> = ({
+export const UpdateAditionalInfo: React.FC<UpdateAditionalInfoProps> = ({
   opened,
   onClose,
   user,

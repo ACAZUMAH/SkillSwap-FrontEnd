@@ -13,14 +13,10 @@ import {
 import { IconPencil, IconPlus, IconSchool } from "@tabler/icons-react";
 import React from "react";
 import { Conditional } from "src/components";
-import { User } from "src/interfaces";
 import { UpdateEducationModal } from "../modals/UpdateEducationModal";
 import { useDisclosure } from "@mantine/hooks";
 import { formatDate } from "src/helpers/date";
-
-interface EducationalInfoProps {
-  user?: User;
-}
+import { EducationalInfoProps } from "../interfaces";
 
 export const EducationalInfo: React.FC<EducationalInfoProps> = ({ user }) => {
   const [opened, { open, close }] = useDisclosure(false);

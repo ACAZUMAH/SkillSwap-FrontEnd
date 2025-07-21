@@ -8,18 +8,13 @@ import {
   TextInput,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import { User } from "src/interfaces";
 import { useUpdateAvailabilityForm } from "../hooks/useUpdateAvailabilityForm";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { Conditional } from "src/components";
 import { CapitalizeFirstLetter } from "../helpers";
 import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
+import { UpdateAvailabiltyModalProps } from "../interfaces";
 
-interface UpdateAvailabiltyModalProps {
-  opened: boolean;
-  onClose: () => void;
-  user?: User;
-}
 
 export const UpdateAvailabiltyModal: React.FC<UpdateAvailabiltyModalProps> = ({
   opened,

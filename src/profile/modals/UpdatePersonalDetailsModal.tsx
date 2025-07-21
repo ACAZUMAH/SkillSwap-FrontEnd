@@ -18,17 +18,11 @@ import {
   useProfileImageform,
   useUpdatePersonalInfoForm,
 } from "src/profile/hooks/UseUpdatePersonalInfoForm";
-import { User } from "src/interfaces";
 import { Conditional } from "src/components";
 import { useHover } from "@mantine/hooks";
 import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
 import { useUploadProfileImage } from "../hooks/useUploadProfileImage";
-
-interface UpdatePersonalDetailsModalProps {
-  opened: boolean;
-  onClose: () => void;
-  user?: User;
-}
+import { UpdatePersonalDetailsModalProps } from "../interfaces";
 
 export const UpdatePersonalDetailsModal: React.FC<
   UpdatePersonalDetailsModalProps

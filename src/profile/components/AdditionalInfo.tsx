@@ -18,12 +18,10 @@ import {
 } from "@tabler/icons-react";
 import React from "react";
 import { Conditional } from "src/components";
-import { User } from "src/interfaces";
 import { UpdateAditionalInfo } from "../modals/UpdateAditionalInfo";
+import { AdditionalInfoProps } from "../interfaces";
 
-interface AdditionalInfoProps {
-  user?: User;
-}
+
 export const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ user }) => {
   const [opened, { open, close }] = useDisclosure(false);
 

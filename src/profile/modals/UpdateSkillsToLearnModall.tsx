@@ -4,16 +4,10 @@ import { Conditional } from "src/components";
 import { SkillsForm } from "./SkillsForm";
 import { SkillsTable } from "./SkillsTable";
 import { useUpdateSkillForm } from "../hooks/useUpdateSkillForm";
-import { User } from "src/interfaces";
 import { useSkillsActions } from "../hooks/useSkillsActions";
 import { cleanGraphQLInput } from "../helpers";
 import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
-
-interface UpdateSkillsToLearnModalProps {
-  opened: boolean;
-  onClose: () => void;
-  user?: User;
-}
+import { UpdateSkillsToLearnModalProps } from "../interfaces";
 
 export const UpdateSkillsToLearnModal: React.FC<
   UpdateSkillsToLearnModalProps

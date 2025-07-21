@@ -5,15 +5,11 @@ import { SkillsForm } from "./SkillsForm";
 import { SkillsTable } from "./SkillsTable";
 import { useSkillsActions } from "../hooks/useSkillsActions";
 import { useUpdateSkillForm } from "../hooks/useUpdateSkillForm";
-import { User } from "src/interfaces";
 import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
 import { cleanGraphQLInput } from "../helpers";
+import { UpdateProficientSkillsModalProps } from "../interfaces";
 
-interface UpdateProficientSkillsModalProps {
-  opened: boolean;
-  onClose: () => void;
-  user?: User;
-}
+
 
 export const UpdateProficientSkillsModal: React.FC<
   UpdateProficientSkillsModalProps

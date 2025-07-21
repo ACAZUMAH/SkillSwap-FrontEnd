@@ -2,14 +2,8 @@ import { Button, Group, Select, TextInput } from "@mantine/core";
 import React from "react";
 import { leveldata } from "src/helpers";
 import { CapitalizeFirstLetter } from "../helpers";
+import { SkillsFormProps } from "../interfaces";
 
-interface SkillsFormProps {
-  skill: string;
-  setSkill: (value: string) => void;
-  level: string;
-  setLevel: (value: string) => void;
-  addSkill: () => void;
-}
 
 export const SkillsForm: React.FC<SkillsFormProps> = ({
   skill,
