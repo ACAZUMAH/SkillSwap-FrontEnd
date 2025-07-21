@@ -16,28 +16,28 @@ export const useUploadProfileImage = () => {
     const fileName = `${Date.now()}.${fileExt}`;
     const filePath = `profile/${fileName}`;
 
-    const { error } = await supabase.storage
+    const uploadResult = await supabase?.storage
       .from("profiles")
       .upload(filePath, file, {
         cacheControl: "3600",
         upsert: false,
       });
 
-    if (error) {
+    if (!uploadResult || uploadResult.error) {
       showNotification({
         title: "Error",
         message: "Failed to upload profile image.",
         color: "red",
       });
-      console.error("Upload error:", error);
+      console.error("Upload error:", uploadResult?.error);
       return;
     }
 
-    const { data: publicData } = supabase.storage
+    const publicUrlResult = supabase?.storage
       .from("profiles")
       .getPublicUrl(filePath);
 
-    return publicData.publicUrl;
+    return publicUrlResult?.data?.publicUrl;
   };
 
   return { uploadProfileImage };
