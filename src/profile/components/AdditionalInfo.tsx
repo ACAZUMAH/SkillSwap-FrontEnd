@@ -3,6 +3,7 @@ import {
   Anchor,
   Button,
   Card,
+  Group,
   rem,
   Text,
   Title,
@@ -29,6 +30,9 @@ export const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ user }) => {
   const showDetials = Boolean(
     user?.bio || user?.linkedIn || user?.gitHub || user?.portfolio
   );
+
+  const showLinks = Boolean(user?.linkedIn || user?.gitHub || user?.portfolio);
+
   return (
     <>
       <Card mt="xl" padding="md" radius="md" withBorder>
@@ -53,36 +57,56 @@ export const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ user }) => {
         </Title>
 
         <Conditional condition={showDetials}>
-          <Text mb="md">{user?.bio}</Text>
+          <Conditional condition={Boolean(user?.bio)}>
+            <Text mb="md" mt="md">
+              {user?.bio}
+            </Text>
+          </Conditional>
 
-          <Text mb="md">Links</Text>
-          <Anchor
-            mb="md"
-            underline="hover"
-            href={user?.linkedIn!}
-            target="_blank"
-          >
-            <IconBrandLinkedin size={16} />
-            {user?.linkedIn}
-          </Anchor>
-          <Anchor
-            mb="md"
-            underline="hover"
-            href={user?.gitHub!}
-            target="_blank"
-          >
-            <IconBrandGithub size={16} />
-            {user?.gitHub}
-          </Anchor>
-          <Anchor
-            mb="md"
-            underline="hover"
-            href={user?.portfolio!}
-            target="_blank"
-          >
-            <IconWorld size={16} />
-            {user?.portfolio}
-          </Anchor>
+          <Conditional condition={showLinks}>
+            <Text mb="md" mt="md">
+              Links
+            </Text>
+            <Conditional condition={Boolean(user?.linkedIn)}>
+              <Anchor
+                mb="md"
+                underline="hover"
+                href={user?.linkedIn!}
+                target="_blank"
+              >
+                <Group gap="xs">
+                  <IconBrandLinkedin size={20} />
+                  <Text>LinkedIn</Text>
+                </Group>
+              </Anchor>
+            </Conditional>
+            <Conditional condition={Boolean(user?.gitHub)}>
+              <Anchor
+                mb="md"
+                underline="hover"
+                href={user?.gitHub!}
+                target="_blank"
+              >
+                <Group gap="xs">
+                  <IconBrandGithub size={20} />
+                  <Text>GitHub</Text>
+                </Group>
+              </Anchor>
+            </Conditional>
+            <Conditional condition={Boolean(user?.portfolio)}>
+              <Anchor
+                mb="md"
+                underline="hover"
+                href={user?.portfolio!}
+                target="_blank"
+              >
+                <Group gap="xs">
+                  <IconWorld size={20} />
+                  <Text>Portfolio</Text>
+                </Group>
+              </Anchor>
+            </Conditional>
+          </Conditional>
         </Conditional>
 
         <Conditional condition={!showDetials}>
@@ -102,7 +126,7 @@ export const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ user }) => {
           </Button>
         </Conditional>
       </Card>
-      <UpdateAditionalInfo opened={opened} onClose={close} user={user}/>
+      <UpdateAditionalInfo opened={opened} onClose={close} user={user} />
     </>
   );
 };

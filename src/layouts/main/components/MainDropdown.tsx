@@ -1,7 +1,6 @@
-import { Anchor, Avatar, Divider, Group, Menu, Text } from "@mantine/core";
+import { Anchor, Avatar, Divider, Menu, Text } from "@mantine/core";
 import {
   IconChalkboard,
-  IconChevronDown,
   IconLogout,
   IconSettings,
   IconUser,
@@ -9,14 +8,9 @@ import {
 import React from "react";
 import { routerEndPoints } from "src/constants";
 import { getInitialsNameLatter } from "src/helpers";
-import {
-  useAppAuthentication,
-  useAppSettings,
-  useRouteNavigation,
-} from "src/hooks";
+import { useAppAuthentication, useRouteNavigation } from "src/hooks";
 
 export const MainDropdown: React.FC = () => {
-  const { isDarkMode } = useAppSettings();
   const { user, logoutUser } = useAppAuthentication();
   const navigateToLanding = useRouteNavigation(routerEndPoints.ROOT);
   const navigateToProfile = useRouteNavigation(routerEndPoints.PROFILE);
@@ -27,36 +21,24 @@ export const MainDropdown: React.FC = () => {
     <Menu trigger="hover" width={230} offset={10}>
       <Menu.Target>
         <Anchor component="div" style={{ textDecoration: "none" }}>
-          <Group
-            gap={4}
-            align="center"
-            justify="center"
-            style={{ cursor: "pointer" }}
+          <Avatar
+            src={user?.profile_img}
+            style={{
+              background: "#1f5de5",
+              borderRadius: "var(--mantine-radius-xl)",
+              cursor: "pointer",
+            }}
+            size="sm"
           >
-            <Avatar
-              src={user?.profile_img}
-              style={{
-                background: "#1f5de5",
-                borderRadius: "var(--mantine-radius-xl)",
-                cursor: "pointer",
-              }}
-              size="md"
-            >
-              <Text c="white" fw="bold" size="xl">
-                {getInitialsNameLatter(user?.firstName!)}
-              </Text>
-            </Avatar>
-            <IconChevronDown
-              stroke={1.5}
-              color={isDarkMode ? "white" : "black"}
-            />
-          </Group>
+            <Text c="white" fw="bold" size="xl">
+              {getInitialsNameLatter(user?.firstName!)}
+            </Text>
+          </Avatar>
         </Anchor>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item
           leftSection={<IconUser stroke={1.5} />}
-          p="xs"
           onClick={navigateToProfile}
         >
           Profile
@@ -64,7 +46,6 @@ export const MainDropdown: React.FC = () => {
         <Divider />
         <Menu.Item
           leftSection={<IconSettings stroke={1.5} />}
-          p="xs"
           onClick={navigateToSettings}
         >
           Settings
@@ -72,7 +53,6 @@ export const MainDropdown: React.FC = () => {
         <Divider />
         <Menu.Item
           leftSection={<IconChalkboard stroke={1.5} />}
-          p="xs"
           onClick={navigateToWhiteBoard}
         >
           WhiteBoard
@@ -80,7 +60,6 @@ export const MainDropdown: React.FC = () => {
         <Divider />
         <Menu.Item
           leftSection={<IconLogout stroke={1.5} />}
-          p="xs"
           color="red"
           onClick={() => {
             logoutUser();

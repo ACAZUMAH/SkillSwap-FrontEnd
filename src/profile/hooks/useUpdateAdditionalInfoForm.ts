@@ -19,6 +19,7 @@ export const useUpdateAdditionalInfoForm = (user?: User) => {
       portfolio: user?.portfolio || ""
     },
     validationSchema,
+    enableReinitialize: true,
     onSubmit: () => {},
   });
 

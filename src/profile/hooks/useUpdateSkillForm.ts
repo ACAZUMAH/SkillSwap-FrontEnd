@@ -15,10 +15,7 @@ export const useUpdateSkillForm = (currentUser?: User) => {
     },
     validationSchema,
     validateOnMount: true,
-    onSubmit: (values) => {
-      // Handle form submission logic here
-      console.log("Skills form submitted with values:", values);
-    },
+    onSubmit: () => {},
   });
 
   return { ...form };

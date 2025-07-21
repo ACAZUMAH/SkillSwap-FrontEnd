@@ -1,5 +1,5 @@
 import {
-    ActionIcon,
+  ActionIcon,
   Alert,
   Button,
   Card,
@@ -14,12 +14,16 @@ import { IconPencil, IconPlus, IconSchool } from "@tabler/icons-react";
 import React from "react";
 import { Conditional } from "src/components";
 import { User } from "src/interfaces";
+import { UpdateEducationModal } from "../modals/UpdateEducationModal";
+import { useDisclosure } from "@mantine/hooks";
+import { formatDate } from "src/helpers/date";
 
 interface EducationalInfoProps {
   user?: User;
 }
 
 export const EducationalInfo: React.FC<EducationalInfoProps> = ({ user }) => {
+  const [opened, { open, close }] = useDisclosure(false);
   const showDetails = Boolean(user?.education);
   return (
     <>
@@ -31,19 +35,20 @@ export const EducationalInfo: React.FC<EducationalInfoProps> = ({ user }) => {
         <Conditional condition={showDetails}>
           <Group justify="space-between" mb="md">
             <Flex>
-              <IconSchool size={20} />
-              <Stack>
-                <Title>{user?.education?.institution}</Title>
+              <IconSchool size={70} stroke={1} color="gray" />
+              <Stack gap={2} ml="md">
+                <Title order={2} fw={500}>{user?.education?.institution}</Title>
                 <Text size="sm">
-                  {user?.education?.degree} in {user?.education?.fieldOfStudy},
-                  expected to graduate in
-                  {user?.education?.endDate}
+                  {user?.education?.degree} in {user?.education?.fieldOfStudy}, {user?.education?.level}
+                </Text>
+                <Text size="sm" c="dimmed">
+                 {formatDate(user?.education?.startDate)} - {formatDate(user?.education?.endDate)}
                 </Text>
               </Stack>
             </Flex>
 
             <ActionIcon
-              onClick={() => {}}
+              onClick={open}
               variant="transparent"
               style={{
                 position: "absolute",
@@ -64,13 +69,19 @@ export const EducationalInfo: React.FC<EducationalInfoProps> = ({ user }) => {
                 Add your educational background here to let other swappers know
                 where you studied or are currently studying.
               </Text>
-              <Button variant="outline" leftSection={<IconPlus size={16} />}>
+              <Button
+                variant="outline"
+                leftSection={<IconPlus size={16} />}
+                onClick={open}
+              >
                 Add Education
               </Button>
             </Group>
           </Alert>
         </Conditional>
       </Card>
+
+      <UpdateEducationModal opened={opened} onClose={close} user={user}/>
     </>
   );
 };

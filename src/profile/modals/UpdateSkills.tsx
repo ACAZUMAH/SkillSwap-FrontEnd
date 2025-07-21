@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import { useUpdateSkillForm } from "../hooks/useUpdateSkillForm";
 import { useAppAuthentication } from "src/hooks";
 import { useSkillsActions } from "../hooks/useSkillsActions";
-import { useUpdateSkillsMutation } from "../hooks/useUpdateSkillsMutation";
+import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
 import { SkillsForm } from "./SkillsForm";
 import { SkillsTable } from "./SkillsTable";
 import { Conditional } from "src/components";
@@ -40,7 +40,7 @@ export const UpdateSkills: React.FC<Props> = ({ opened, onClose }) => {
     removeProficientSkills,
     removeSkillsToLearn,
   } = useSkillsActions(form);
-  const { updateUser, loading } = useUpdateSkillsMutation();
+  const { updateUser, loading } = useUpdateUserProfileMutation();
 
   useEffect(() => {
     if (!user?.skillsProficientAt?.length) {

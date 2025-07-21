@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { useUpdateAdditionalInfoForm } from "../hooks/useUpdateAdditionalInfoForm";
 import { User } from "src/interfaces";
 import { Conditional } from "src/components";
+import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
 
 interface Props {
   opened: boolean;
@@ -29,6 +30,22 @@ export const UpdateAditionalInfo: React.FC<Props> = ({
   const [addLinks, setAddlinks] = useState(false);
 
   const form = useUpdateAdditionalInfoForm(user);
+
+  const { updateUser, loading } = useUpdateUserProfileMutation();
+
+  const handleUpdate = async () => {
+    const res = await updateUser({
+      bio: form.values.bio,
+      linkedIn: form.values.linkedIn,
+      gitHub: form.values.gitHub,
+      portfolio: form.values.portfolio,
+    });
+
+    if (res?.id) {
+      form.resetForm();
+      onClose();
+    }
+  };
 
   useEffect(() => {
     if (
@@ -59,8 +76,13 @@ export const UpdateAditionalInfo: React.FC<Props> = ({
         <Textarea
           label="About"
           name="bio"
+          radius="md"
           placeholder="Include a few brief about yourself."
-          maxRows={6}
+          minRows={4}
+          value={form.values.bio}
+          onChange={form.handleChange}
+          onBlur={form.handleBlur}
+          error={form.touched.bio && form.errors.bio}
         />
         <Divider my="xl" />
         <Title order={5} mt="md" mb="xs">
@@ -74,9 +96,16 @@ export const UpdateAditionalInfo: React.FC<Props> = ({
 
         <Conditional condition={addLinks}>
           <Group mt="md">
-            <TextInput w={100} value={"LinkedIn"} readOnly disabled />
+            <TextInput
+              radius="xl"
+              w={100}
+              value={"LinkedIn"}
+              readOnly
+              disabled
+            />
             <TextInput
               flex={1}
+              radius="xl"
               name="linkedIn"
               placeholder="https://"
               value={form.values.linkedIn}
@@ -86,10 +115,11 @@ export const UpdateAditionalInfo: React.FC<Props> = ({
             />
           </Group>
           <Group mt="md">
-            <TextInput w={100} value={"gitHub"} readOnly disabled />
+            <TextInput radius="xl" w={100} value={"gitHub"} readOnly disabled />
             <TextInput
               flex={1}
               name="gitHub"
+              radius="xl"
               placeholder="https://"
               value={form.values.gitHub}
               onChange={form.handleChange}
@@ -98,9 +128,16 @@ export const UpdateAditionalInfo: React.FC<Props> = ({
             />
           </Group>
           <Group mt="md">
-            <TextInput w={100} value={"Portfolio"} readOnly disabled />
+            <TextInput
+              radius="xl"
+              w={100}
+              value={"Portfolio"}
+              readOnly
+              disabled
+            />
             <TextInput
               flex={1}
+              radius="xl"
               name="portfolio"
               placeholder="https://"
               value={form.values.portfolio}
@@ -124,7 +161,11 @@ export const UpdateAditionalInfo: React.FC<Props> = ({
         </Conditional>
         <Divider my="xl" />
 
-        <Button radius="xl">Save</Button>
+        <Group justify="flex-end">
+          <Button radius="xl" onClick={handleUpdate} loading={loading}>
+            Save Changes
+          </Button>
+        </Group>
       </Box>
     </Modal>
   );

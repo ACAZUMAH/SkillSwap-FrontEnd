@@ -1,4 +1,4 @@
-import { Divider, Modal, Text } from "@mantine/core";
+import { Button, Divider, Group, Modal, Text } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { Conditional } from "src/components";
 import { SkillsForm } from "./SkillsForm";
@@ -6,6 +6,8 @@ import { SkillsTable } from "./SkillsTable";
 import { useUpdateSkillForm } from "../hooks/useUpdateSkillForm";
 import { User } from "src/interfaces";
 import { useSkillsActions } from "../hooks/useSkillsActions";
+import { cleanGraphQLInput } from "../helpers";
+import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
 
 interface UpdateSkillsToLearnModalProps {
   opened: boolean;
@@ -18,7 +20,7 @@ export const UpdateSkillsToLearnModal: React.FC<
 > = ({ opened, onClose, user }) => {
   const [learnForm, setLearnForm] = useState(false);
   const form = useUpdateSkillForm(user);
-
+  const { updateUser, loading } = useUpdateUserProfileMutation();
   const {
     skillsToLearn,
     setSkillsToLearn,
@@ -33,6 +35,17 @@ export const UpdateSkillsToLearnModal: React.FC<
       setLearnForm(true);
     }
   }, [form]);
+
+  const handleUpdate = async () => {
+    const update = await updateUser({
+      skillsToLearn: cleanGraphQLInput(form.values.skillsToLearn),
+    });
+
+    if (update?.id) {
+      form.resetForm();
+      onClose();
+    }
+  };
 
   return (
     <Modal onClose={onClose} opened={opened} title="Skills to Learn" size="lg">
@@ -60,6 +73,12 @@ export const UpdateSkillsToLearnModal: React.FC<
           addSkill={() => setLearnForm(true)}
         />
       </Conditional>
+
+      <Group justify="flex-end" mt="lg">
+        <Button radius="xl" onClick={handleUpdate} loading={loading}>
+          Save Changes
+        </Button>
+      </Group>
     </Modal>
   );
 };

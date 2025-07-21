@@ -86,7 +86,7 @@ export const MainHeader: React.FC = () => {
         <Group justify="space-between" align="center" gap="lg">
           <ActionIcon
             aria-label="toggle theme"
-            size="md"
+            size="sm"
             variant="light"
             radius="xl"
             onClick={settings.toggleTheme}
@@ -101,14 +101,14 @@ export const MainHeader: React.FC = () => {
           <ActionIcon
             variant="light"
             radius="xl"
-            size="md"
+            size="sm"
             onClick={navigateToChats}
             visibleFrom="md"
           >
             <IconBrandMessenger size={50} stroke={1.5} />
           </ActionIcon>
           <Tooltip label="Search" position="bottom" withArrow>
-            <ActionIcon hiddenFrom="md" variant="light" radius="xl" size="md">
+            <ActionIcon hiddenFrom="md" variant="light" radius="xl" size="sm">
               <IconSearch stroke={1.5} onClick={() => SetOpenedSearch(true)} />
             </ActionIcon>
           </Tooltip>

@@ -1,4 +1,4 @@
-import { Divider, Modal, Text } from "@mantine/core";
+import { Button, Divider, Group, Modal, Text } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { Conditional } from "src/components";
 import { SkillsForm } from "./SkillsForm";
@@ -6,6 +6,8 @@ import { SkillsTable } from "./SkillsTable";
 import { useSkillsActions } from "../hooks/useSkillsActions";
 import { useUpdateSkillForm } from "../hooks/useUpdateSkillForm";
 import { User } from "src/interfaces";
+import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
+import { cleanGraphQLInput } from "../helpers";
 
 interface UpdateProficientSkillsModalProps {
   opened: boolean;
@@ -18,7 +20,8 @@ export const UpdateProficientSkillsModal: React.FC<
 > = ({ opened, onClose, user }) => {
   const [proficientForm, setShowProfienctForm] = useState(false);
   const form = useUpdateSkillForm(user);
-  
+  const { updateUser, loading } = useUpdateUserProfileMutation();
+
   const {
     proficientSkills,
     setProficientSkills,
@@ -34,8 +37,24 @@ export const UpdateProficientSkillsModal: React.FC<
     }
   }, [form]);
 
+  const handleUpdate = async () => {
+    const update = await updateUser({
+      skillsProficientAt: cleanGraphQLInput(form.values.skillsProficientAt),
+    });
+
+    if (update?.id) {
+      form.resetForm();
+      onClose();
+    }
+  };
+
   return (
-    <Modal onClose={onClose} opened={opened} title="Proficient Skills" size="lg">
+    <Modal
+      onClose={onClose}
+      opened={opened}
+      title="Proficient Skills"
+      size="lg"
+    >
       <Text mt="xs" px="xs">
         List the skills you are proficient in.
       </Text>
@@ -60,6 +79,12 @@ export const UpdateProficientSkillsModal: React.FC<
           addSkill={() => setShowProfienctForm(true)}
         />
       </Conditional>
+
+      <Group justify="flex-end" mt="lg">
+        <Button radius="xl" onClick={handleUpdate} loading={loading}>
+          Save Changes
+        </Button>
+      </Group>
     </Modal>
   );
 };

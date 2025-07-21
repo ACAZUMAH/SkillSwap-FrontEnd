@@ -21,6 +21,8 @@ import {
 import { User } from "src/interfaces";
 import { Conditional } from "src/components";
 import { useHover } from "@mantine/hooks";
+import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
+import { useUploadProfileImage } from "../hooks/useUploadProfileImage";
 
 interface UpdatePersonalDetailsModalProps {
   opened: boolean;
@@ -31,9 +33,46 @@ interface UpdatePersonalDetailsModalProps {
 export const UpdatePersonalDetailsModal: React.FC<
   UpdatePersonalDetailsModalProps
 > = ({ opened, onClose, user }) => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const { hovered, ref } = useHover();
   const form = useUpdatePersonalInfoForm(user);
   const imageForm = useProfileImageform();
+  const { updateUser, loading } = useUpdateUserProfileMutation();
+  const { uploadProfileImage } = useUploadProfileImage();
+
+  const url = imageForm.values.profileImgFile
+    ? URL.createObjectURL(imageForm.values.profileImgFile)
+    : undefined;
+
+  const handleSubmit = async () => {
+    if (imageForm.values.profileImgFile) {
+      setIsLoading(true);
+      const profile_img = await uploadProfileImage(
+        imageForm.values.profileImgFile
+      );
+      setIsLoading(false);
+      const res = await updateUser({
+        firstName: form.values.firstName,
+        lastName: form.values.lastName,
+        profile_img: profile_img || user?.profile_img,
+      });
+      if (res?.id) {
+        form.resetForm();
+        onClose();
+      }
+    } else {
+      const res = await updateUser({
+        firstName: form.values.firstName,
+        lastName: form.values.lastName,
+        profile_img: user?.profile_img,
+      });
+
+      if (res?.id) {
+        form.resetForm();
+        onClose();
+      }
+    }
+  };
 
   return (
     <Modal
@@ -85,7 +124,21 @@ export const UpdatePersonalDetailsModal: React.FC<
           >
             <Group>
               <Dropzone.Accept>
-                <h1>drop</h1>
+                <Avatar
+                  size={100}
+                  src={url}
+                  style={{
+                    width: 190,
+                    height: 190,
+                    borderRadius: "50%",
+                    background: "#1f5de5",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Text c="white" size="3rem" fw="bold">
+                    {getInitialsNameLatter(user?.firstName!)}
+                  </Text>
+                </Avatar>
               </Dropzone.Accept>
               <Dropzone.Reject>
                 <IconCancel />
@@ -94,7 +147,10 @@ export const UpdatePersonalDetailsModal: React.FC<
                 <Conditional condition={!hovered}>
                   <Avatar
                     size={100}
-                    src={user?.profile_img}
+                    src={user?.profile_img || url}
+                    onLoad={() => {
+                      URL.revokeObjectURL(url!);
+                    }}
                     style={{
                       width: 190,
                       height: 190,
@@ -135,6 +191,7 @@ export const UpdatePersonalDetailsModal: React.FC<
 
         <TextInput
           withAsterisk
+          radius="xl"
           label="First Name"
           name="firstName"
           placeholder="Enter your first name"
@@ -151,6 +208,7 @@ export const UpdatePersonalDetailsModal: React.FC<
           withAsterisk
           label="Last Name"
           name="lastName"
+          radius="xl"
           placeholder="Enter your last name"
           mt="md"
           value={form.values.lastName}
@@ -161,9 +219,15 @@ export const UpdatePersonalDetailsModal: React.FC<
           error={form.touched.lastName ? form.errors.lastName : ""}
         />
 
-        <Button mt="xl" radius="xl">
-          Save
-        </Button>
+        <Group justify="flex-end" mt="xl">
+          <Button
+            radius="xl"
+            onClick={handleSubmit}
+            loading={loading || isLoading}
+          >
+            Save Changes
+          </Button>
+        </Group>
       </Box>
     </Modal>
   );

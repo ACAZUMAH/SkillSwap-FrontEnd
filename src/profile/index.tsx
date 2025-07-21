@@ -1,5 +1,4 @@
 import React from "react";
-import ProfilePage from "./components/profilepage";
 import { Container, Grid } from "@mantine/core";
 import { PersonalDetails } from "./components/PersonalDetails";
 import { useAppAuthentication } from "src/hooks";
@@ -12,7 +11,7 @@ export const UserProfile: React.FC = () => {
   const { user } = useAppAuthentication();
   return (
     <>
-      <Container w="100%" maw={1400} py={40}>
+      <Container w="100%" maw={1400} py={50}>
         <Grid gutter="xl">
           <Grid.Col span={{ base: 12, md: 3.7, lg: 3.5, xl: 3 }}>
             <div>
@@ -32,7 +31,6 @@ export const UserProfile: React.FC = () => {
           </Grid.Col>
         </Grid>
       </Container>
-      <ProfilePage />
     </>
   );
 };

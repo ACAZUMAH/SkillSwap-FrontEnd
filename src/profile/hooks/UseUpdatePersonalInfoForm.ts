@@ -20,7 +20,7 @@ const validateProfileImage = yup.object().shape({
 export const useProfileImageform = () => {
   const form = useFormik({
     initialValues: {
-      profileImg: "",
+      profileImgFile: null as File | null,
     },
     validateOnMount: true,
     validationSchema: validateProfileImage,
@@ -28,7 +28,7 @@ export const useProfileImageform = () => {
   });
 
   const handleFileChange = (file: File) => {
-    form.setFieldValue("profileImg", file);
+    form.setFieldValue("profileImgFile", file);
   };
 
   return { ...form, handleFileChange };
@@ -43,6 +43,7 @@ export const useUpdatePersonalInfoForm = (user?: User) => {
       profile_img: user?.profile_img || "",
     },
     validationSchema,
+    enableReinitialize: true,
     onSubmit: () => {},
   });
 

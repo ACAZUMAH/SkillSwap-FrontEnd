@@ -7,7 +7,7 @@ import {
   rem,
   Title,
 } from "@mantine/core";
-import { IconInfoCircle, IconPencil } from "@tabler/icons-react";
+import { IconCode, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import React from "react";
 import { leveldata } from "src/helpers";
 import { User } from "src/interfaces";
@@ -61,7 +61,14 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
 
         <Group>
           {user?.skillsProficientAt?.map((skill) => (
-            <Badge key={skill?.id} variant="default" size="lg" radius="sm">
+            <Badge
+              key={skill?.id}
+              c="blue"
+              variant="light"
+              size="lg"
+              radius="xl"
+              leftSection={<IconCode size={16} stroke={1.5} />}
+            >
               Name: {skill?.name} Level:{" "}
               {leveldata.find((l) => l.value === String(skill?.level))?.label}
             </Badge>
@@ -98,7 +105,14 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
 
         <Group>
           {user?.skillsToLearn?.map((skill) => (
-            <Badge key={skill?.id} variant="default" size="lg" radius="sm">
+            <Badge
+              key={skill?.id}
+              c="green"
+              variant="light"
+              size="lg"
+              radius="xl"
+              leftSection={<IconCode size={16} stroke={1.5} />}
+            >
               Name: {skill?.name} Level:{" "}
               {leveldata.find((l) => l.value === String(skill?.level))?.label}
             </Badge>

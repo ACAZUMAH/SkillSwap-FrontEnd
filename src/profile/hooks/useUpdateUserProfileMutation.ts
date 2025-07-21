@@ -10,11 +10,11 @@ const updateSkillsMutationGql = gql`
   }
 `;
 
-export const useUpdateSkillsMutation = () => {
+export const useUpdateUserProfileMutation = () => {
   const [mutate, result] = useMutation<
     { updateUser: Mutation["updateUser"] },
     MutationUpdateUserArgs
-  >(updateSkillsMutationGql, { refetchQueries: ["Recommendation", "Search", "Me"] });
+  >(updateSkillsMutationGql, { refetchQueries: ["Me", "Search", "Recommendation"] });
 
   const updateUser = async (data: UpdateUserInput) => {
     try {
@@ -25,7 +25,7 @@ export const useUpdateSkillsMutation = () => {
       });
 
       showNotification({
-        message: "Skills updated successfully",
+        message: "Profile data updated successfully",
         color: "blue",
         title: "Success",
       });
@@ -35,7 +35,7 @@ export const useUpdateSkillsMutation = () => {
       console.error("Error updating skills:", error);
       showNotification({
         title: "Error",
-        message: "Failed to update skills. Please try again.",
+        message: "There was an error updating your profile. Please try again.",
         color: "red",
       });
     }

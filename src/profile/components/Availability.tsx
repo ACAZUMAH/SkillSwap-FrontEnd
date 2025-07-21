@@ -9,17 +9,26 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IconPencil, IconPlus } from "@tabler/icons-react";
+import {
+  IconBrandDaysCounter,
+  IconPencil,
+  IconPlus,
+} from "@tabler/icons-react";
 import React from "react";
 import { Conditional } from "src/components";
 import { User } from "src/interfaces";
+import { UpdateAvailabiltyModal } from "../modals/UpdateAvailabiltyModal";
+import { useDisclosure } from "@mantine/hooks";
 
 interface AvailabilityProps {
   user?: User;
 }
 
 export const Availability: React.FC<AvailabilityProps> = ({ user }) => {
-  const showDetails = Boolean(user?.education);
+  const [opened, { open, close }] = useDisclosure(false);
+  const showDetails = Boolean(
+    user?.availability && user?.availability?.length > 0
+  );
   return (
     <>
       <Title order={3} mt="xl" mb="md">
@@ -29,7 +38,7 @@ export const Availability: React.FC<AvailabilityProps> = ({ user }) => {
       <Card mb="xl" padding="md" radius="md" withBorder>
         <Conditional condition={showDetails}>
           <ActionIcon
-            onClick={() => {}}
+            onClick={open}
             variant="transparent"
             style={{
               position: "absolute",
@@ -41,11 +50,21 @@ export const Availability: React.FC<AvailabilityProps> = ({ user }) => {
           >
             <IconPencil size={18} />
           </ActionIcon>
-          <Group justify="space-between" mb="md">
+
+          <Text mb="md" size="sm" c="dimmed">
+            You are available on the following days:
+          </Text>
+          <Group mb="md">
             {user?.availability?.map((aval, i) => (
-                <Badge key={i} variant="default" size="lg" radius="sm">
-                    {aval}
-                </Badge>
+              <Badge
+                key={i}
+                variant="default"
+                size="lg"
+                radius="xl"
+                leftSection={<IconBrandDaysCounter size={16} />}
+              >
+                {aval}
+              </Badge>
             ))}
           </Group>
         </Conditional>
@@ -56,13 +75,19 @@ export const Availability: React.FC<AvailabilityProps> = ({ user }) => {
                 Add your availability details to let other swappers know when
                 you are available.
               </Text>
-              <Button variant="outline" leftSection={<IconPlus size={16} />}>
+              <Button
+                variant="outline"
+                leftSection={<IconPlus size={16} />}
+                onClick={open}
+              >
                 Add Availability
               </Button>
             </Group>
           </Alert>
         </Conditional>
       </Card>
+
+      <UpdateAvailabiltyModal opened={opened} onClose={close} />
     </>
   );
 };
