@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { showNotification } from "@mantine/notifications";
 import {
-    AcceptOrDeclineSwapInput,
+  AcceptOrDeclineSwapInput,
   Mutation,
   MutationAcceptOrDeclineSwapRequestArgs,
 } from "src/interfaces";
@@ -24,24 +24,30 @@ export const useUpdateSwapMutation = () => {
     },
     MutationAcceptOrDeclineSwapRequestArgs
   >(updateSwapMutationGql, {
-    refetchQueries: ["GetSwapByUsers", "User"],
+    refetchQueries: [
+      "GetSwapByUsers",
+      "User",
+      "AllChats",
+      "GetSwapRequests",
+      "GetRequestedSwaps",
+    ],
     fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
   });
 
   const updateHandler = async (input: AcceptOrDeclineSwapInput) => {
     try {
-        const res = await mutate({ variables: { input }})
+      const res = await mutate({ variables: { input } });
 
-        showNotification({
-            title: "Success",
-            message: "",
-            color: "blue"
-        })
+      showNotification({
+        title: "Success",
+        message: "",
+        color: "blue",
+      });
 
-        return res.data?.acceptOrDeclineSwapRequest
+      return res.data?.acceptOrDeclineSwapRequest;
     } catch (error) {}
   };
 
-  return { updateHandler, ...result}
+  return { updateHandler, ...result };
 };

@@ -212,19 +212,17 @@ export type Chat = {
   __typename?: 'Chat';
   createdAt: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  messages: Array<Message>;
+  messages: Array<Maybe<Message>>;
   recentMessage?: Maybe<Message>;
   updatedAt: Scalars['String']['output'];
-  users: Array<ChatUser>;
+  users: ChatUsers;
 };
 
-export type ChatUser = {
-  __typename?: 'ChatUser';
-  firstName?: Maybe<Scalars['String']['output']>;
+export type ChatUsers = {
+  __typename?: 'ChatUsers';
   id?: Maybe<Scalars['ID']['output']>;
-  lastName?: Maybe<Scalars['String']['output']>;
-  profile_img?: Maybe<Scalars['String']['output']>;
-  userId?: Maybe<Scalars['String']['output']>;
+  receiver?: Maybe<User>;
+  sender?: Maybe<User>;
 };
 
 export type Education = {
@@ -264,7 +262,7 @@ export type Message = {
   mediaUrl?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
   messageType: MessageType;
-  sender?: Maybe<ChatUser>;
+  sender?: Maybe<User>;
   timestamp: Scalars['String']['output'];
 };
 
@@ -462,6 +460,7 @@ export type Skill = {
 };
 
 export type SkillInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
   level: Scalars['Int']['input'];
   name: Scalars['String']['input'];
 };

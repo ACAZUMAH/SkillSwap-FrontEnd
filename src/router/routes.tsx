@@ -16,55 +16,9 @@ import { UserDetails } from "src/user";
 import { Recommendations } from "src/recommendations";
 import { Settings } from "src/settings";
 import { WhiteBoard } from "src/whiteboard";
+//import { ChatLayout } from "src/layouts/chat";
 
 export const routes = [
-  {
-    path: routerEndPoints.HOME,
-    element: <Mainlayout />,
-    loader: routesProtector().requireLoggedIn(),
-    children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: routerEndPoints.RECOMMENDATIONS,
-        element: <Recommendations />
-      },
-      {
-        path: routerEndPoints.PROFILE,
-        element: <UserProfile />
-      },
-      {
-        path: routerEndPoints.CHAT,
-        element: <Chats />
-      },
-      {
-        path: routerEndPoints.SWAPS,
-        element: <Swaps />
-      },
-      {
-        path: routerEndPoints.MY_LEARNING,
-        element: <Learning />,
-      },
-      {
-        path: routerEndPoints.USER,
-        element: <UserDetails />
-      },
-      {
-        path: routerEndPoints.MY_TEACHING,
-        element: <Teaching />,
-      },
-      {
-        path: routerEndPoints.SETTINGS,
-        element: <Settings />
-      },
-      {
-        path: routerEndPoints.WHITEBOARD,
-        element: <WhiteBoard />
-      }
-    ],
-  },
   {
     path: routerEndPoints.ROOT,
     element: <LandingLayout />,
@@ -87,6 +41,53 @@ export const routes = [
       {
         path: routerEndPoints.SIGNIN,
         element: <Login />,
+      },
+    ],
+  },
+  {
+    path: routerEndPoints.HOME,
+    element: <Mainlayout />,
+    loader: routesProtector().requireLoggedIn(),
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: routerEndPoints.RECOMMENDATIONS,
+        element: <Recommendations />,
+      },
+      {
+        path: routerEndPoints.PROFILE,
+        element: <UserProfile />,
+      },
+      {
+        path: routerEndPoints.CHAT,
+        element: <Chats />
+      },
+      {
+        path: routerEndPoints.SWAPS,
+        element: <Swaps />,
+      },
+      {
+        path: routerEndPoints.MY_LEARNING,
+        element: <Learning />,
+      },
+      {
+        path: routerEndPoints.USER,
+        element: <UserDetails />,
+      },
+      {
+        path: routerEndPoints.MY_TEACHING,
+        element: <Teaching />,
+      },
+      {
+        path: routerEndPoints.SETTINGS,
+        element: <Settings />,
+      },
+      {
+        path: routerEndPoints.WHITEBOARD,
+        element: <WhiteBoard />,
       },
     ],
   },
