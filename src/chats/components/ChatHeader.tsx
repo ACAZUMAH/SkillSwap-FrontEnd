@@ -10,7 +10,7 @@ import { getInitialsNameLatter } from "src/helpers";
 import { User } from "src/interfaces";
 
 interface ChatHeaderProps {
-  selectedChat?: any // TODO: Define a proper type for selectedChat
+  selectedChat?: any // TODO: Define a proper type for selectedChat 
   currentUser?: User;
 }
 
