@@ -28,7 +28,7 @@ export const OpenedChat: React.FC<OpenedChatProps> = ({
         <ChatContainer selectedUser={selectedUser} />
         {/* Input */}
         <Divider />
-        <ChatInputBar />
+        <ChatInputBar currentUser={currentUser} selectedChat={chats[activeChat!]}/>
       </Box>
     </>
   );

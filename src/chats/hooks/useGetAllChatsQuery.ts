@@ -30,9 +30,8 @@ const getAllChatsQuery = gql`
         messageType
         message
         mediaUrl
-        isRead
-        isDeleted
-        timestamp
+        status
+        updatedAt
       }
       recentMessage {
         id
@@ -45,9 +44,8 @@ const getAllChatsQuery = gql`
         messageType
         message
         mediaUrl
-        isRead
-        isDeleted
-        timestamp
+        status
+        updatedAt
       }
       createdAt
       updatedAt

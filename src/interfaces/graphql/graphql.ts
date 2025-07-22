@@ -225,6 +225,11 @@ export type ChatUsers = {
   sender?: Maybe<User>;
 };
 
+export type ChatUsersInput = {
+  receiver: Scalars['ID']['input'];
+  sender: Scalars['ID']['input'];
+};
+
 export type Education = {
   __typename?: 'Education';
   degree?: Maybe<Scalars['String']['output']>;
@@ -256,14 +261,21 @@ export type Filters = {
 
 export type Message = {
   __typename?: 'Message';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
-  isDeleted: Scalars['Boolean']['output'];
-  isRead: Scalars['Boolean']['output'];
   mediaUrl?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
   messageType: MessageType;
   sender?: Maybe<User>;
-  timestamp: Scalars['String']['output'];
+  status: MessagesStatus;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type MessageInput = {
+  mediaUrl?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  messageType: MessageType;
+  sender: Scalars['ID']['input'];
 };
 
 export enum MessageType {
@@ -271,6 +283,13 @@ export enum MessageType {
   Image = 'IMAGE',
   Text = 'TEXT',
   Video = 'VIDEO'
+}
+
+export enum MessagesStatus {
+  Deleted = 'DELETED',
+  Delivered = 'DELIVERED',
+  Read = 'READ',
+  Sent = 'SENT'
 }
 
 export type Mutation = {
@@ -285,6 +304,7 @@ export type Mutation = {
   login?: Maybe<Response>;
   updateSwap: Swap;
   updateUser: User;
+  upsertMessage?: Maybe<Chat>;
   verifyOtpAndSaveNewPassword: Response;
 };
 
@@ -331,6 +351,11 @@ export type MutationUpdateSwapArgs = {
 
 export type MutationUpdateUserArgs = {
   data?: InputMaybe<UpdateUserInput>;
+};
+
+
+export type MutationUpsertMessageArgs = {
+  data: NewMessageInput;
 };
 
 
@@ -608,6 +633,14 @@ export type LoginUserInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type NewMessageInput = {
+  chatId: Scalars['ID']['input'];
+  from: Scalars['String']['input'];
+  message: MessageInput;
+  to: Scalars['String']['input'];
+  users: ChatUsersInput;
 };
 
 export type RecommendationFilters = {
