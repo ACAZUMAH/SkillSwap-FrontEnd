@@ -1,7 +1,8 @@
-import { Avatar, rem, Stack, Text, Title, UnstyledButton } from "@mantine/core";
+import { Avatar, Group, rem, Stack, Text, Title, UnstyledButton } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import React from "react";
 import { getInitialsNameLatter } from "src/helpers";
+import { formatNewChatDate } from "src/helpers/date";
 import { User } from "src/interfaces";
 
 interface ChatListitemProps {
@@ -18,7 +19,7 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
   activeChat,
 }) => {
   const { hovered, ref } = useHover();
-  
+
   return (
     <>
       {" "}
@@ -60,21 +61,18 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
           </Text>
         </Avatar>
         <Stack gap={0} ml="sm" style={{ flex: 1 }}>
-          <>
+          <Group>
             <Title order={4} fw={500}>
               {chat?.users?.sender?.id !== currentUser?.id
                 ? chat?.users?.sender?.firstName
                 : chat?.users?.receiver?.firstName}
             </Title>
             <Text ml="auto" size="xs" c="dimmed">
-              {chat?.updatedAt && chat?.recentMessage
-                ? new Date(chat.updatedAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })
-                : ""}
+              {formatNewChatDate(
+                chat?.recentMessage?.updatedAt || chat?.createdAt
+              )}
             </Text>
-          </>
+          </Group>
           <Text
             size="xs"
             c="dimmed"

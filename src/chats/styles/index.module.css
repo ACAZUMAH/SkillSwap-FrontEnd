@@ -1,0 +1,6 @@
+.button {
+  &:disabled,
+  &[data-disabled] {
+    background-color: transparent;
+  }
+}

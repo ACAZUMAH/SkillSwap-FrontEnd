@@ -34,8 +34,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser }) => {
         leftSection={<IconSearch stroke={1.5} size={20} />}
       />
       <Stack gap="xs">
-        {Object.entries(chats).map(([_chatId, chat]) => (
+        {Object.entries(chats).map(([chatId, chat]) => (
           <ChatListitem
+            key={chatId}
             chat={chat}
             currentUser={currentUser}
             setActiveChat={setActiveChat}

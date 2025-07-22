@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Chat, Chats, Message } from "src/interfaces";
+import { Chat, Chats, Message, MessagesStatus } from "src/interfaces";
 
 const initialState: Chats = {
   chats: {},
@@ -41,7 +41,7 @@ const chatsSlice = createSlice({
       if (chat) {
         const message = chat.messages?.find((msg) => msg?.id === messageId);
         if (message) {
-          message.isRead = true;
+          message.status = MessagesStatus.Read;
         }
       }
     },
