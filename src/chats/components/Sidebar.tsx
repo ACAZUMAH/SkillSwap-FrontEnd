@@ -50,7 +50,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser }) => {
       </Conditional>
       <Conditional condition={!loadingChats && Object.keys(chats).length === 0}>
         <Box p="md" style={{ textAlign: "center" }}>
-          <Title order={4} c="dimmed">
+          <Title order={5} c="dimmed">
             No chats available
           </Title>
         </Box>
