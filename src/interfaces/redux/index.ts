@@ -31,6 +31,7 @@ export interface Chats {
   };
   activeChat: string | null;
   loadingChats: boolean;
+  chatsLoaded: boolean;
 }
 
 export interface ChatsActions extends PayloadAction<Partial<Chats>> {}

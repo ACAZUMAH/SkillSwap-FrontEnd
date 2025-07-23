@@ -5,6 +5,7 @@ const initialState: Chats = {
   chats: {},
   activeChat: null,
   loadingChats: false,
+  chatsLoaded: false,
 };
 
 const chatsSlice = createSlice({
@@ -18,10 +19,39 @@ const chatsSlice = createSlice({
           loadingMessages: false,
         };
       }
+      state.chatsLoaded = true;
     },
+
+    setLoadingChats(state, action: PayloadAction<boolean>) {
+      state.loadingChats = action.payload;
+    },
+
+    setMessages(
+      state,
+      action: PayloadAction<{ chatId: string; messages: Message[] }>
+    ) {
+      const { chatId, messages } = action.payload;
+      if (state.chats[chatId]) {
+        state.chats[chatId].messages = messages;
+        state.chats[chatId].recentMessage =
+          messages[messages.length - 1] || null;
+      }
+    },
+
+    setLoadingMessages(
+      state,
+      action: PayloadAction<{ chatId: string; loading: boolean }>
+    ) {
+      const { chatId, loading } = action.payload;
+      if (state.chats[chatId]) {
+        state.chats[chatId].loadingMessages = loading;
+      }
+    },
+
     setActiveChat(state, action: PayloadAction<string | null>) {
       state.activeChat = action.payload;
     },
+
     addMessage(
       state,
       action: PayloadAction<{ chatId: string; message: Message }>
@@ -32,6 +62,7 @@ const chatsSlice = createSlice({
         state.chats[chatId].recentMessage = message;
       }
     },
+    
     markMessageAsRead(
       state,
       action: PayloadAction<{ chatId: string; messageId: string }>
@@ -60,7 +91,7 @@ const chatsSlice = createSlice({
 
     clearActiveChat(state) {
       state.activeChat = null;
-    }
+    },
   },
 });
 

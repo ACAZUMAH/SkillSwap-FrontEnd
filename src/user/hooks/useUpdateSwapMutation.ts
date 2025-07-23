@@ -1,5 +1,4 @@
 import { gql, useMutation } from "@apollo/client";
-import { showNotification } from "@mantine/notifications";
 import {
   AcceptOrDeclineSwapInput,
   Mutation,
@@ -27,7 +26,6 @@ export const useUpdateSwapMutation = () => {
     refetchQueries: [
       "GetSwapByUsers",
       "User",
-      "AllChats",
       "GetSwapRequests",
       "GetRequestedSwaps",
     ],
@@ -38,12 +36,6 @@ export const useUpdateSwapMutation = () => {
   const updateHandler = async (input: AcceptOrDeclineSwapInput) => {
     try {
       const res = await mutate({ variables: { input } });
-
-      showNotification({
-        title: "Success",
-        message: "",
-        color: "blue",
-      });
 
       return res.data?.acceptOrDeclineSwapRequest;
     } catch (error) {}

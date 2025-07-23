@@ -2,7 +2,8 @@ import { Avatar, Group, rem, Stack, Text, Title, UnstyledButton } from "@mantine
 import { useHover } from "@mantine/hooks";
 import React from "react";
 import { getInitialsNameLatter } from "src/helpers";
-import { formatNewChatDate } from "src/helpers/date";
+import { formatSideBarChatDate } from "src/helpers/date";
+import { useAppSettings } from "src/hooks";
 import { User } from "src/interfaces";
 
 interface ChatListitemProps {
@@ -18,6 +19,7 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
   setActiveChat,
   activeChat,
 }) => {
+  const settings = useAppSettings()
   const { hovered, ref } = useHover();
 
   return (
@@ -30,9 +32,9 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
         style={{
           backgroundColor:
             hovered || chat?.id === activeChat
-              ? "rgba(0, 0, 0, 0.15)"
+              ? (settings.isDarkMode ? "#2d2d2d" : "#f1f5f9")
               : "transparent",
-          padding: rem(8),
+          padding: rem(10),
           borderRadius: rem(8),
           display: "flex",
           alignItems: "center",
@@ -68,7 +70,7 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
                 : chat?.users?.receiver?.firstName}
             </Title>
             <Text ml="auto" size="xs" c="dimmed">
-              {formatNewChatDate(
+              {formatSideBarChatDate(
                 chat?.recentMessage?.updatedAt || chat?.createdAt
               )}
             </Text>

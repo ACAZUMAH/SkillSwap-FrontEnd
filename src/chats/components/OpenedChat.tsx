@@ -10,25 +10,22 @@ interface OpenedChatProps {
   currentUser?: User;
 }
 
-export const OpenedChat: React.FC<OpenedChatProps> = ({
-  selectedUser,
-  currentUser,
-}) => {
+export const OpenedChat: React.FC<OpenedChatProps> = ({ currentUser }) => {
   const { chats, activeChat } = useAppChats();
   return (
     <>
       <Box style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         {/* Header */}
-        <ChatHeader
-          selectedChat={chats[activeChat!]}
-          currentUser={currentUser}
-        />
+        <ChatHeader currentUser={currentUser} />
         <Divider />
         {/* Messages */}
-        <ChatContainer selectedUser={selectedUser} />
+        <ChatContainer currentUser={currentUser} />
         {/* Input */}
         <Divider />
-        <ChatInputBar currentUser={currentUser} selectedChat={chats[activeChat!]}/>
+        <ChatInputBar
+          currentUser={currentUser}
+          selectedChat={chats[activeChat!]}
+        />
       </Box>
     </>
   );
