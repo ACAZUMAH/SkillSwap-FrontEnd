@@ -4,7 +4,6 @@ import { Sidebar } from "./components/Sidebar";
 import { OpenedChat } from "./components/OpenedChat";
 import { EmptyChat } from "./components/EmptyChat";
 import { Conditional } from "src/components";
-import { useGetAllChatsQuery } from "./hooks/useGetAllChatsQuery.ts";
 import { useAppAuthentication } from "src/hooks";
 import { useAppChats } from "src/hooks/useAppChats";
 import { useLocation } from "react-router-dom";
@@ -17,13 +16,9 @@ export const Chats: React.FC = () => {
   const {
     chats,
     activeChat,
-    addChat,
     setActiveChat,
-    setLoadingChats,
-    chatsLoaded,
     addMessages,
   } = useAppChats();
-  const { chats: newChats } = useGetAllChatsQuery(chatsLoaded);
   const { chat } = useGetMessagesQuery(
     {
       chatId: activeChat || "",
@@ -41,15 +36,6 @@ export const Chats: React.FC = () => {
       setActiveChat(null);
     }
   }, [location.pathname, setActiveChat]);
-
-  useEffect(() => {
-    if (newChats && Object.keys(newChats).length > 0 && !chatsLoaded) {
-      setLoadingChats(true);
-      addChat(newChats.filter((chat) => chat !== null));
-    } else {
-      setLoadingChats(false);
-    }
-  }, [newChats]);
 
   useEffect(() => {
     addMessages(
