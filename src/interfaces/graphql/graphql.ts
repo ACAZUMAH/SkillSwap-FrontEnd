@@ -513,8 +513,8 @@ export type Subscription = {
   __typename?: 'Subscription';
   _empty?: Maybe<Scalars['String']['output']>;
   getChatByUserId: Array<Maybe<Chat>>;
-  newChatCreated: Chat;
-  swapUpdated: Swap;
+  newChatCreated?: Maybe<Chat>;
+  swapUpdated?: Maybe<Swap>;
 };
 
 
