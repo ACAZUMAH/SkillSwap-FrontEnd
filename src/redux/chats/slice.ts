@@ -26,6 +26,16 @@ const chatsSlice = createSlice({
       state.loadingChats = action.payload;
     },
 
+    addChat(state, action: PayloadAction<Chat>) {
+      const chat = action.payload;
+      if (!state.chats[chat.id]) {
+        state.chats[chat.id] = {
+          ...chat,
+          loadingMessages: false,
+        };
+      }
+    },
+
     setMessages(
       state,
       action: PayloadAction<{ chatId: string; messages: Message[] }>

@@ -14,9 +14,9 @@ export const useAppChats = () => {
     }
   }, [dispatch, chatsLoaded]);
 
-  const addChat = useCallback(
-    (chat: Chat[]) => {
-      dispatch(chatsActions.setChats(chat));
+  const addNewChat = useCallback(
+    (chat: Chat) => {
+      dispatch(chatsActions.addChat(chat));
     },
     [dispatch]
   );
@@ -53,7 +53,7 @@ export const useAppChats = () => {
     ...chats,
     chatsLoaded,
     loadInitialChats,
-    addChat,
+    addNewChat,
     setLoadingChats,
     setActiveChat,
     addMessages,

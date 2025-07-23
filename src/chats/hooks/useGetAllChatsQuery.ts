@@ -35,21 +35,21 @@ const getAllChatsQuery = gql`
       #   createdAt
       #   updatedAt
       # }
-      # recentMessage {
-      #   id
-      #   sender {
-      #     id
-      #     firstName
-      #     lastName
-      #     profile_img
-      #   }
-      #   messageType
-      #   message
-      #   mediaUrl
-      #   status
-      #   createdAt
-      #   updatedAt
-      # }
+      recentMessage {
+        id
+        sender {
+          id
+          firstName
+          lastName
+          profile_img
+        }
+        messageType
+        message
+        mediaUrl
+        status
+        createdAt
+        updatedAt
+      }
       updatedAt
       createdAt
     }
