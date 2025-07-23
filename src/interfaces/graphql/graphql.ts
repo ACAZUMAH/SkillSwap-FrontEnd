@@ -302,7 +302,7 @@ export type Mutation = {
   createAccount: Response;
   createSwapRequest: Swap;
   login?: Maybe<Response>;
-  updateSwap: Swap;
+  updateSwap?: Maybe<Swap>;
   updateUser: User;
   upsertMessage?: Maybe<Chat>;
   verifyOtpAndSaveNewPassword: Response;
@@ -376,6 +376,8 @@ export type Query = {
   _empty?: Maybe<Scalars['String']['output']>;
   allChats: Array<Maybe<Chat>>;
   getChatById?: Maybe<Chat>;
+  getChatByUserId: Array<Maybe<Chat>>;
+  getMessages: Chat;
   getRequestedSwaps?: Maybe<SwapConnection>;
   getSwapByUsers?: Maybe<Swap>;
   getSwapRequest?: Maybe<Swap>;
@@ -395,6 +397,16 @@ export type QueryAllChatsArgs = {
 
 export type QueryGetChatByIdArgs = {
   chatId: Scalars['ID']['input'];
+};
+
+
+export type QueryGetChatByUserIdArgs = {
+  userId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryGetMessagesArgs = {
+  data: GetMessageInput;
 };
 
 
@@ -500,6 +512,24 @@ export enum Status {
 export type Subscription = {
   __typename?: 'Subscription';
   _empty?: Maybe<Scalars['String']['output']>;
+  getChatByUserId: Array<Maybe<Chat>>;
+  newChatCreated: Chat;
+  swapUpdated: Swap;
+};
+
+
+export type SubscriptionGetChatByUserIdArgs = {
+  userId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type SubscriptionNewChatCreatedArgs = {
+  userId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionSwapUpdatedArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 export type Swap = {
@@ -627,6 +657,12 @@ export type CreateUserInput = {
   lastName?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
   phoneNumber: Scalars['String']['input'];
+};
+
+export type GetMessageInput = {
+  chatId: Scalars['ID']['input'];
+  from: Scalars['ID']['input'];
+  to: Scalars['ID']['input'];
 };
 
 export type LoginUserInput = {

@@ -20,47 +20,50 @@ const getAllChatsQuery = gql`
           profile_img
         }
       }
-      messages {
-        id
-        sender {
-          firstName
-          lastName
-          profile_img
-        }
-        messageType
-        message
-        mediaUrl
-        status
-        updatedAt
-      }
-      recentMessage {
-        id
-        sender {
-          id
-          firstName
-          lastName
-          profile_img
-        }
-        messageType
-        message
-        mediaUrl
-        status
-        updatedAt
-      }
-      createdAt
+      # messages {
+      #   id
+      #   sender {
+      #     id
+      #     firstName
+      #     lastName
+      #     profile_img
+      #   }
+      #   messageType
+      #   message
+      #   mediaUrl
+      #   status
+      #   createdAt
+      #   updatedAt
+      # }
+      # recentMessage {
+      #   id
+      #   sender {
+      #     id
+      #     firstName
+      #     lastName
+      #     profile_img
+      #   }
+      #   messageType
+      #   message
+      #   mediaUrl
+      #   status
+      #   createdAt
+      #   updatedAt
+      # }
       updatedAt
+      createdAt
     }
   }
 `;
 
-export const useGetAllChatsQuery = () => {
-
+export const useGetAllChatsQuery = (skip = false) => {
   const { data, ...result } = useQuery<
     Pick<Query, "allChats">,
     QueryAllChatsArgs
   >(getAllChatsQuery, {
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true,
+    skip,
   });
 
   const chats = data?.allChats || [];

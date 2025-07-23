@@ -6,10 +6,24 @@ import { chatsActions } from "src/redux/chats/slice";
 export const useAppChats = () => {
   const dispatch = useAppDispatch();
   const chats = useAppSelctor((state) => state.chats);
+  const chatsLoaded = useAppSelctor((state) => state.chats.chatsLoaded);
+
+  const loadInitialChats = useCallback((chats: Chat[]) => {
+    if (!chatsLoaded) {
+      dispatch(chatsActions.setChats(chats));
+    }
+  }, [dispatch, chatsLoaded]);
 
   const addChat = useCallback(
     (chat: Chat[]) => {
       dispatch(chatsActions.setChats(chat));
+    },
+    [dispatch]
+  );
+
+  const setLoadingChats = useCallback(
+    (loading: boolean) => {
+      dispatch(chatsActions.setLoadingChats(loading));
     },
     [dispatch]
   );
@@ -21,9 +35,9 @@ export const useAppChats = () => {
     [dispatch]
   );
 
-  const addMessage = useCallback(
-    (chatId: string, message: Message) => {
-      dispatch(chatsActions.addMessage({ chatId, message }));
+  const addMessages = useCallback(
+    (chatId: string, messages: Message[]) => {
+      dispatch(chatsActions.setMessages({ chatId, messages }));
     },
     [dispatch]
   );
@@ -35,5 +49,14 @@ export const useAppChats = () => {
     [dispatch]
   );
 
-  return { ...chats, addChat, setActiveChat, addMessage, removeMessage };
+  return {
+    ...chats,
+    chatsLoaded,
+    loadInitialChats,
+    addChat,
+    setLoadingChats,
+    setActiveChat,
+    addMessages,
+    removeMessage,
+  };
 };

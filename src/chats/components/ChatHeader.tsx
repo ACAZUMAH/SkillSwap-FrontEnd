@@ -7,25 +7,26 @@ import {
 } from "@tabler/icons-react";
 import React from "react";
 import { getInitialsNameLatter } from "src/helpers";
+import { useAppChats } from "src/hooks/useAppChats";
 import { User } from "src/interfaces";
 
 interface ChatHeaderProps {
-  selectedChat?: any // TODO: Define a proper type for selectedChat 
   currentUser?: User;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
-  selectedChat,
   currentUser,
 }) => {
+  const { chats, activeChat } = useAppChats();
+  const currentChat = chats[activeChat!];
   return (
     <Group px="sm" py="xs" justify="space-between">
       <Group>
         <Avatar
           src={
-            selectedChat?.users?.sender?.id !== currentUser?.id
-              ? selectedChat?.users?.sender?.profile_img
-              : selectedChat?.users?.receiver?.profile_img
+            currentChat?.users?.sender?.id !== currentUser?.id
+              ? currentChat?.users?.sender?.profile_img
+              : currentChat?.users?.receiver?.profile_img
           }
           style={{
             background: "#1f5de5",
@@ -36,17 +37,17 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         >
           <Text c="white" fw="bold" size="xl">
             {getInitialsNameLatter(
-              selectedChat?.users?.sender?.id !== selectedChat?.id
-                ? selectedChat?.users?.sender?.firstName!
-                : selectedChat?.users?.receiver?.firstName!
+              currentChat?.users?.sender?.id !== currentUser?.id
+                ? currentChat?.users?.sender?.firstName!
+                : currentChat?.users?.receiver?.firstName!
             )}
           </Text>
         </Avatar>
         <Stack gap={0}>
           <Text size="lg" fw={600}>
-            {selectedChat?.users?.sender?.id !== selectedChat?.id
-              ? selectedChat?.users?.sender?.firstName!
-              : selectedChat?.users?.receiver?.firstName!}
+            {currentChat?.users?.sender?.id !== currentUser?.id
+              ? currentChat?.users?.sender?.firstName!
+              : currentChat?.users?.receiver?.firstName!}
           </Text>
           <Text size="sm" c="dimmed">
             online/offline

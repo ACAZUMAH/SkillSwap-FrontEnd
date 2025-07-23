@@ -8,23 +8,55 @@ import { useGetAllChatsQuery } from "./hooks/useGetAllChatsQuery.ts";
 import { useAppAuthentication } from "src/hooks";
 import { useAppChats } from "src/hooks/useAppChats";
 import { useLocation } from "react-router-dom";
+import { useGetMessagesQuery } from "./hooks/useGetMessagesQuery.ts";
 
 export const Chats: React.FC = () => {
   const [selectedUser, _setSelectedUser] = useState("");
   const location = useLocation();
   const { user } = useAppAuthentication();
-  const { activeChat, addChat, setActiveChat } = useAppChats();
-  const { chats } = useGetAllChatsQuery();
-
-  useEffect(() => {
-    addChat(chats.filter((chat) => chat !== null));
-  }, [chats]);
+  const {
+    chats,
+    activeChat,
+    addChat,
+    setActiveChat,
+    setLoadingChats,
+    chatsLoaded,
+    addMessages,
+  } = useAppChats();
+  const { chats: newChats } = useGetAllChatsQuery(chatsLoaded);
+  const { chat } = useGetMessagesQuery(
+    {
+      chatId: activeChat || "",
+      from: user?.id!,
+      to:
+        user?.id !== chats[activeChat || ""]?.users?.receiver?.id
+          ? chats[activeChat || ""]?.users?.receiver?.id!
+          : chats[activeChat || ""]?.users?.sender?.id!,
+    },
+    !activeChat
+  );
 
   useEffect(() => {
     if (!location.pathname.includes("/chats")) {
       setActiveChat(null);
     }
   }, [location.pathname, setActiveChat]);
+
+  useEffect(() => {
+    if (newChats && Object.keys(newChats).length > 0 && !chatsLoaded) {
+      setLoadingChats(true);
+      addChat(newChats.filter((chat) => chat !== null));
+    } else {
+      setLoadingChats(false);
+    }
+  }, [newChats]);
+
+  useEffect(() => {
+    addMessages(
+      activeChat || "",
+      (chat?.messages || []).filter((msg) => msg !== null)
+    );
+  }, [activeChat, chat, addMessages]);
 
   return (
     <Box
