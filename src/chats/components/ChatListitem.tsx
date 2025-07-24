@@ -1,6 +1,15 @@
-import { Avatar, Group, rem, Stack, Text, Title, UnstyledButton } from "@mantine/core";
+import {
+  Avatar,
+  Group,
+  rem,
+  Stack,
+  Text,
+  Title,
+  UnstyledButton,
+} from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import React from "react";
+import { Conditional } from "src/components";
 import { getInitialsNameLatter } from "src/helpers";
 import { formatSideBarChatDate } from "src/helpers/date";
 import { useAppSettings } from "src/hooks";
@@ -19,7 +28,7 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
   setActiveChat,
   activeChat,
 }) => {
-  const settings = useAppSettings()
+  const settings = useAppSettings();
   const { hovered, ref } = useHover();
 
   return (
@@ -32,7 +41,9 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
         style={{
           backgroundColor:
             hovered || chat?.id === activeChat
-              ? (settings.isDarkMode ? "#2d2d2d" : "#f1f5f9")
+              ? settings.isDarkMode
+                ? "#2d2d2d"
+                : "#f1f5f9"
               : "transparent",
           padding: rem(10),
           borderRadius: rem(8),
@@ -69,24 +80,26 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
                 ? chat?.users?.sender?.firstName
                 : chat?.users?.receiver?.firstName}
             </Title>
-            <Text ml="auto" size="xs" c="dimmed">
-              {formatSideBarChatDate(
-                chat?.recentMessage?.updatedAt || chat?.createdAt
-              )}
-            </Text>
+            <Conditional condition={chat?.recentMessage?.updatedAt}>
+              <Text ml="auto" size="xs" c="dimmed">
+                {formatSideBarChatDate(chat?.recentMessage?.updatedAt)}
+              </Text>
+            </Conditional>
           </Group>
-          <Text
-            size="xs"
-            c="dimmed"
-            style={{
-              maxWidth: rem(200),
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {chat?.recentMessage?.message || "No messages yet"}
-          </Text>
+          <Conditional condition={chat?.recentMessage?.message}>
+            <Text
+              size="xs"
+              c="dimmed"
+              style={{
+                maxWidth: rem(200),
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {chat?.recentMessage?.message}
+            </Text>
+          </Conditional>
         </Stack>
       </UnstyledButton>
     </>

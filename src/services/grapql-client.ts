@@ -3,10 +3,14 @@ import {
   ApolloLink,
   createHttpLink,
   InMemoryCache,
+  split,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { store } from "src/redux/store";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
+import { getMainDefinition } from "@apollo/client/utilities";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -42,13 +46,49 @@ const httpLink = createHttpLink({
   },
 });
 
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: `${import.meta.env.VITE_GRAPHQLWS_URL}/graphql`,
+    connectionParams: () => {
+      const token = store.getState().authentication.token;
+      return {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+        },
+      };
+    },
+    on: {
+      connected: () => {
+        console.log("WebSocket connection established");
+      },
+      closed: () => {
+        console.log("WebSocket connection closed");
+      },
+      error: (error) => {
+        console.error("WebSocket error:", error);
+      },
+    }
+  })
+)
 
 const link = ApolloLink.from([errorLink, middleware, httpLink]);
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  link
+);
 
 const cache = new InMemoryCache({});
 
 export const client = new ApolloClient({
-  link,
+  link: splitLink,
   cache,
   connectToDevTools: true,
   defaultOptions: {

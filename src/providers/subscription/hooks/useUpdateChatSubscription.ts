@@ -70,6 +70,7 @@ export const useUpdateChatSubscription = () => {
     skip: !user?.id,
 
     onData: ({ data }) => {
+      console.log("New chat created data:", data);
       if (data.data?.newChatCreated) {
         const newChat = data.data.newChatCreated;
         addNewChat(newChat);

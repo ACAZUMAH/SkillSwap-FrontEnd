@@ -514,6 +514,7 @@ export type Subscription = {
   _empty?: Maybe<Scalars['String']['output']>;
   getChatByUserId: Array<Maybe<Chat>>;
   newChatCreated?: Maybe<Chat>;
+  newSwapRequest?: Maybe<Swap>;
   swapUpdated?: Maybe<Swap>;
 };
 
@@ -524,6 +525,11 @@ export type SubscriptionGetChatByUserIdArgs = {
 
 
 export type SubscriptionNewChatCreatedArgs = {
+  userId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionNewSwapRequestArgs = {
   userId: Scalars['ID']['input'];
 };
 
