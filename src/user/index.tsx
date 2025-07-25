@@ -24,23 +24,11 @@ export const UserDetails: React.FC = () => {
   return (
     <Container w="100%" maw={1400} py={40}>
       <Conditional condition={Boolean(showDetails)}>
-        {/* <Group align="flex-start" gap={35} className={classes.group}>
-          <div className={classes.basic}>
-            <BasicInfo user={user!} swapData={swap} />
-          </div>
-          <div className={classes.other}>
-            <SkillsInfo user={user!} />
-
-            <EducationInfo educationalInfo={user?.education!} />
-
-            <Avalability available={user?.availability!} />
-          </div>
-        </Group> */}
         <Grid gutter="xl">
-          <Grid.Col span={{ base: 12, md: 3.5, lg: 3.3, xl: 3.1 }}>
+          <Grid.Col span={{ base: 12, md: 4.5, lg: 3.5, xl: 3 }}>
             <BasicInfo user={user!} swapData={swap} />
           </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 8.5, lg: 8.7, xl: 8.9 }}>
+          <Grid.Col span={{ base: 12, md: 7.5, lg: 8.5, xl: 9 }}>
             <div>
               <SkillsInfo user={user!} />
 

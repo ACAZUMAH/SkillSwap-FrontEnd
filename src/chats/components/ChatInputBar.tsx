@@ -4,7 +4,7 @@ import React from "react";
 import { useAppChats } from "src/hooks/useAppChats";
 import classes from "../styles/index.module.css";
 import { MessageType, User } from "src/interfaces";
-import { useAddNewMessageMutation } from "../hooks/useAddNewMessageMutaion";
+import { useSocket } from "src/hooks";
 
 interface ChatInputBarProps {
   currentUser?: User;
@@ -17,11 +17,11 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
 }) => {
   const [message, setMessage] = React.useState("");
   const { activeChat } = useAppChats();
-  const { addNewMessage } = useAddNewMessageMutation();
+  const { socket } = useSocket();
 
   const sendMeassageHandler = async () => {
-    const res = await addNewMessage({
-      from: currentUser?.id!,
+    socket?.emit("sendMessage", {
+      from: currentUser?.id,
       to:
         selectedChat?.users?.sender?.id !== currentUser?.id
           ? selectedChat?.users?.sender?.id
@@ -31,19 +31,22 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         messageType: MessageType.Text,
         sender: currentUser?.id!,
         message,
-        mediaUrl: ""
+        mediaUrl: "",
       },
       users: {
         sender: selectedChat?.users?.sender.id,
-        receiver: selectedChat?.users?.receiver.id
-      }
+        receiver: selectedChat?.users?.receiver.id,
+      },
     });
     setMessage("");
-    console.log("Message sent:", res);
   };
 
   return (
-    <Group px="md" py="sm">
+    <Group
+      px="md"
+      py="sm"
+      style={{ borderTop: "0.1px solid var(--mantine-color-gray-7)" }}
+    >
       <ActionIcon variant="transparent" mb="xs">
         <IconMoodSmile stroke={1.5} size={30} />
       </ActionIcon>

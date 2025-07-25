@@ -24,6 +24,8 @@ const getMessagesQuery = gql`
         id
         sender {
           id
+          profile_img
+          firstName
         }
         messageType
         message
@@ -36,6 +38,8 @@ const getMessagesQuery = gql`
         id
         sender {
           id
+          profile_img
+          firstName
         }
         messageType
         message

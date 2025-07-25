@@ -1,4 +1,4 @@
-import { Box, Divider } from "@mantine/core";
+import { Box } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { Sidebar } from "./components/Sidebar";
 import { OpenedChat } from "./components/OpenedChat";
@@ -19,7 +19,7 @@ export const Chats: React.FC = () => {
     setActiveChat,
     addMessages,
   } = useAppChats();
-  const { chat } = useGetMessagesQuery(
+  const { chat,  loading } = useGetMessagesQuery(
     {
       chatId: activeChat || "",
       from: user?.id!,
@@ -42,7 +42,7 @@ export const Chats: React.FC = () => {
       activeChat || "",
       (chat?.messages || []).filter((msg) => msg !== null)
     );
-  }, [activeChat, chat, addMessages]);
+  }, [activeChat, chat, addMessages, loading]);
 
   return (
     <Box
@@ -52,12 +52,11 @@ export const Chats: React.FC = () => {
       }}
     >
       <Sidebar currentUser={user} />
-      <Divider orientation="vertical" />
       <Conditional condition={!Boolean(activeChat)}>
         <EmptyChat />
       </Conditional>
       <Conditional condition={Boolean(activeChat)}>
-        <OpenedChat selectedUser={selectedUser} currentUser={user} />
+        <OpenedChat selectedUser={selectedUser} currentUser={user} loadingMessages={loading} />
       </Conditional>
     </Box>
   );

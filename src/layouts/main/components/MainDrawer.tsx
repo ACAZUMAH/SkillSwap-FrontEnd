@@ -1,9 +1,27 @@
 import { Divider, Drawer, NavLink, Text } from "@mantine/core";
 import React from "react";
 import { MainDrawerProps } from "../interfaces";
-import { IconLogout, IconSettings, IconUser } from "@tabler/icons-react";
+import {
+  IconChalkboard,
+  IconLogout,
+  IconSettings,
+  IconUser,
+} from "@tabler/icons-react";
+import { useAppAuthentication, useRouteNavigation } from "src/hooks";
+import { routerEndPoints } from "src/constants";
 
 export const MainDrawer: React.FC<MainDrawerProps> = ({ opened, onClose }) => {
+  const navigateToProfile = useRouteNavigation(routerEndPoints.PROFILE);
+  const navigateToSettings = useRouteNavigation(routerEndPoints.SETTINGS);
+  const navigateTowhiteboard = useRouteNavigation(routerEndPoints.WHITEBOARD);
+  const { logoutUser } = useAppAuthentication();
+  const navigateToLanding = useRouteNavigation(routerEndPoints.ROOT);
+
+  const handleLogout = () => {
+    logoutUser();
+    navigateToLanding();
+  };
+
   return (
     <Drawer
       opened={opened}
@@ -18,12 +36,25 @@ export const MainDrawer: React.FC<MainDrawerProps> = ({ opened, onClose }) => {
       position="left"
     >
       <Divider />
-      <NavLink label="Profile" leftSection={<IconUser stroke={1.5} />} p="sm" />
+      <NavLink
+        label="Profile"
+        leftSection={<IconUser stroke={1.5} />}
+        p="sm"
+        onClick={navigateToProfile}
+      />
       <Divider />
       <NavLink
         label="Setting"
         leftSection={<IconSettings stroke={1.5} />}
         p="sm"
+        onClick={navigateToSettings}
+      />
+      <Divider />
+      <NavLink
+        label="WhiteBoard"
+        leftSection={<IconChalkboard stroke={1.5} />}
+        p="sm"
+        onClick={navigateTowhiteboard}
       />
       <Divider />
       <NavLink
@@ -31,6 +62,7 @@ export const MainDrawer: React.FC<MainDrawerProps> = ({ opened, onClose }) => {
         c="red"
         leftSection={<IconLogout stroke={1.5} />}
         p="sm"
+        onClick={handleLogout}
       />
     </Drawer>
   );

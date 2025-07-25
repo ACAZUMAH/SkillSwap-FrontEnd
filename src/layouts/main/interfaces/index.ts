@@ -9,6 +9,6 @@ export interface MainDrawerProps {
 }
 
 export interface SearchDropdownProps extends MainDrawerProps {
-  // searchQuery: string;
-  // setSearchQuery: (query: string) => void;
+  search: string;
+  setSearch: (value: string) => void;
 }

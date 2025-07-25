@@ -33,14 +33,12 @@ export const useSwapUpdateSubscription = () => {
       skip: !user?.id,
 
       onData: ({ data }) => {
-        console.log("Swap update data:", data);
         if (data.data?.swapUpdated) {
           const update = data.data.swapUpdated;
 
           client.refetchQueries({
             include: [
               "GetSwapByUsers",
-              "User",
               "GetSwapRequests",
               "GetRequestedSwaps",
             ],

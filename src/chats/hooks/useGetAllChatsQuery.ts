@@ -20,21 +20,21 @@ const getAllChatsQuery = gql`
           profile_img
         }
       }
-      # messages {
-      #   id
-      #   sender {
-      #     id
-      #     firstName
-      #     lastName
-      #     profile_img
-      #   }
-      #   messageType
-      #   message
-      #   mediaUrl
-      #   status
-      #   createdAt
-      #   updatedAt
-      # }
+      messages {
+        id
+        sender {
+          id
+          firstName
+          lastName
+          profile_img
+        }
+        messageType
+        message
+        mediaUrl
+        status
+        createdAt
+        updatedAt
+      }
       recentMessage {
         id
         sender {

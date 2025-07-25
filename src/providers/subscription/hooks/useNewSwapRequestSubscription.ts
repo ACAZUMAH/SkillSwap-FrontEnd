@@ -31,14 +31,12 @@ export const useNewSwapRequestSubscription = () => {
     skip: !user?.id,
 
     onData: ({ data }) => {
-      console.log("New swap request data:", data);
-      if (data.data?.newSwapRequest) {
+      if (data?.data?.newSwapRequest) {
         const newRequest = data.data.newSwapRequest;
 
         client.refetchQueries({
           include: [
             "GetSwapByUsers",
-            "User",
             "GetSwapRequests",
             "GetRequestedSwaps",
           ],
@@ -63,11 +61,6 @@ export const useNewSwapRequestSubscription = () => {
 
     onError: (error) => {
       console.error("Error in new swap request subscription:", error);
-      showNotification({
-        title: "Subscription Error",
-        message: "An error occurred while subscribing to new swap requests.",
-        color: "red",
-      });
     },
   });
 };

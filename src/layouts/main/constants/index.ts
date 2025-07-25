@@ -9,12 +9,12 @@ export const headerItems = [
         label: "Swaps",
         route: routerEndPoints.SWAPS,
     },
-    {
-        label: "My Learning",
-        route: routerEndPoints.MY_LEARNING,
-    },
-    {
-        label: "My Teaching",
-        route: routerEndPoints.MY_TEACHING,
-    }
+    // {
+    //     label: "My Learning",
+    //     route: routerEndPoints.MY_LEARNING,
+    // },
+    // {
+    //     label: "My Teaching",
+    //     route: routerEndPoints.MY_TEACHING,
+    // }
 ]

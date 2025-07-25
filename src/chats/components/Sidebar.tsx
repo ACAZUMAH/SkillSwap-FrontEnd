@@ -24,10 +24,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser }) => {
   const { chats, setActiveChat, activeChat, loadingChats } = useAppChats();
   return (
     <Box
-      w="25%"
-      p="sm"
       style={{
+        width: "clamp(280px, 25vw, 400px)",
+        minWidth: 280,
+        padding: "var(--mantine-spacing-sm)",
         overflowY: "auto",
+        height: "auto", 
+        borderRight: "0.1px solid var(--mantine-color-gray-7)",
       }}
     >
       <Group justify="space-between" mb="md">

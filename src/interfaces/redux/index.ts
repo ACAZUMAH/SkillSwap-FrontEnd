@@ -23,10 +23,10 @@ export interface Chats {
       id: string;
       users?: ChatUsers;
       messages?: Maybe<Message>[];
-      recentMessage?: Message | null;
-      loadingMessages?: boolean;
-      createdAt?: string;
-      updatedAt?: string;
+      recentMessage?: Message;
+      loadingMessages: boolean;
+      createdAt: string;
+      updatedAt: string;
     };
   };
   activeChat: string | null;

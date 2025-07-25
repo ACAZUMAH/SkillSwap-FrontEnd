@@ -36,9 +36,9 @@ export const MainHeader: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(search){
+    if (search) {
       navigate(`/home/?query=${encodeURIComponent(search)}`);
-    }else{
+    } else {
       navigate("/home");
     }
   }, [search]);
@@ -50,13 +50,13 @@ export const MainHeader: React.FC = () => {
       currentPath !== routerEndPoints.CHAT &&
       currentPath !== routerEndPoints.SETTINGS &&
       currentPath !== routerEndPoints.WHITEBOARD &&
-      !currentPath.startsWith(routerEndPoints.USER.replace(":id", ""))
-      && !`${currentPath}${location.search}`.startsWith(`/home/?query=`)
+      !currentPath.startsWith(routerEndPoints.USER.replace(":id", "")) &&
+      !`${currentPath}${location.search}`.startsWith(`/home/?query=`)
     );
   }, [location.pathname, search]);
 
   return (
-    <Container w="100%" maw={1400} h="60%" pt={showTabs ? "3px" : "10px"} >
+    <Container w="100%" maw={1400} h="60%" pt={showTabs ? "3px" : "10px"}>
       <Group justify="space-between" h="100%">
         <Group justify="space-between" align="center" gap="xl">
           <Burger
@@ -87,7 +87,7 @@ export const MainHeader: React.FC = () => {
           <ActionIcon
             aria-label="toggle theme"
             size="sm"
-            variant="light"
+            variant="subtle"
             radius="xl"
             onClick={settings.toggleTheme}
           >
@@ -98,17 +98,18 @@ export const MainHeader: React.FC = () => {
               <IconMoon />
             </Conditional>
           </ActionIcon>
-          <ActionIcon
-            variant="light"
-            radius="xl"
-            size="sm"
-            onClick={navigateToChats}
-            visibleFrom="md"
-          >
-            <IconBrandMessenger size={50} stroke={1.5} />
-          </ActionIcon>
+          <Tooltip label="Chats" position="bottom" withArrow>
+            <ActionIcon
+              variant="subtle"
+              radius="xl"
+              size="sm"
+              onClick={navigateToChats}
+            >
+              <IconBrandMessenger size={50} stroke={1.5} />
+            </ActionIcon>
+          </Tooltip>
           <Tooltip label="Search" position="bottom" withArrow>
-            <ActionIcon hiddenFrom="md" variant="light" radius="xl" size="sm">
+            <ActionIcon hiddenFrom="md" variant="subtle" radius="xl" size="sm">
               <IconSearch stroke={1.5} onClick={() => SetOpenedSearch(true)} />
             </ActionIcon>
           </Tooltip>
@@ -124,6 +125,8 @@ export const MainHeader: React.FC = () => {
       <SearchDropdown
         opened={openedSearch}
         onClose={() => SetOpenedSearch(!openedSearch)}
+        search={search}
+        setSearch={setSearch}
       />
     </Container>
   );

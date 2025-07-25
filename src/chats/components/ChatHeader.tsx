@@ -20,7 +20,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   const { chats, activeChat } = useAppChats();
   const currentChat = chats[activeChat!];
   return (
-    <Group px="sm" py="xs" justify="space-between">
+    <Group px="sm" py="xs" justify="space-between" style={{ borderBottom: "0.1px solid var(--mantine-color-gray-7)" }}>
       <Group>
         <Avatar
           src={

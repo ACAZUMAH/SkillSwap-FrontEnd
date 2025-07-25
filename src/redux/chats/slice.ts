@@ -16,6 +16,8 @@ const chatsSlice = createSlice({
       for (const chat of action.payload || []) {
         state.chats[chat.id] = {
           ...chat,
+          recentMessage:
+            chat.recentMessage === null ? undefined : chat.recentMessage,
           loadingMessages: false,
         };
       }
@@ -31,6 +33,8 @@ const chatsSlice = createSlice({
       if (!state.chats[chat.id]) {
         state.chats[chat.id] = {
           ...chat,
+          recentMessage:
+            chat.recentMessage === null ? undefined : chat.recentMessage,
           loadingMessages: false,
         };
       }
@@ -72,7 +76,7 @@ const chatsSlice = createSlice({
         state.chats[chatId].recentMessage = message;
       }
     },
-    
+
     markMessageAsRead(
       state,
       action: PayloadAction<{ chatId: string; messageId: string }>
@@ -95,7 +99,9 @@ const chatsSlice = createSlice({
       const chat = state.chats[chatId];
       if (chat) {
         chat.messages = chat.messages?.filter((msg) => msg?.id !== messageId);
-        chat.recentMessage = chat.messages?.[chat.messages.length - 1] || null;
+        chat.recentMessage = !chat.messages?.length
+          ? undefined
+          : chat.messages[chat.messages.length - 1] ?? undefined;
       }
     },
 
