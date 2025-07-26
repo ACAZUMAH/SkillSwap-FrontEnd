@@ -33,7 +33,24 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
       socket.current.on("connect", () => {
         setIsConnected(true);
         console.log("Socket connected:", socket.current?.id);
+
+        if (!socketEvent) {
+          console.log("Setting up socket event listeners");
+
+          socket.current?.on("receivedMessage", (data) => {
+            console.log("Received message:", data);
+            addMessage(data.chatId, data.message);
+          });
+
+          socket.current?.on("sentMessage", (data) => {
+            console.log("Sent message:", data);
+            addMessage(data.chatId, data.message);
+          });
+
+          setSocketEvent(true);
+        }
       });
+      
       socket.current.emit("add-online-user", user.id);
 
       socket.current.on("disconnect", () => {
@@ -56,23 +73,23 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
         }
       };
     }
-  }, [user?.id]);
+  }, [user?.id, addMessage]);
 
-  useEffect(() => {
-    if (socket.current && !socketEvent) {
-      socket.current.on("receivedMessage", (data) => {
-        console.log("Received message:", data);
-        addMessage(data.chatId, data.message);
-      });
+  // useEffect(() => {
+  //   if (socket.current && !socketEvent) {
+  //     socket.current.on("receivedMessage", (data) => {
+  //       console.log("Received message:", data);
+  //       addMessage(data.chatId, data.message);
+  //     });
 
-      socket.current.on("sentMessage", (data) => {
-        console.log("Sent message:", data);
-        addMessage(data.chatId, data.message);
-      });
+  //     socket.current.on("sentMessage", (data) => {
+  //       console.log("Sent message:", data);
+  //       addMessage(data.chatId, data.message);
+  //     });
 
-      setSocketEvent(true);
-    }
-  }, [socket.current]);
+  //     setSocketEvent(true);
+  //   }
+  // }, [socket.current]);
 
   const value: SocketContextType = {
     socket: socket.current,

@@ -5,6 +5,8 @@ import { useAppChats } from "src/hooks/useAppChats";
 import { User } from "src/interfaces";
 import { MessageBubble } from "./Message";
 import { EmptyMessages } from "./EmptyMessages";
+import classes from "../styles/index.module.css";
+
 interface ChatcontainerProps {
   currentUser?: User;
   loadingMessages?: boolean;
@@ -23,22 +25,16 @@ export const ChatContainer: React.FC<ChatcontainerProps> = ({
   }, [currentChat.messages]);
 
   return (
-    <Box
-      style={{
-        flex: 1,
-        height: "80vh",
-        width: "100%",
-        padding: "16px",
-        overflowY: "auto",
-      }}
-    >
-      <Stack gap="md" style={{ height: "100%" }}>
+    <Box className={classes.chatContainer}>
+      <Stack gap="md" className={classes.chatLoader}>
         <Conditional condition={loadingMessages}>
           <Center>
             <Loader size="md" type="dots" />
           </Center>
         </Conditional>
-        <Conditional condition={!loadingMessages && !currentChat?.messages?.length}>
+        <Conditional
+          condition={!loadingMessages && !currentChat?.messages?.length}
+        >
           <EmptyMessages />
         </Conditional>
         <Conditional

@@ -9,6 +9,7 @@ import React from "react";
 import { getInitialsNameLatter } from "src/helpers";
 import { useAppChats } from "src/hooks/useAppChats";
 import { User } from "src/interfaces";
+import classes from "../styles/index.module.css";
 
 interface ChatHeaderProps {
   currentUser?: User;
@@ -20,7 +21,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   const { chats, activeChat } = useAppChats();
   const currentChat = chats[activeChat!];
   return (
-    <Group px="sm" py="xs" justify="space-between" style={{ borderBottom: "0.1px solid var(--mantine-color-gray-7)" }}>
+    <Group px="sm" py="xs" justify="space-between" className={classes.chatHeader}>
       <Group>
         <Avatar
           src={

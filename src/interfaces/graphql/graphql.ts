@@ -222,12 +222,14 @@ export type ChatUsers = {
   __typename?: 'ChatUsers';
   id?: Maybe<Scalars['ID']['output']>;
   receiver?: Maybe<User>;
+  receiverId: Scalars['ID']['output'];
   sender?: Maybe<User>;
+  senderId: Scalars['ID']['output'];
 };
 
 export type ChatUsersInput = {
-  receiver: Scalars['ID']['input'];
-  sender: Scalars['ID']['input'];
+  receiverId: Scalars['ID']['input'];
+  senderId: Scalars['ID']['input'];
 };
 
 export type Education = {
@@ -267,6 +269,7 @@ export type Message = {
   message?: Maybe<Scalars['String']['output']>;
   messageType: MessageType;
   sender?: Maybe<User>;
+  senderId: Scalars['ID']['output'];
   status: MessagesStatus;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -275,7 +278,7 @@ export type MessageInput = {
   mediaUrl?: InputMaybe<Scalars['String']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
   messageType: MessageType;
-  sender: Scalars['ID']['input'];
+  senderId: Scalars['ID']['input'];
 };
 
 export enum MessageType {
@@ -302,6 +305,7 @@ export type Mutation = {
   createAccount: Response;
   createSwapRequest: Swap;
   login?: Maybe<Response>;
+  testMutation?: Maybe<Scalars['String']['output']>;
   updateSwap?: Maybe<Swap>;
   updateUser: User;
   upsertMessage?: Maybe<Chat>;
@@ -516,6 +520,7 @@ export type Subscription = {
   newChatCreated?: Maybe<Chat>;
   newSwapRequest?: Maybe<Swap>;
   swapUpdated?: Maybe<Swap>;
+  testSubscription?: Maybe<Test>;
 };
 
 
@@ -689,6 +694,11 @@ export type RecommendationFilters = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   userId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Test = {
+  __typename?: 'test';
+  data?: Maybe<Scalars['String']['output']>;
 };
 
 export type UpdateSwapInput = {

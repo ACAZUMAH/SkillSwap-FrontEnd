@@ -7,6 +7,8 @@ const getAllChatsQuery = gql`
       id
       users {
         id
+        senderId
+        receiverId
         sender {
           id
           firstName
@@ -34,6 +36,7 @@ const getAllChatsQuery = gql`
         status
         createdAt
         updatedAt
+        senderId
       }
       recentMessage {
         id
@@ -49,6 +52,7 @@ const getAllChatsQuery = gql`
         status
         createdAt
         updatedAt
+        senderId
       }
       updatedAt
       createdAt

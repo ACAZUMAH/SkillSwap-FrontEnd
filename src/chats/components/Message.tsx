@@ -21,7 +21,7 @@ interface MessageBubbleProps {
 
 export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, currentUser }) => {
   const { isDarkMode } = useAppSettings();
-  const isCurrentUser = message?.sender.id === currentUser?.id;
+  const isCurrentUser = message?.senderId === currentUser?.id;
   const theme = useMantineTheme();
   return (
     <Group
@@ -33,25 +33,6 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, currentUs
         alignSelf: isCurrentUser ? "flex-end" : "flex-start",
       }}
     >
-      {/* <Conditional condition={!isCurrentUser}>
-        <Box style={{ width: 32, display: "flex", justifyContent: "center" }}>
-          <Conditional condition={showAvatar}>
-            <Avatar
-              src={message?.sender?.profile_img}
-              style={{
-                background: "#1f5de5",
-                borderRadius: "var(--mantine-radius-xl)",
-                cursor: "pointer",
-              }}
-              size="md"
-            >
-              <Text c="white" fw="bold" size="xl">
-                {getInitialsNameLatter(message?.sender?.firstName)}
-              </Text>
-            </Avatar>
-          </Conditional>
-        </Box>
-      </Conditional> */}
       <Stack gap={4} style={{ maxWidth: "100%" }}>
         <Conditional condition={message?.messageType === MessageType.Text}>
           <Paper

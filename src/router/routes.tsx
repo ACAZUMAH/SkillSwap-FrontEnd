@@ -11,7 +11,7 @@ import { Learning } from "src/learning";
 import { Teaching } from "src/teaching";
 import { UserProfile } from "src/profile";
 import { Swaps } from "src/swaps";
-import { Chats } from "src/chats";
+import { ChatLayout } from "src/chats";
 import { UserDetails } from "src/user";
 import { Recommendations } from "src/recommendations";
 import { Settings } from "src/settings";
@@ -63,7 +63,7 @@ export const routes = [
       },
       {
         path: routerEndPoints.CHAT,
-        element: <Chats />
+        element: <ChatLayout />
       },
       {
         path: routerEndPoints.SWAPS,

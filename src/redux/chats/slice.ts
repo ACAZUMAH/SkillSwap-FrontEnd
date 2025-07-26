@@ -16,8 +16,7 @@ const chatsSlice = createSlice({
       for (const chat of action.payload || []) {
         state.chats[chat.id] = {
           ...chat,
-          recentMessage:
-            chat.recentMessage === null ? undefined : chat.recentMessage,
+          recentMessage: chat.recentMessage || undefined,
           loadingMessages: false,
         };
       }
@@ -33,8 +32,7 @@ const chatsSlice = createSlice({
       if (!state.chats[chat.id]) {
         state.chats[chat.id] = {
           ...chat,
-          recentMessage:
-            chat.recentMessage === null ? undefined : chat.recentMessage,
+          recentMessage: chat.recentMessage || undefined,
           loadingMessages: false,
         };
       }
@@ -47,8 +45,7 @@ const chatsSlice = createSlice({
       const { chatId, messages } = action.payload;
       if (state.chats[chatId]) {
         state.chats[chatId].messages = messages;
-        state.chats[chatId].recentMessage =
-          messages[messages.length - 1] || null;
+        state.chats[chatId].recentMessage = messages[messages.length - 1] || undefined;
       }
     },
 

@@ -7,46 +7,52 @@ const getMessagesQuery = gql`
       id
       users {
         id
-        receiver {
-          id
-          profile_img
-          firstName
-          lastName
-        }
+        senderId
+        receiverId
         sender {
           id
-          profile_img
           firstName
           lastName
+          profile_img
+        }
+        receiver {
+          id
+          firstName
+          lastName
+          profile_img
         }
       }
       messages {
         id
-        sender {
-          id
-          profile_img
-          firstName
-        }
+        senderId
         messageType
         message
         mediaUrl
         status
         createdAt
         updatedAt
+        sender {
+          id
+          firstName
+          lastName
+          profile_img
+        }
       }
       recentMessage {
         id
-        sender {
-          id
-          profile_img
-          firstName
-        }
+        senderId
         messageType
         message
         mediaUrl
         status
         createdAt
         updatedAt
+        sender {
+          id
+          firstName
+          lastName
+          profile_img
+        }
       }
       updatedAt
       createdAt
@@ -54,12 +60,18 @@ const getMessagesQuery = gql`
   }
 `;
 
-export const useGetMessagesQuery = (filters: {
-  chatId: string;
-  from: string;
-  to: string;
-}, skip = false) => {
-  const { data, ...result } = useQuery<Pick<Query, "getMessages">, QueryGetMessagesArgs>(getMessagesQuery, {
+export const useGetMessagesQuery = (
+  filters: {
+    chatId: string;
+    from: string;
+    to: string;
+  },
+  skip = false
+) => {
+  const { data, ...result } = useQuery<
+    Pick<Query, "getMessages">,
+    QueryGetMessagesArgs
+  >(getMessagesQuery, {
     variables: { data: filters },
     fetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true,

@@ -4,29 +4,28 @@ import { ChatHeader } from "./ChatHeader";
 import { ChatContainer } from "./ChatContainer";
 import { useAppChats } from "src/hooks/useAppChats";
 import { User } from "src/interfaces";
+import classes from "../styles/index.module.css";
 
 interface OpenedChatProps {
-  selectedUser: string;
   currentUser?: User;
   loadingMessages?: boolean;
 }
 
-export const OpenedChat: React.FC<OpenedChatProps> = ({ currentUser, loadingMessages }) => {
+export const OpenedChat: React.FC<OpenedChatProps> = ({
+  currentUser,
+  loadingMessages,
+}) => {
   const { chats, activeChat } = useAppChats();
   return (
     <>
-      <Box
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          height: "auto",
-        }}
-      >
+      <Box className={classes.openedChat}>
         {/* Header */}
         <ChatHeader currentUser={currentUser} />
         {/* Messages */}
-        <ChatContainer currentUser={currentUser} loadingMessages={loadingMessages}/>
+        <ChatContainer
+          currentUser={currentUser}
+          loadingMessages={loadingMessages}
+        />
         {/* Input */}
         <ChatInputBar
           currentUser={currentUser}

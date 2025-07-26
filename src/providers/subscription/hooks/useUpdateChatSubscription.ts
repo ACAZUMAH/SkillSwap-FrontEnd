@@ -9,6 +9,8 @@ const updateChatSubscriptionGql = gql`
       id
       users {
         id
+        senderId
+        receiverId
         sender {
           id
           firstName
@@ -36,6 +38,7 @@ const updateChatSubscriptionGql = gql`
         status
         createdAt
         updatedAt
+        senderId
       }
       recentMessage {
         id
@@ -51,6 +54,7 @@ const updateChatSubscriptionGql = gql`
         status
         createdAt
         updatedAt
+        senderId
       }
       updatedAt
       createdAt
