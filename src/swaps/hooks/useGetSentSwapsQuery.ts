@@ -11,6 +11,7 @@ const getSentSwapsGql = gql`
           id
           firstName
           lastName
+          bio
           averageRating
         }
         status

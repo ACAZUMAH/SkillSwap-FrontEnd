@@ -2,6 +2,7 @@ import { Alert, Group, Paper, Text, Title } from "@mantine/core";
 import { IconSchool } from "@tabler/icons-react";
 import React from "react";
 import { Conditional } from "src/components";
+import { formatDate } from "src/helpers/date";
 import { Education } from "src/interfaces";
 
 interface EducationInfoProps {
@@ -12,7 +13,7 @@ export const EducationInfo: React.FC<EducationInfoProps> = ({
   educationalInfo,
 }) => {
   return (
-    <Paper shadow="0" p="xs" mt="lg" h="100%" w="100%" withBorder>
+    <Paper shadow="0" p="xs" mt="lg" h="100%" w="100%" withBorder radius="md">
       <Title order={2} c="dimmed" mb="sm">
         Education
       </Title>
@@ -24,10 +25,11 @@ export const EducationInfo: React.FC<EducationInfoProps> = ({
           </Text>
         </Group>
         <Text c="dimmed" mt="xs">
-          {educationalInfo?.degree}, {educationalInfo?.fieldOfStudy}
+          {educationalInfo?.degree} in, {educationalInfo?.fieldOfStudy}, {educationalInfo?.level}
         </Text>
         <Text c="dimmed" mt="xs">
-          Graduated ${new Date(educationalInfo?.endDate).toLocaleDateString()}
+          {formatDate(educationalInfo?.startDate)} -{" "}
+          {formatDate(educationalInfo?.endDate)}
         </Text>
       </Conditional>
       <Conditional condition={!educationalInfo}>

@@ -12,7 +12,7 @@ interface SkillsInfoProps {
 export const SkillsInfo: React.FC<SkillsInfoProps> = ({ user }) => {
   return (
     <Box h="100%" w="100%">
-      <Paper p="xs" shadow="0" withBorder>
+      <Paper p="xs" shadow="0" withBorder radius="md">
         <Title order={2} c="dimmed" mb="md">
           Skills Offering
         </Title>
@@ -20,7 +20,7 @@ export const SkillsInfo: React.FC<SkillsInfoProps> = ({ user }) => {
           {user?.skillsProficientAt?.map((item) => (
             <Badge
               key={item?.id}
-              c="blue"
+              c="green"
               variant="light"
               size="lg"
               radius="xl"
@@ -32,7 +32,7 @@ export const SkillsInfo: React.FC<SkillsInfoProps> = ({ user }) => {
           ))}
         </Group>
       </Paper>
-      <Paper p="xs" mt="lg" shadow="0" withBorder>
+      <Paper p="xs" mt="lg" shadow="0" withBorder radius="md">
         <Title order={2} c="dimmed" mb="md">
           Skills Seeking
         </Title>
@@ -40,7 +40,7 @@ export const SkillsInfo: React.FC<SkillsInfoProps> = ({ user }) => {
           {user?.skillsToLearn?.map((item) => (
             <Badge
               key={item?.id}
-              c="green"
+              c="blue"
               variant="light"
               size="lg"
               radius="xl"

@@ -37,7 +37,7 @@ export const UserCardSkeleton: React.FC<UserCardSkeletonProps> = ({
 
       <Card.Section className={classes.content}>
         <Group gap="md" mb="md" align="flex-start">
-          <Skeleton height={64} width={64} radius="md" />
+          <Skeleton height={64} width={64} radius="xl" />
 
           <Stack gap="xs" style={{ flex: 1 }}>
             <Skeleton height={20} width="70%" />
@@ -61,26 +61,26 @@ export const UserCardSkeleton: React.FC<UserCardSkeletonProps> = ({
         <Stack gap="xs" mb="md">
           <Skeleton height={16} width={60} />
           <Group gap="xs">
-            <Skeleton height={28} width={70} radius="sm" />
-            <Skeleton height={28} width={85} radius="sm" />
-            <Skeleton height={28} width={60} radius="sm" />
-            <Skeleton height={28} width={50} radius="sm" />
+            <Skeleton height={28} width={70} radius="xl" />
+            <Skeleton height={28} width={85} radius="xl"/>
+            <Skeleton height={28} width={60} radius="xl" />
+            <Skeleton height={28} width={50} radius="xl" />
           </Group>
         </Stack>
 
         <Stack gap="xs" mb="md">
           <Skeleton height={16} width={55} />
           <Group gap="xs">
-            <Skeleton height={28} width={90} radius="sm" />
-            <Skeleton height={28} width={75} radius="sm" />
-            <Skeleton height={28} width={65} radius="sm" />
+            <Skeleton height={28} width={90} radius="xl" />
+            <Skeleton height={28} width={75} radius="xl" />
+            <Skeleton height={28} width={65} radius="xl" />
           </Group>
         </Stack>
 
         <Group gap="xs" mb="md">
-          <Skeleton height={30} width={30} radius="sm" />
-          <Skeleton height={30} width={30} radius="sm" />
-          <Skeleton height={30} width={30} radius="sm" />
+          <Skeleton height={30} width={30} radius="xl" />
+          <Skeleton height={30} width={30} radius="xl" />
+          <Skeleton height={30} width={30} radius="xl" />
         </Group>
 
         <Conditional condition={showMatchHeader!}>
@@ -94,8 +94,7 @@ export const UserCardSkeleton: React.FC<UserCardSkeletonProps> = ({
         </Conditional>
 
         <Group gap="xs">
-          <Skeleton height={36} style={{ flex: 1 }} radius="sm" />
-          <Skeleton height={36} style={{ flex: 1 }} radius="sm" />
+          <Skeleton height={36} radius="xl" />
         </Group>
       </Card.Section>
     </Card>

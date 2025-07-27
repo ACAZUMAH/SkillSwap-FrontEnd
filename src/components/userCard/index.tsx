@@ -34,15 +34,12 @@ interface UserCardProps {
   matchedSkills?: Skill[];
   matchScore?: number;
   levelDifference?: number;
-  onConnect?: () => void;
-  onViewProfile?: () => void;
 }
 
 export const UserCard: React.FC<UserCardProps> = ({
   user,
   matchedSkills,
   matchScore = 0,
-  onConnect,
 }) => {
   const navigateToUserDetails = useRouteNavigation(
     routerEndPoints.USER.replace(":id", user?.id!)
@@ -236,7 +233,7 @@ export const UserCard: React.FC<UserCardProps> = ({
         </Conditional>
 
         <Group gap="xs">
-          <Button
+          {/* <Button
             onClick={onConnect}
             style={{ flex: 1 }}
             size="sm"
@@ -244,7 +241,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             radius="xl"
           >
             Swap
-          </Button>
+          </Button> */}
           <Button
             onClick={navigateToUserDetails}
             style={{ flex: 1 }}
