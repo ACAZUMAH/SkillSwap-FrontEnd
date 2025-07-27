@@ -98,7 +98,16 @@ export const Recommended: React.FC<RecommendationProps> = ({
             {recommendations
               ?.slice(3, recommendations.length)
               .map((rec, index) => (
-                <UserCard key={index} user={rec?.user!} />
+                <UserCard
+                  key={index}
+                  user={rec?.user!}
+                  matchScore={rec?.matchScore!}
+                  matchedSkills={
+                    Array.isArray(rec?.matchedSkills)
+                      ? rec.matchedSkills.filter((skill) => skill !== null)
+                      : undefined
+                  }
+                />
               ))}
           </SimpleGrid>
         </Collapse>
