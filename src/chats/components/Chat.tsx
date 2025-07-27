@@ -4,13 +4,12 @@ import { Conditional } from "src/components";
 import { useAppAuthentication } from "src/hooks";
 import { useAppChats } from "src/hooks/useAppChats";
 import { useLocation } from "react-router-dom";
-//import classes from "../styles/index.module.css";
 import { useGetMessagesQuery } from "../hooks/useGetMessagesQuery";
 import { Sidebar } from "./Sidebar";
 import { EmptyChat } from "./EmptyChat";
 import { OpenedChat } from "./OpenedChat";
 import { SearchMessages } from "./SearchMessages";
-import { useResponsive } from "../context/chatContext";
+import { useResponsive } from "../context";
 
 export const Chats: React.FC = () => {
   const { search } = useResponsive();

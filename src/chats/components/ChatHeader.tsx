@@ -10,7 +10,7 @@ import { getInitialsNameLatter } from "src/helpers";
 import { useAppChats } from "src/hooks/useAppChats";
 import { User } from "src/interfaces";
 import classes from "../styles/index.module.css";
-import { useResponsive } from "../context/chatContext";
+import { useResponsive } from "../context";
 
 interface ChatHeaderProps {
   currentUser?: User;

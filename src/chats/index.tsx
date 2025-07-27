@@ -1,5 +1,5 @@
 import React from 'react'
-import { ChatProvider } from './context/chatContext'
+import { ChatProvider } from './context'
 import { Chats } from './components/Chat'
 
 export const ChatLayout: React.FC = () => {
