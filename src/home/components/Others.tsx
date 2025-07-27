@@ -44,6 +44,7 @@ export const Others: React.FC<Props> = () => {
           ))}
         </Conditional>
       </SimpleGrid>
+      <Conditional condition={users?.length! > 6}>
       <Conditional condition={showData!}>
         <Collapse in={oponed} transitionDuration={300}>
           <SimpleGrid
@@ -69,6 +70,7 @@ export const Others: React.FC<Props> = () => {
             </Button>
           </Conditional>
         </Group>
+      </Conditional>
       </Conditional>
     </Box>
   );
