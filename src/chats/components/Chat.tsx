@@ -9,8 +9,8 @@ import { useGetMessagesQuery } from "../hooks/useGetMessagesQuery";
 import { Sidebar } from "./Sidebar";
 import { EmptyChat } from "./EmptyChat";
 import { OpenedChat } from "./OpenedChat";
-import { useResponsive } from "../context/chatContext";
 import { SearchMessages } from "./SearchMessages";
+import { useResponsive } from "../context/chatContext";
 
 export const Chats: React.FC = () => {
   const { search } = useResponsive();

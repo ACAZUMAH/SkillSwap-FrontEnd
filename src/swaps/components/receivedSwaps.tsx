@@ -25,6 +25,7 @@ export const ReceivedSwaps: React.FC = () => {
           {swaps?.map((swap) => (
             <SwapUserCard
               key={swap.id}
+              swapId={swap.id}
               swapUser={swap?.sender!}
               senderId={swap.senderId}
               receiverId={swap.receiverId}

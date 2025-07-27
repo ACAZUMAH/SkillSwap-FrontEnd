@@ -24,6 +24,7 @@ export const SentSwaps = () => {
           {swaps?.map((swap) => (
             <SwapUserCard
               key={swap.id}
+              swapId={swap.id}
               swapUser={swap?.receiver!}
               senderId={swap.senderId}
               receiverId={swap.receiverId}
