@@ -58,28 +58,17 @@ export const Popular: React.FC<Props> = ({ noRecommendations }) => {
         </Collapse>
         <Group>
           <Conditional condition={!oponed && showData!}>
-            <Button variant="outline" onClick={open}>
+            <Button variant="outline" onClick={open} radius="xl">
               Show More
             </Button>
           </Conditional>
           <Conditional condition={oponed && showData!}>
-            <Button variant="outline" onClick={close}>
+            <Button variant="outline" onClick={close} radius="xl">
               Show Less
             </Button>
           </Conditional>
         </Group>
       </Conditional>
-
-      {/* <Conditional condition={showData!}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Paginations pageInfo={pageInfo!} onPageChange={onPageChange} />
-        </div>
-      </Conditional> */}
     </Box>
   );
 };

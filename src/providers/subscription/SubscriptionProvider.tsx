@@ -4,12 +4,12 @@ import { useUpdateChatSubscription } from "./hooks/useUpdateChatSubscription";
 import { useGetAllChatsQuery } from "src/chats/hooks/useGetAllChatsQuery";
 import { useAppAuthentication } from "src/hooks";
 import { useAppChats } from "src/hooks/useAppChats";
+import { useNewSwapRequestSubscription } from "./hooks/useNewSwapRequestSubscription";
+import { SubscriptionContext } from "src/context/subscriptionContext";
 
 interface SubscriptionProviderProps {
   children?: React.ReactNode;
 }
-
-const SubscriptionContext = React.createContext({});
 
 export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({
   children,
@@ -23,6 +23,8 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({
     }
   }, [user, chats, chatsLoaded, loadInitialChats]);
 
+  useNewSwapRequestSubscription();
+  
   useSwapUpdateSubscription();
 
   useUpdateChatSubscription();

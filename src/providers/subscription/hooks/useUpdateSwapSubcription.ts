@@ -39,7 +39,6 @@ export const useSwapUpdateSubscription = () => {
           client.refetchQueries({
             include: [
               "GetSwapByUsers",
-              "User",
               "GetSwapRequests",
               "GetRequestedSwaps",
             ],

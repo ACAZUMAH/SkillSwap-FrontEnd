@@ -69,13 +69,22 @@ export const Recommended: React.FC<RecommendationProps> = ({
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" mb="md">
           <Conditional condition={showLoading}>
             {Array.from({ length: 6 }).map((_, index) => (
-              <UserCardSkeleton key={index} />
+              <UserCardSkeleton key={index} showMatchHeader={true} />
             ))}
           </Conditional>
 
           <Conditional condition={showData}>
             {recommendations?.slice(0, 3).map((rec, index) => (
-              <UserCard key={index} user={rec?.user!} />
+              <UserCard
+                key={index}
+                user={rec?.user!}
+                matchScore={rec?.matchScore!}
+                matchedSkills={
+                  Array.isArray(rec?.matchedSkills)
+                    ? rec.matchedSkills.filter((skill) => skill !== null)
+                    : undefined
+                }
+              />
             ))}
           </Conditional>
         </SimpleGrid>
@@ -95,12 +104,12 @@ export const Recommended: React.FC<RecommendationProps> = ({
         </Collapse>
         <Group>
           <Conditional condition={!oponed && showData!}>
-            <Button variant="outline" onClick={open}>
+            <Button variant="outline" radius="xl" onClick={open}>
               Show More
             </Button>
           </Conditional>
           <Conditional condition={oponed && showData!}>
-            <Button variant="outline" onClick={close}>
+            <Button variant="outline" radius="xl" onClick={close}>
               Show Less
             </Button>
           </Conditional>

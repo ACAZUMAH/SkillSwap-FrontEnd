@@ -1,6 +1,15 @@
-import { Avatar, Group, rem, Stack, Text, Title, UnstyledButton } from "@mantine/core";
-import { useHover } from "@mantine/hooks";
+import {
+  Avatar,
+  Box,
+  Group,
+  rem,
+  Text,
+  Title,
+  UnstyledButton,
+} from "@mantine/core";
+import { useElementSize, useHover } from "@mantine/hooks";
 import React from "react";
+import { Conditional } from "src/components";
 import { getInitialsNameLatter } from "src/helpers";
 import { formatSideBarChatDate } from "src/helpers/date";
 import { useAppSettings } from "src/hooks";
@@ -19,12 +28,11 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
   setActiveChat,
   activeChat,
 }) => {
-  const settings = useAppSettings()
+  const settings = useAppSettings();
   const { hovered, ref } = useHover();
-
+  const { ref: currentRef, width } = useElementSize();
   return (
     <>
-      {" "}
       <UnstyledButton
         ref={ref}
         key={chat?.id}
@@ -32,13 +40,17 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
         style={{
           backgroundColor:
             hovered || chat?.id === activeChat
-              ? (settings.isDarkMode ? "#2d2d2d" : "#f1f5f9")
+              ? settings.isDarkMode
+                ? "#2d2d2d"
+                : "#f1f5f9"
               : "transparent",
           padding: rem(10),
           borderRadius: rem(8),
-          display: "flex",
+          width: "100%",
+          display: "grid",
+          gridTemplateColumns: "auto 1fr",
+          gap: rem(12),
           alignItems: "center",
-          cursor: "pointer",
         }}
       >
         <Avatar
@@ -62,32 +74,44 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
             )}
           </Text>
         </Avatar>
-        <Stack gap={0} ml="sm" style={{ flex: 1 }}>
-          <Group>
-            <Title order={4} fw={500}>
+
+        <Box ref={currentRef} style={{ minWidth: 0 }}>
+          <Group justify="space-between" wrap="nowrap" mb={2}>
+            <Title
+              order={4}
+              fw={500}
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                maxWidth: `${Math.max(width - 80, 100)}px`,
+              }}
+            >
               {chat?.users?.sender?.id !== currentUser?.id
                 ? chat?.users?.sender?.firstName
                 : chat?.users?.receiver?.firstName}
             </Title>
-            <Text ml="auto" size="xs" c="dimmed">
-              {formatSideBarChatDate(
-                chat?.recentMessage?.updatedAt || chat?.createdAt
-              )}
-            </Text>
+            <Conditional condition={chat?.recentMessage?.updatedAt}>
+              <Text size="xs" c="dimmed" style={{ flexShrink: 0 }}>
+                {formatSideBarChatDate(chat?.recentMessage?.createdAt)}
+              </Text>
+            </Conditional>
           </Group>
-          <Text
-            size="xs"
-            c="dimmed"
-            style={{
-              maxWidth: rem(200),
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {chat?.recentMessage?.message || "No messages yet"}
-          </Text>
-        </Stack>
+          <Conditional condition={chat?.recentMessage?.message}>
+            <Text
+              size="xs"
+              c="dimmed"
+              style={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                maxWidth: `${Math.max(width - 20, 100)}px`,
+              }}
+            >
+              {chat?.recentMessage?.message}
+            </Text>
+          </Conditional>
+        </Box>
       </UnstyledButton>
     </>
   );

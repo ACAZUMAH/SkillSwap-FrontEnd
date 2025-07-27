@@ -7,16 +7,13 @@ import { Login, Register } from "src/authentication";
 import { Mainlayout } from "src/layouts/main";
 import { routesProtector } from "./routes-protector";
 import { Home } from "src/home";
-import { Learning } from "src/learning";
-import { Teaching } from "src/teaching";
 import { UserProfile } from "src/profile";
 import { Swaps } from "src/swaps";
-import { Chats } from "src/chats";
+import { ChatLayout } from "src/chats";
 import { UserDetails } from "src/user";
 import { Recommendations } from "src/recommendations";
 import { Settings } from "src/settings";
 import { WhiteBoard } from "src/whiteboard";
-//import { ChatLayout } from "src/layouts/chat";
 
 export const routes = [
   {
@@ -63,23 +60,15 @@ export const routes = [
       },
       {
         path: routerEndPoints.CHAT,
-        element: <Chats />
+        element: <ChatLayout />
       },
       {
         path: routerEndPoints.SWAPS,
         element: <Swaps />,
       },
       {
-        path: routerEndPoints.MY_LEARNING,
-        element: <Learning />,
-      },
-      {
         path: routerEndPoints.USER,
         element: <UserDetails />,
-      },
-      {
-        path: routerEndPoints.MY_TEACHING,
-        element: <Teaching />,
       },
       {
         path: routerEndPoints.SETTINGS,

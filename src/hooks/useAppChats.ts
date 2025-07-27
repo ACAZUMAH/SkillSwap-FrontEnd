@@ -41,6 +41,20 @@ export const useAppChats = () => {
     },
     [dispatch]
   );
+  
+  const setLoadingMessages = useCallback(
+    (chatId: string, loading: boolean) => {
+      dispatch(chatsActions.setLoadingMessages({ chatId, loading }));
+    },
+    [dispatch]
+  );
+
+  const addMessage = useCallback(
+    (chatId: string, message: Message) => {
+      dispatch(chatsActions.addMessage({ chatId, message }));
+    },
+    [dispatch]
+  );
 
   const removeMessage = useCallback(
     (chatId: string, messageId: string) => {
@@ -58,5 +72,7 @@ export const useAppChats = () => {
     setActiveChat,
     addMessages,
     removeMessage,
+    addMessage,
+    setLoadingMessages,
   };
 };

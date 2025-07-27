@@ -1,0 +1,59 @@
+.card {
+  background-color: var(--mantine-color-body);
+  width: 100%;
+  max-width: 400px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--mantine-shadow-lg);
+  border-color: var(--mantine-color-blue-3);
+  transform: translateY(-2px);
+}
+
+.matchHeader {
+  background: light-dark(
+    linear-gradient(
+      135deg,
+      var(--mantine-color-blue-0) 0%,
+      var(--mantine-color-blue-1) 100%
+    ),
+    linear-gradient(
+      135deg,
+      var(--mantine-color-dark-6) 0%,
+      var(--mantine-color-dark-5) 100%
+    )
+  );
+  padding: var(--mantine-spacing-md);
+  border-bottom: 1px solid light-dark(var(mantine-color-gray-2), var(--mantine-color-dark-4));
+}
+
+.content {
+  padding: var(--mantine-spacing-md);
+}
+
+.avatar {
+  border: 2px solid var(--mantine-color-blue-2);
+  background: var(--mantine-color-blue-0);
+}
+
+.name {
+  font-weight: 600;
+  line-height: 1.2;
+  color: light-dark(var(--mantine-color-dark-7), var(--mantine-color-gray-0));
+}
+
+.skillBadge {
+  font-size: 11px;
+  height: 24px;
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    max-width: 100%;
+  }
+
+  .content {
+    padding: var(--mantine-spacing-sm);
+  }
+}

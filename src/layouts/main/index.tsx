@@ -4,7 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Conditional, Footer } from "src/components";
 import { MainHeader } from "./components/MainHeader";
 import { routerEndPoints } from "src/constants";
-import { SubscriptionProvider } from "src/providers";
+import { SocketClientProvider, SubscriptionProvider } from "src/providers";
 
 export const Mainlayout: React.FC = () => {
   const location = useLocation();
@@ -29,23 +29,23 @@ export const Mainlayout: React.FC = () => {
     return location.pathname.startsWith(routerEndPoints.CHAT);
   }, [location.pathname]);
 
-
-
   return (
-    <SubscriptionProvider>
-      <AppShell header={{ height: height }}>
-        <AppShell.Header>
-          <MainHeader />
-        </AppShell.Header>
-        <AppShell.Main>
-          <Outlet />
-        </AppShell.Main>
-        <Conditional condition={!isChatRoute}>
-          <AppShell.Footer pos="relative">
-            <Footer />
-          </AppShell.Footer>
-        </Conditional>
-      </AppShell>
-    </SubscriptionProvider>
+    <SocketClientProvider>
+      <SubscriptionProvider>
+        <AppShell header={{ height: height }}>
+          <AppShell.Header>
+            <MainHeader />
+          </AppShell.Header>
+          <AppShell.Main>
+            <Outlet />
+          </AppShell.Main>
+          <Conditional condition={!isChatRoute}>
+            <AppShell.Footer pos="relative">
+              <Footer />
+            </AppShell.Footer>
+          </Conditional>
+        </AppShell>
+      </SubscriptionProvider>
+    </SocketClientProvider>
   );
 };

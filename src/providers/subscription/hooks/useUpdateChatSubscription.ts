@@ -9,6 +9,8 @@ const updateChatSubscriptionGql = gql`
       id
       users {
         id
+        senderId
+        receiverId
         sender {
           id
           firstName
@@ -22,21 +24,22 @@ const updateChatSubscriptionGql = gql`
           profile_img
         }
       }
-      # messages {
-      #   id
-      #   sender {
-      #     id
-      #     firstName
-      #     lastName
-      #     profile_img
-      #   }
-      #   messageType
-      #   message
-      #   mediaUrl
-      #   status
-      #   createdAt
-      #   updatedAt
-      # }
+      messages {
+        id
+        sender {
+          id
+          firstName
+          lastName
+          profile_img
+        }
+        messageType
+        message
+        mediaUrl
+        status
+        createdAt
+        updatedAt
+        senderId
+      }
       recentMessage {
         id
         sender {
@@ -51,6 +54,7 @@ const updateChatSubscriptionGql = gql`
         status
         createdAt
         updatedAt
+        senderId
       }
       updatedAt
       createdAt
@@ -71,7 +75,7 @@ export const useUpdateChatSubscription = () => {
 
     onData: ({ data }) => {
       if (data.data?.newChatCreated) {
-        const newChat = data.data.newChatCreated;
+        const newChat = data.data?.newChatCreated;
         addNewChat(newChat);
       }
     },

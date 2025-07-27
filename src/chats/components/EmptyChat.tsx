@@ -1,11 +1,12 @@
 import { Center, Container, Text, Title } from "@mantine/core";
 import React from "react";
+import classes from "../styles/index.module.css";
 
 export const EmptyChat: React.FC = () => {
   return (
     <>
       <Container>
-        <Center style={{ height: "90%", display: "flex", flexDirection: "column" }}>
+        <Center className={classes.emptyChatContainer}>
             <Title c="brand" fs="italic" order={1} size={35}>
               SkillSwap
             </Title>

@@ -49,7 +49,7 @@ export const Recommendations: React.FC = () => {
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="2rem" mb="xl">
         <Conditional condition={showLoading}>
           {Array.from({ length: 12 }).map((_, index) => (
-            <UserCardSkeleton key={index} />
+            <UserCardSkeleton key={index} showMatchHeader={true}/>
           ))}
         </Conditional>
 

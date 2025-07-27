@@ -20,6 +20,7 @@ const userQuerygql = gql`
         degree
         fieldOfStudy
         level
+        startDate
         endDate
       }
       skillsProficientAt {

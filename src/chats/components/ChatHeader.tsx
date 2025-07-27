@@ -9,6 +9,8 @@ import React from "react";
 import { getInitialsNameLatter } from "src/helpers";
 import { useAppChats } from "src/hooks/useAppChats";
 import { User } from "src/interfaces";
+import classes from "../styles/index.module.css";
+import { useResponsive } from "../context";
 
 interface ChatHeaderProps {
   currentUser?: User;
@@ -18,9 +20,10 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   currentUser,
 }) => {
   const { chats, activeChat } = useAppChats();
+  const { toggleSidebar } = useResponsive()
   const currentChat = chats[activeChat!];
   return (
-    <Group px="sm" py="xs" justify="space-between">
+    <Group px="sm" py="xs" justify="space-between" className={classes.chatHeader}>
       <Group>
         <Avatar
           src={
@@ -59,7 +62,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         <ActionIcon variant="subtle">
           <IconVideo size={25} />
         </ActionIcon>
-        <ActionIcon variant="subtle">
+        <ActionIcon variant="subtle" onClick={toggleSidebar}>
           <IconSearch size={20} />
         </ActionIcon>
         <Menu shadow="md" width={160}>
