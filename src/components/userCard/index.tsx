@@ -22,7 +22,7 @@ import {
 import classes from "./styles/style.module.css";
 import { Conditional } from "../conditional/Conditional";
 import defaultProfiile from "../../assets/images/defualt-profile.avif";
-import { calculateMatchScore } from "./helpers";
+import { calculateMatchScore, getMatchScoreColor } from "./helpers";
 import { getInitialsNameLatter } from "src/helpers";
 import { Ratings } from "./components/Ratings";
 import { Skill, User } from "src/interfaces";
@@ -47,11 +47,6 @@ export const UserCard: React.FC<UserCardProps> = ({
   const navigateToUserDetails = useRouteNavigation(
     routerEndPoints.USER.replace(":id", user?.id!)
   );
-  const getMatchScoreColor = (score: number) => {
-    if (score >= 80) return "green";
-    if (score >= 60) return "yellow";
-    return "red";
-  };
   return (
     <Card
       shadow="sm"
@@ -130,7 +125,7 @@ export const UserCard: React.FC<UserCardProps> = ({
               </Text>
             </Group>
 
-            <Conditional condition={Boolean(user?.bio)}>
+            <Conditional condition={Boolean(user?.bio!)}>
               <Text size="sm" c="dimmed" lineClamp={2}>
                 {user?.bio}
               </Text>
@@ -197,21 +192,23 @@ export const UserCard: React.FC<UserCardProps> = ({
         </Stack>
 
         <Conditional
-          condition={Boolean(user?.gitHub || user?.linkedIn || user?.portfolio)}
+          condition={Boolean(
+            user?.gitHub! || user?.linkedIn! || user?.portfolio!
+          )}
         >
           <Group gap="xs" mb="md">
-            <Conditional condition={Boolean(user?.gitHub)}>
+            <Conditional condition={Boolean(user?.gitHub!)}>
               <ActionIcon variant="subtle" size="sm" color="gray">
                 <IconBrandGithub size={16} />
               </ActionIcon>
             </Conditional>
 
-            <Conditional condition={Boolean(user?.linkedIn)}>
+            <Conditional condition={Boolean(user?.linkedIn!)}>
               <ActionIcon variant="subtle" size="sm" color="blue">
                 <IconBrandLinkedin size={16} />
               </ActionIcon>
             </Conditional>
-            <Conditional condition={Boolean(user?.portfolio)}>
+            <Conditional condition={Boolean(user?.portfolio!)}>
               <ActionIcon variant="subtle" size="sm" color="gray">
                 <IconWorld size={16} />
               </ActionIcon>
@@ -246,7 +243,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             variant="filled"
             radius="xl"
           >
-            Connect
+            Swap
           </Button>
           <Button
             onClick={navigateToUserDetails}

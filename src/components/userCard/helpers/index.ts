@@ -5,5 +5,11 @@ export const getLevelDifferenceText = (diff: number) => {
 };
 
 export const calculateMatchScore = (score: number) => {
-    return Math.round(score * 100);
-}
+  return Math.round(score * 100);
+};
+
+export const getMatchScoreColor = (score: number) => {
+  if (score >= 80) return "green";
+  if (score >= 60) return "yellow";
+  return "red";
+};

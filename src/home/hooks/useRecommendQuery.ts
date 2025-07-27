@@ -62,5 +62,7 @@ export const useGetRecommendationsQuery = (filters?: RecommendationFilters) => {
   const recommendations = data?.recommendation.edges || [];
   const pageInfo = data?.recommendation.pageInfo;
 
+  //console.log("recommendations", JSON.stringify(recommendations, null, 2));
+
   return { recommendations, pageInfo, ...result };
 };

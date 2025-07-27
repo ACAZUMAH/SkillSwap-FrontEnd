@@ -40,7 +40,7 @@
 .name {
   font-weight: 600;
   line-height: 1.2;
-  color: var(--mantine-color-dark-7);
+  color: light-dark(var(--mantine-color-dark-7), var(--mantine-color-gray-0));
 }
 
 .skillBadge {
