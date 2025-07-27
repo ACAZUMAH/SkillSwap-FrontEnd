@@ -88,41 +88,43 @@ export const Recommended: React.FC<RecommendationProps> = ({
             ))}
           </Conditional>
         </SimpleGrid>
-        <Collapse in={oponed} transitionDuration={300}>
-          <SimpleGrid
-            cols={{ base: 1, sm: 2, lg: 3 }}
-            spacing="2rem"
-            mt="xl"
-            mb="md"
-          >
-            {recommendations
-              ?.slice(3, recommendations.length)
-              .map((rec, index) => (
-                <UserCard
-                  key={index}
-                  user={rec?.user!}
-                  matchScore={rec?.matchScore!}
-                  matchedSkills={
-                    Array.isArray(rec?.matchedSkills)
-                      ? rec.matchedSkills.filter((skill) => skill !== null)
-                      : undefined
-                  }
-                />
-              ))}
-          </SimpleGrid>
-        </Collapse>
-        <Group>
-          <Conditional condition={!oponed && showData!}>
-            <Button variant="outline" radius="xl" onClick={open}>
-              Show More
-            </Button>
-          </Conditional>
-          <Conditional condition={oponed && showData!}>
-            <Button variant="outline" radius="xl" onClick={close}>
-              Show Less
-            </Button>
-          </Conditional>
-        </Group>
+        <Conditional condition={recommendations?.length! > 3}>
+          <Collapse in={oponed} transitionDuration={300}>
+            <SimpleGrid
+              cols={{ base: 1, sm: 2, lg: 3 }}
+              spacing="2rem"
+              mt="xl"
+              mb="md"
+            >
+              {recommendations
+                ?.slice(3, recommendations.length)
+                .map((rec, index) => (
+                  <UserCard
+                    key={index}
+                    user={rec?.user!}
+                    matchScore={rec?.matchScore!}
+                    matchedSkills={
+                      Array.isArray(rec?.matchedSkills)
+                        ? rec.matchedSkills.filter((skill) => skill !== null)
+                        : undefined
+                    }
+                  />
+                ))}
+            </SimpleGrid>
+          </Collapse>
+          <Group>
+            <Conditional condition={!oponed && showData!}>
+              <Button variant="outline" radius="xl" onClick={open}>
+                Show More
+              </Button>
+            </Conditional>
+            <Conditional condition={oponed && showData!}>
+              <Button variant="outline" radius="xl" onClick={close}>
+                Show Less
+              </Button>
+            </Conditional>
+          </Group>
+        </Conditional>
       </Box>
     </Conditional>
   );
