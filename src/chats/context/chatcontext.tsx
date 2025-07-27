@@ -3,6 +3,10 @@ import { createContext, useContext, useState, useEffect } from "react"
 import { useMediaQuery } from "@mantine/hooks"
 
 interface ResponsiveContextType {
+  search: boolean
+  openSearch: () => void,
+  closeSearch: () => void,
+  toggleSearch: () => void,
   isMobile: boolean
   isSidebarOpen: boolean
   openSidebar: () => void
@@ -27,10 +31,14 @@ interface ResponsiveProviderProps {
 export const ChatProvider: React.FC<ResponsiveProviderProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const isMobile = useMediaQuery("(max-width: 768px)")
+  const [search, setOpenSearch] = useState(false)
 
   const openSidebar = () => setIsSidebarOpen(true)
   const closeSidebar = () => setIsSidebarOpen(false)
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen)
+  const openSearch = () => setOpenSearch(true)
+  const closeSearch = () => setOpenSearch(false)
+  const toggleSearch = () => setOpenSearch(!search)
 
   // Close sidebar when switching to desktop
   useEffect(() => {
@@ -42,6 +50,10 @@ export const ChatProvider: React.FC<ResponsiveProviderProps> = ({ children }) =>
   return (
     <ResponsiveContext.Provider
       value={{
+        search,
+        openSearch,
+        closeSearch,
+        toggleSearch,
         isMobile,
         isSidebarOpen,
         openSidebar,

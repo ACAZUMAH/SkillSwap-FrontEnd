@@ -2,7 +2,13 @@
   background-color: var(--mantine-color-body);
   width: 100%;
   max-width: 400px;
-  border: 2px solid var(--mantine-color-gray-3);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--mantine-shadow-lg);
+  border-color: var(--mantine-color-blue-3);
+  transform: translateY(-2px);
 }
 
 .matchHeader {
@@ -24,6 +30,22 @@
 
 .content {
   padding: var(--mantine-spacing-md);
+}
+
+.avatar {
+  border: 2px solid var(--mantine-color-blue-2);
+  background: var(--mantine-color-blue-0);
+}
+
+.name {
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--mantine-color-dark-7);
+}
+
+.skillBadge {
+  font-size: 11px;
+  height: 24px;
 }
 
 @media screen and (max-width: 768px) {

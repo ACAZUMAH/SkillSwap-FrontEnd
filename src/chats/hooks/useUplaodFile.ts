@@ -23,8 +23,8 @@ export const useUploadFile = () => {
 
       return uploadUrl?.data?.publicUrl;
     } catch (error) {
-        console.error("File upload error:", error);
-        throw new Error("Failed to upload file. Please try again.");
+      console.error("File upload error:", error);
+      throw new Error("Failed to upload file. Please try again.");
     }
   };
 
@@ -41,7 +41,28 @@ export const useUploadFile = () => {
       console.error("File deletion error:", error);
       throw new Error("Failed to delete file. Please try again.");
     }
-    }
+  };
 
-    return { uploadFile, deleteFile };
+  const downloadFile = async (fileUrl: string) => {
+    try {
+      const response = await fetch(fileUrl);
+      if (!response.ok) {
+        throw new Error("Failed to download file.");
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileUrl.split("/").pop() || "download";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      return response.ok;
+    } catch (error) {
+      console.error("File download error:", error);
+      throw new Error("Failed to download file. Please try again.");
+    }
+  }
+
+  return { uploadFile, downloadFile, deleteFile };
 };

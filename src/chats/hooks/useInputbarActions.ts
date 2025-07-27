@@ -1,9 +1,12 @@
+import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useRef, useState } from "react";
 
 export const useInputbarActions = () => {
   const [message, setMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [previewFile, setPreviewFile] = useState<File | null>(null);
+  const [opened, { open, close }] = useDisclosure(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showFileMenu, setShowFileMenu] = useState(false);
   const emojiPickerRef = useRef<HTMLDivElement>(null);
@@ -12,22 +15,22 @@ export const useInputbarActions = () => {
   const fileButtonRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const toggleEmojiPicker = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      setShowEmojiPicker(!showEmojiPicker);
-      setShowFileMenu(false); 
-    };
-  
-    const toggleFileMenu = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      setShowFileMenu(!showFileMenu);
-      setShowEmojiPicker(false);
-    };
-  
-    const handleEmojiClick = (emoji: any) => {
-      setMessage((prev) => (prev += emoji.emoji));
-      setShowEmojiPicker(false);
-    };
+  const toggleEmojiPicker = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowEmojiPicker(!showEmojiPicker);
+    setShowFileMenu(false);
+  };
+
+  const toggleFileMenu = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowFileMenu(!showFileMenu);
+    setShowEmojiPicker(false);
+  };
+
+  const handleEmojiClick = (emoji: any) => {
+    setMessage((prev) => (prev += emoji.emoji));
+    setShowEmojiPicker(false);
+  };
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -82,5 +85,10 @@ export const useInputbarActions = () => {
     setUploading,
     selectedFile,
     setSelectedFile,
-  }
+    previewFile,
+    setPreviewFile,
+    opened,
+    open,
+    close,
+  };
 };

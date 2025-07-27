@@ -17,6 +17,9 @@ const recommendQueryGql = gql`
           bio
           averageRating
           availability
+          linkedIn
+          portfolio
+          gitHub
           skillsProficientAt {
             id
             level
@@ -28,8 +31,13 @@ const recommendQueryGql = gql`
             name
           }
         }
+        matchedSkills {
+          id
+          level
+          name
+        }
+        levelDifference
         matchScore
-        mutualExchange
       }
       pageInfo {
         hasNextPage

@@ -14,7 +14,7 @@ import { User } from "src/interfaces";
 import { ChatListitem } from "./ChatListitem";
 import { useAppChats } from "src/hooks/useAppChats";
 import { Conditional } from "src/components";
-
+import classes from "../styles/index.module.css";
 interface SidebarProps {
   currentUser?: User;
   //chats?: Chats;
@@ -23,16 +23,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ currentUser }) => {
   const { chats, setActiveChat, activeChat, loadingChats } = useAppChats();
   return (
-    <Box
-      style={{
-        width: "clamp(280px, 25vw, 400px)",
-        minWidth: 280,
-        padding: "var(--mantine-spacing-sm)",
-        overflowY: "auto",
-        height: "auto", 
-        borderRight: "0.1px solid var(--mantine-color-gray-7)",
-      }}
-    >
+    <Box className={classes.chatSidebar}>
       <Group justify="space-between" mb="md">
         <Title order={3} fw={500}>
           Chats

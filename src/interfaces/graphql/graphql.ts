@@ -452,7 +452,7 @@ export type Recomendation = {
   __typename?: 'Recomendation';
   levelDifference?: Maybe<Scalars['Int']['output']>;
   matchScore?: Maybe<Scalars['Float']['output']>;
-  matchedSkill?: Maybe<Array<Maybe<Skill>>>;
+  matchedSkills?: Maybe<Array<Maybe<Skill>>>;
   mutualExchange?: Maybe<Scalars['Boolean']['output']>;
   user?: Maybe<User>;
 };

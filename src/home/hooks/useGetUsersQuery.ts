@@ -11,6 +11,9 @@ export const getUsersQueryGql = gql`
         lastName
         bio
         averageRating
+        linkedIn
+        portfolio
+        gitHub
         skillsProficientAt {
           id
           level

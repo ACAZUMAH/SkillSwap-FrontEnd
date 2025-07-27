@@ -9,10 +9,11 @@ import { useGetMessagesQuery } from "../hooks/useGetMessagesQuery";
 import { Sidebar } from "./Sidebar";
 import { EmptyChat } from "./EmptyChat";
 import { OpenedChat } from "./OpenedChat";
-//import { useResponsive } from "../context/chatcontext";
+import { useResponsive } from "../context/chatContext";
+import { SearchMessages } from "./SearchMessages";
 
 export const Chats: React.FC = () => {
-  //const { isMobile, isSidebarOpen, closeSidebar } = useResponsive();
+  const { search } = useResponsive();
   const location = useLocation();
   const { user } = useAppAuthentication();
   const { chats, activeChat, setActiveChat, addMessages } = useAppChats();
@@ -39,7 +40,7 @@ export const Chats: React.FC = () => {
       activeChat || "",
       (chat?.messages || []).filter((msg) => msg !== null)
     );
-  }, [activeChat, chat, addMessages, loading]);
+  }, [user?.id, chat, addMessages, loading]);
 
   return (
     <Box
@@ -49,11 +50,36 @@ export const Chats: React.FC = () => {
       }}
     >
       <Sidebar currentUser={user} />
+      <Conditional condition={Boolean(activeChat)}>
+        <Box
+          style={{
+            display: "flex",
+            flex: 1,
+            gap: search ? "8px" : "0",
+          }}
+        >
+          <Box
+            style={{
+              flex: search ? "1" : "1",
+              minWidth: 0,
+            }}
+          >
+            <OpenedChat currentUser={user} loadingMessages={loading} />
+          </Box>
+          <Conditional condition={search}>
+            <Box
+              style={{
+                flex: "1",
+                minWidth: 0,
+              }}
+            >
+              <SearchMessages />
+            </Box>
+          </Conditional>
+        </Box>
+      </Conditional>
       <Conditional condition={!Boolean(activeChat)}>
         <EmptyChat />
-      </Conditional>
-      <Conditional condition={Boolean(activeChat)}>
-        <OpenedChat currentUser={user} loadingMessages={loading} />
       </Conditional>
     </Box>
   );

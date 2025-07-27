@@ -11,6 +11,7 @@ import { FileUploadMenu } from "./FileUploadMenu";
 import { useInputbarActions } from "../hooks/useInputbarActions";
 import { useUploadFile } from "../hooks/useUplaodFile";
 import { getMessageType } from "../helper";
+import { FilePreview } from "./FilePreview";
 
 interface ChatInputBarProps {
   currentUser?: User;
@@ -28,7 +29,6 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     emojiPickerRef,
     fileMenuRef,
     fileButtonRef,
-    fileInputRef,
     message,
     setMessage,
     toggleEmojiPicker,
@@ -37,12 +37,18 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     uploading,
     setUploading,
     setSelectedFile,
-    selectedFile
+    selectedFile,
+    setPreviewFile,
+    previewFile,
+    opened,
+    open,
+    close,
+    setShowFileMenu,
   } = useInputbarActions();
 
   const { activeChat } = useAppChats();
   const { socket } = useSocket();
-  const { uploadFile } = useUploadFile()
+  const { uploadFile } = useUploadFile();
 
   const sendTextMeassageHandler = async () => {
     socket?.emit("sendMessage", {
@@ -67,7 +73,7 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   };
 
   const sendFileMessageHandler = async (file: File) => {
-    setUploading(true)
+    setUploading(true);
     const mediaUrl = await uploadFile(file);
     const messageType = getMessageType(file);
 
@@ -81,7 +87,7 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
       message: {
         messageType,
         senderId: currentUser?.id!,
-        message: "",
+        message: file.name,
         mediaUrl,
       },
       users: {
@@ -91,6 +97,13 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     });
     setSelectedFile(null);
     setUploading(false);
+  };
+
+  const handleFileSelect = (file: File) => {
+    setSelectedFile(file);
+    setPreviewFile(file);
+    setShowFileMenu(false);
+    open();
   };
 
   return (
@@ -112,7 +125,10 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
             <IconPaperclip stroke={1.5} size={30} />
           </ActionIcon>
           <Conditional condition={showFileMenu}>
-            <FileUploadMenu menuRef={fileMenuRef} />
+            <FileUploadMenu
+              menuRef={fileMenuRef}
+              onFileSelect={handleFileSelect}
+            />
           </Conditional>
         </div>
         <TextInput
@@ -135,6 +151,16 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
           <IconSend2 stroke={1.5} size={30} />
         </ActionIcon>
       </Group>
+
+      <Conditional condition={Boolean(selectedFile)}>
+        <FilePreview
+          file={previewFile}
+          opened={opened}
+          onClose={close}
+          uploading={uploading}
+          onSend={sendFileMessageHandler}
+        />
+      </Conditional>
     </>
   );
 };

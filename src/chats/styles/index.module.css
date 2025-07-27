@@ -43,7 +43,6 @@
   height: 80vh;
   width: 100%;
   padding: 16px;
-  overflow-y: auto;
 }
 
 .chatLoader {
@@ -54,7 +53,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  height: auto;
+  height: 100%;
 }
 
 .emptyMessages {
