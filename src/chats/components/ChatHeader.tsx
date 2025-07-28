@@ -82,6 +82,6 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           </Menu.Dropdown>
         </Menu>
       </Group>
-    </Group>
+    </Group> 
   );
 };
