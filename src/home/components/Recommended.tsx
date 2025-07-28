@@ -128,4 +128,4 @@ export const Recommended: React.FC<RecommendationProps> = ({
       </Box>
     </Conditional>
   );
-}; 
+};
