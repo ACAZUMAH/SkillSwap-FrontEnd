@@ -163,7 +163,7 @@ jobs:
         run: |
           touch ".env"
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
-          echo "VITE_API_BASE_URL=${{ secrets.VITE_GRAPHQLWS_URL }}" >> .env
+          echo "VITE_API_GRAPHQLWS_URL=${{ secrets.VITE_API_GRAPHQLWS_URL }}" >> .env
         
       - name: Install Netlify CLI
         run: yarn global add netlify-cli
