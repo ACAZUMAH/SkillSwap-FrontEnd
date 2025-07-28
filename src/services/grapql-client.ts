@@ -44,7 +44,7 @@ const httpLink = createHttpLink({
   fetchOptions: {
     mode: "cors",
   },
-});
+}); 
 
 const wsLink = new GraphQLWsLink(
   createClient({
