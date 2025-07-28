@@ -81,7 +81,7 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
         <Card.Section className={classes.content}>
           <Group gap="md" mb="md" align="flex-start">
             <Avatar
-              src={user?.profile_img || defaultProfiile}
+              src={swapUser?.profile_img || defaultProfiile}
               size="xl"
               radius="3rem"
               className={classes.avatar}

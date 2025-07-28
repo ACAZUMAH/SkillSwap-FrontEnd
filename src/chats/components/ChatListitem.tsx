@@ -31,6 +31,12 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
   const settings = useAppSettings();
   const { hovered, ref } = useHover();
   const { ref: currentRef, width } = useElementSize();
+  const fullName =
+    chat?.users?.sender?.id !== currentUser?.id
+      ? chat?.users?.sender?.firstName + " " + chat?.users?.sender?.lastName
+      : chat?.users?.receiver?.firstName +
+        " " +
+        chat?.users?.receiver?.lastName;
   return (
     <>
       <UnstyledButton
@@ -87,9 +93,7 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
                 maxWidth: `${Math.max(width - 80, 100)}px`,
               }}
             >
-              {chat?.users?.sender?.id !== currentUser?.id
-                ? chat?.users?.sender?.firstName
-                : chat?.users?.receiver?.firstName}
+              {fullName}
             </Title>
             <Conditional condition={chat?.recentMessage?.updatedAt}>
               <Text size="xs" c="dimmed" style={{ flexShrink: 0 }}>

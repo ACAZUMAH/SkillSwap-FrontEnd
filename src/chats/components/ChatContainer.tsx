@@ -48,7 +48,7 @@ export const ChatContainer: React.FC<ChatcontainerProps> = ({
             {currentChat?.messages?.map((message, index) => (
               <MessageBubble
                 key={index}
-                message={message}
+                message={message!}
                 currentChat={currentChat}
                 currentUser={currentUser}
                 index={index}

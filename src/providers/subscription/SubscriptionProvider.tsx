@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSwapUpdateSubscription } from "./hooks/useUpdateSwapSubcription";
 import { useUpdateChatSubscription } from "./hooks/useUpdateChatSubscription";
-import { useGetAllChatsQuery } from "src/chats/hooks/useGetAllChatsQuery";
+import { useGetAllChatsQuery } from "src/providers/subscription/hooks/useGetAllChatsQuery";
 import { useAppAuthentication } from "src/hooks";
 import { useAppChats } from "src/hooks/useAppChats";
 import { useNewSwapRequestSubscription } from "./hooks/useNewSwapRequestSubscription";
@@ -21,7 +21,7 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({
     if (user && !chatsLoaded && chats && Object.keys(chats).length > 0) {
       loadInitialChats(chats.filter((chat) => chat !== null));
     }
-  }, [user, chats, chatsLoaded, loadInitialChats]);
+  }, [user?.id!, chats, chatsLoaded, loadInitialChats]);
 
   useNewSwapRequestSubscription();
   

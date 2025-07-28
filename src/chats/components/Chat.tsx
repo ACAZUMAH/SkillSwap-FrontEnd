@@ -37,14 +37,15 @@ export const Chats: React.FC = () => {
   useEffect(() => {
     addMessages(
       activeChat || "",
-      (chat?.messages || []).filter((msg) => msg !== null)
+      (chat?.messages || []).filter((msg) => msg !== null),
+      chat?.recentMessage!
     );
-  }, [user?.id, chat, addMessages, loading]);
+  }, [user?.id, chat, addMessages, activeChat]);
 
   return (
     <Box
       style={{
-        height: "calc(100vh - 64px)",
+        height: "calc(100vh - 70px)",
         display: "flex",
       }}
     >
@@ -59,7 +60,7 @@ export const Chats: React.FC = () => {
         >
           <Box
             style={{
-              flex: search ? "1" : "1",
+              flex: search ? "2" : "1",
               minWidth: 0,
             }}
           >
@@ -72,7 +73,7 @@ export const Chats: React.FC = () => {
                 minWidth: 0,
               }}
             >
-              <SearchMessages />
+              <SearchMessages currentUser={user} />
             </Box>
           </Conditional>
         </Box>

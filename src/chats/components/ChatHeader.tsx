@@ -20,7 +20,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   currentUser,
 }) => {
   const { chats, activeChat } = useAppChats();
-  const { toggleSidebar } = useResponsive()
+  const { toggleSearch } = useResponsive()
   const currentChat = chats[activeChat!];
   return (
     <Group px="sm" py="xs" justify="space-between" className={classes.chatHeader}>
@@ -62,7 +62,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         <ActionIcon variant="subtle">
           <IconVideo size={25} />
         </ActionIcon>
-        <ActionIcon variant="subtle" onClick={toggleSidebar}>
+        <ActionIcon variant="subtle" onClick={toggleSearch}>
           <IconSearch size={20} />
         </ActionIcon>
         <Menu shadow="md" width={160}>

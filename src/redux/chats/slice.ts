@@ -6,6 +6,7 @@ const initialState: Chats = {
   activeChat: null,
   loadingChats: false,
   chatsLoaded: false,
+  UnReadMessagesCount: 0,
 };
 
 const chatsSlice = createSlice({
@@ -16,7 +17,7 @@ const chatsSlice = createSlice({
       for (const chat of action.payload || []) {
         state.chats[chat.id] = {
           ...chat,
-          recentMessage: chat.recentMessage || undefined,
+          recentMessage: chat?.recentMessage!,
           loadingMessages: false,
         };
       }
@@ -40,12 +41,12 @@ const chatsSlice = createSlice({
 
     setMessages(
       state,
-      action: PayloadAction<{ chatId: string; messages: Message[] }>
+      action: PayloadAction<{ chatId: string; messages: Message[], recentMessage?: Message }>
     ) {
-      const { chatId, messages } = action.payload;
+      const { chatId, messages, recentMessage } = action.payload;
       if (state.chats[chatId]) {
         state.chats[chatId].messages = messages;
-        state.chats[chatId].recentMessage = messages[messages.length - 1] || undefined;
+        state.chats[chatId].recentMessage = recentMessage
       }
     },
 
@@ -72,6 +73,10 @@ const chatsSlice = createSlice({
         state.chats[chatId]?.messages?.push(message);
         state.chats[chatId].recentMessage = message;
       }
+    },
+
+    setUreadMessagesCount(state, action: PayloadAction<number>) {
+      state.UnReadMessagesCount = action.payload;
     },
 
     markMessageAsRead(

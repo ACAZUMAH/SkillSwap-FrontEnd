@@ -11,12 +11,14 @@
   padding: var(--mantine-spacing-sm);
   overflow-y: auto;
   height: auto;
-  border-right: 0.1px solid var(--mantine-color-gray-7);
+  border-right: 0.1px solid
+    light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
   transition: transform 0.3s ease;
 }
 
 .chatInputBar {
-  border-top: 0.1px solid var(--mantine-color-gray-7);
+  border-top: 0.1px solid
+    light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
   position: relative;
 }
 
@@ -35,12 +37,13 @@
 }
 
 .chatHeader {
-  border-bottom: 0.1px solid var(--mantine-color-gray-7);
+  border-bottom: 0.1px solid
+    light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
 }
 
 .chatContainer {
   flex: 1;
-  height: 80vh;
+  height: 83vh;
   width: 100%;
   padding: 16px;
 }
@@ -50,6 +53,8 @@
 }
 
 .openedChat {
+  border-right: 1px solid
+    light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -135,4 +140,21 @@
     width: 300px !important;
     min-width: 300px;
   }
+}
+
+.seachMessage {
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid
+    light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
+}
+
+.searchMessage:hover {
+  background-color: light-dark(
+    var(--mantine-color-gray-1),
+    var(--mantine-color-dark-6)
+  );
 }

@@ -9,35 +9,30 @@ export const useAppChats = () => {
   const chatsLoaded = useAppSelctor((state) => state.chats.chatsLoaded);
 
   const loadInitialChats = useCallback((chats: Chat[]) => {
-    if (!chatsLoaded) {
-      dispatch(chatsActions.setChats(chats));
-    }
+    if (!chatsLoaded) dispatch(chatsActions.setChats(chats));
   }, [dispatch, chatsLoaded]);
 
-  const addNewChat = useCallback(
-    (chat: Chat) => {
+  const addNewChat = useCallback((chat: Chat) => {
       dispatch(chatsActions.addChat(chat));
     },
     [dispatch]
   );
 
-  const setLoadingChats = useCallback(
-    (loading: boolean) => {
+  const setLoadingChats = useCallback((loading: boolean) => {
       dispatch(chatsActions.setLoadingChats(loading));
     },
     [dispatch]
   );
 
-  const setActiveChat = useCallback(
-    (chatId: string | null) => {
+  const setActiveChat = useCallback((chatId: string | null) => {
       dispatch(chatsActions.setActiveChat(chatId));
     },
     [dispatch]
   );
 
   const addMessages = useCallback(
-    (chatId: string, messages: Message[]) => {
-      dispatch(chatsActions.setMessages({ chatId, messages }));
+    (chatId: string, messages: Message[], recentMessage: Message) => {
+      dispatch(chatsActions.setMessages({ chatId, messages, recentMessage }));
     },
     [dispatch]
   );
@@ -62,7 +57,6 @@ export const useAppChats = () => {
     },
     [dispatch]
   );
-
   return {
     ...chats,
     chatsLoaded,
