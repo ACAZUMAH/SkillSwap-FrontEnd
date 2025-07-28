@@ -46,6 +46,9 @@ const httpLink = createHttpLink({
   },
 }); 
 
+console.log("GraphQL HTTP URL:", import.meta.env.VITE_API_BASE_URL);
+console.log("GraphQL Subscription URL:", import.meta.env.VITE_GRAPHQLWS_URL);
+
 const wsLink = new GraphQLWsLink(
   createClient({
     url: `${import.meta.env.VITE_GRAPHQLWS_URL}/graphql`,
