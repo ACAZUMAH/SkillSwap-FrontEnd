@@ -6,6 +6,7 @@ import {
   Group,
   rem,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import { IconCode, IconInfoCircle, IconPencil } from "@tabler/icons-react";
 import React from "react";
@@ -39,20 +40,22 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
               style={{ marginLeft: "2px" }}
             />
           </Flex>
-          <ActionIcon
-            onClick={openProfficient}
-            variant="transparent"
-            style={{
-              position: "absolute",
-              top: rem(10),
-              right: rem(10),
-              zIndex: 1,
-            }}
-            aria-label="Edit profile"
-            mb="sm"
-          >
-            <IconPencil size={18} />
-          </ActionIcon>
+          <Tooltip label="Edit" withArrow>
+            <ActionIcon
+              onClick={openProfficient}
+              variant="transparent"
+              style={{
+                position: "absolute",
+                top: rem(10),
+                right: rem(10),
+                zIndex: 1,
+              }}
+              aria-label="Edit profile"
+              mb="sm"
+            >
+              <IconPencil size={18} />
+            </ActionIcon>
+          </Tooltip>
         </Group>
 
         <Group>
@@ -83,20 +86,21 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
               style={{ marginLeft: "2px" }}
             />
           </Flex>
-
-          <ActionIcon
-            onClick={openToLearn}
-            variant="transparent"
-            style={{
-              position: "absolute",
-              top: rem(10),
-              right: rem(10),
-              zIndex: 1,
-            }}
-            aria-label="Edit profile"
-          >
-            <IconPencil size={18} />
-          </ActionIcon>
+          <Tooltip label="Edit" withArrow>
+            <ActionIcon
+              onClick={openToLearn}
+              variant="transparent"
+              style={{
+                position: "absolute",
+                top: rem(10),
+                right: rem(10),
+                zIndex: 1,
+              }}
+              aria-label="Edit profile"
+            >
+              <IconPencil size={18} />
+            </ActionIcon>
+          </Tooltip>
         </Group>
 
         <Group>

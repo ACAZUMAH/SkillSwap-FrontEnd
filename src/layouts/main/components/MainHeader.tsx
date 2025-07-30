@@ -56,6 +56,7 @@ export const MainHeader: React.FC = () => {
       currentPath !== routerEndPoints.CHAT &&
       currentPath !== routerEndPoints.SETTINGS &&
       currentPath !== routerEndPoints.WHITEBOARD &&
+      currentPath !== routerEndPoints.CODE_EDITOR &&
       !currentPath.startsWith(routerEndPoints.USER.replace(":id", "")) &&
       !`${currentPath}${location.search}`.startsWith(`/home/?query=`)
     );

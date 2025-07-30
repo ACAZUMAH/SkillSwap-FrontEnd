@@ -7,6 +7,7 @@ import {
   rem,
   Text,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -21,7 +22,6 @@ import { Conditional } from "src/components";
 import { UpdateAditionalInfo } from "../modals/UpdateAditionalInfo";
 import { AdditionalInfoProps } from "../interfaces";
 
-
 export const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ user }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -35,20 +35,22 @@ export const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ user }) => {
     <>
       <Card mt="xl" padding="md" radius="md" withBorder>
         <Conditional condition={showDetials}>
-          <ActionIcon
-            onClick={open}
-            variant="transparent"
-            style={{
-              position: "absolute",
-              top: rem(10),
-              right: rem(10),
-              zIndex: 1,
-            }}
-            aria-label="Edit profile"
-            mb="sm"
-          >
-            <IconPencil size={18} />
-          </ActionIcon>
+          <Tooltip label="Edit" withArrow>
+            <ActionIcon
+              onClick={open}
+              variant="transparent"
+              style={{
+                position: "absolute",
+                top: rem(10),
+                right: rem(10),
+                zIndex: 1,
+              }}
+              aria-label="Edit profile"
+              mb="sm"
+            >
+              <IconPencil size={18} />
+            </ActionIcon>
+          </Tooltip>
         </Conditional>
         <Title order={4} mb="md">
           Additional Information
