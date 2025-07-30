@@ -6,7 +6,7 @@ const initialState: Chats = {
   activeChat: null,
   loadingChats: false,
   chatsLoaded: false,
-  UnReadMessagesCount: 0,
+  totalUnreadCount: 0,
 };
 
 const chatsSlice = createSlice({
@@ -17,11 +17,62 @@ const chatsSlice = createSlice({
       for (const chat of action.payload || []) {
         state.chats[chat.id] = {
           ...chat,
-          recentMessage: chat?.recentMessage!,
+          recentMessage: chat.recentMessage!,
           loadingMessages: false,
         };
       }
       state.chatsLoaded = true;
+    },
+
+    setMessages(
+      state,
+      action: PayloadAction<{
+        chatId: string;
+        messages: Message[];
+      }>
+    ) {
+      const { chatId, messages } = action.payload;
+      if (state.chats[chatId]) {
+        state.chats[chatId].messages = messages;
+        state.chats[chatId].loadingMessages = false;
+
+        // state.chats[chatId].recentMessage = recentMessage;
+
+        // if (messages.length > 0) {
+        //   const latestMessage = messages[messages.length - 1];
+        //   if (
+        //     !state.chats[chatId].recentMessage ||
+        //     new Date(latestMessage.createdAt) >
+        //       new Date(state.chats[chatId].recentMessage!.createdAt)
+        //   ) {
+        //     state.chats[chatId].recentMessage = latestMessage;
+        //   }
+        // }
+      }
+    },
+
+    updateRecentMessage(state, action: PayloadAction<{ 
+      chatId: string; 
+      recentMessage: Message 
+    }>) {
+      const { chatId, recentMessage } = action.payload;
+      if (state.chats[chatId]) {
+        state.chats[chatId].recentMessage = recentMessage;
+      }
+    },
+
+    setUnreadMessagesCount(
+      state,
+      action: PayloadAction<{ chatId: string; count: number }>
+    ) {
+      const { chatId, count } = action.payload;
+      if (state.chats[chatId]) {
+        state.chats[chatId].unreadCount = count;
+        state.totalUnreadCount = Object.values(state.chats).reduce(
+          (total, chat) => total + (chat.unreadCount || 0),
+          0
+        );
+      }
     },
 
     setLoadingChats(state, action: PayloadAction<boolean>) {
@@ -33,20 +84,9 @@ const chatsSlice = createSlice({
       if (!state.chats[chat.id]) {
         state.chats[chat.id] = {
           ...chat,
-          recentMessage: chat.recentMessage || undefined,
+          recentMessage: chat.recentMessage!,
           loadingMessages: false,
         };
-      }
-    },
-
-    setMessages(
-      state,
-      action: PayloadAction<{ chatId: string; messages: Message[], recentMessage?: Message }>
-    ) {
-      const { chatId, messages, recentMessage } = action.payload;
-      if (state.chats[chatId]) {
-        state.chats[chatId].messages = messages;
-        state.chats[chatId].recentMessage = recentMessage
       }
     },
 
@@ -70,13 +110,12 @@ const chatsSlice = createSlice({
     ) {
       const { chatId, message } = action.payload;
       if (state.chats[chatId]) {
-        state.chats[chatId]?.messages?.push(message);
+        if (!state.chats[chatId].messages) {
+          state.chats[chatId].messages = [];
+        }
+        state.chats[chatId]?.messages!.push(message);
         state.chats[chatId].recentMessage = message;
       }
-    },
-
-    setUreadMessagesCount(state, action: PayloadAction<number>) {
-      state.UnReadMessagesCount = action.payload;
     },
 
     markMessageAsRead(
@@ -101,14 +140,19 @@ const chatsSlice = createSlice({
       const chat = state.chats[chatId];
       if (chat) {
         chat.messages = chat.messages?.filter((msg) => msg?.id !== messageId);
-        chat.recentMessage = !chat.messages?.length
-          ? undefined
-          : chat.messages[chat.messages.length - 1] ?? undefined;
       }
     },
 
     clearActiveChat(state) {
       state.activeChat = null;
+    },
+
+    reset(state) {
+      state.chats = {};
+      state.activeChat = null;
+      state.loadingChats = false;
+      state.chatsLoaded = false;
+      state.totalUnreadCount = 0;
     },
   },
 });

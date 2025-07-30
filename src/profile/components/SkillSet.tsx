@@ -15,7 +15,6 @@ import { useDisclosure } from "@mantine/hooks";
 import { UpdateSkillsToLearnModal } from "../modals/UpdateSkillsToLearnModall";
 import { SkillSetProps } from "../interfaces";
 
-
 export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
   const [
     opennedProfficient,
@@ -60,7 +59,7 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
           {user?.skillsProficientAt?.map((skill) => (
             <Badge
               key={skill?.id}
-              c="blue"
+              c="green"
               variant="light"
               size="lg"
               radius="xl"
@@ -104,7 +103,7 @@ export const SkillSet: React.FC<SkillSetProps> = ({ user }) => {
           {user?.skillsToLearn?.map((skill) => (
             <Badge
               key={skill?.id}
-              c="green"
+              c="blue"
               variant="light"
               size="lg"
               radius="xl"

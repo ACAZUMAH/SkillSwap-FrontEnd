@@ -67,7 +67,7 @@ export const useUpdateChatSubscription = () => {
   const { addNewChat } = useAppChats();
 
   useSubscription<
-    Pick<Subscription, "newChatCreated">,
+    { newChatCreated: Subscription["newChatCreated"] },
     SubscriptionNewChatCreatedArgs
   >(updateChatSubscriptionGql, {
     variables: { userId: user?.id! },

@@ -8,35 +8,48 @@ export const useAppChats = () => {
   const chats = useAppSelctor((state) => state.chats);
   const chatsLoaded = useAppSelctor((state) => state.chats.chatsLoaded);
 
-  const loadInitialChats = useCallback((chats: Chat[]) => {
-    if (!chatsLoaded) dispatch(chatsActions.setChats(chats));
-  }, [dispatch, chatsLoaded]);
+  const loadInitialChats = useCallback(
+    (chats: Chat[]) => {
+      if (!chatsLoaded) dispatch(chatsActions.setChats(chats));
+    },
+    [dispatch, chatsLoaded]
+  );
 
-  const addNewChat = useCallback((chat: Chat) => {
+  const addNewChat = useCallback(
+    (chat: Chat) => {
       dispatch(chatsActions.addChat(chat));
     },
     [dispatch]
   );
 
-  const setLoadingChats = useCallback((loading: boolean) => {
+  const setLoadingChats = useCallback(
+    (loading: boolean) => {
       dispatch(chatsActions.setLoadingChats(loading));
     },
     [dispatch]
   );
 
-  const setActiveChat = useCallback((chatId: string | null) => {
+  const setActiveChat = useCallback(
+    (chatId: string | null) => {
       dispatch(chatsActions.setActiveChat(chatId));
     },
     [dispatch]
   );
 
   const addMessages = useCallback(
-    (chatId: string, messages: Message[], recentMessage: Message) => {
-      dispatch(chatsActions.setMessages({ chatId, messages, recentMessage }));
+    (chatId: string, messages: Message[]) => {
+      dispatch(chatsActions.setMessages({ chatId, messages }));
     },
     [dispatch]
   );
-  
+
+  const updateRecentMessage = useCallback(
+    (chatId: string, recentMessage: Message) => {
+      dispatch(chatsActions.updateRecentMessage({ chatId, recentMessage }));
+    },
+    [dispatch]
+  );
+
   const setLoadingMessages = useCallback(
     (chatId: string, loading: boolean) => {
       dispatch(chatsActions.setLoadingMessages({ chatId, loading }));
@@ -57,6 +70,25 @@ export const useAppChats = () => {
     },
     [dispatch]
   );
+
+  const setUnreadCount = useCallback(
+    (chatId: string, count: number) => {
+      dispatch(chatsActions.setUnreadMessagesCount({ chatId, count }));
+    },
+    [dispatch]
+  );
+
+  const updateUnreadCount = useCallback(
+    (chatId: string, count: number) => {
+      dispatch(chatsActions.setUnreadMessagesCount({ chatId, count }));
+    },
+    [dispatch]
+  );
+
+  const resetChats = useCallback(() => {
+    dispatch(chatsActions.reset());
+  }, [dispatch]);
+
   return {
     ...chats,
     chatsLoaded,
@@ -68,5 +100,9 @@ export const useAppChats = () => {
     removeMessage,
     addMessage,
     setLoadingMessages,
+    resetChats,
+    setUnreadCount,
+    updateUnreadCount,
+    updateRecentMessage,
   };
 };

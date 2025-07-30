@@ -6,6 +6,8 @@ import { useAppAuthentication } from "src/hooks";
 import { useAppChats } from "src/hooks/useAppChats";
 import { useNewSwapRequestSubscription } from "./hooks/useNewSwapRequestSubscription";
 import { SubscriptionContext } from "src/context/subscriptionContext";
+import { useUnreadMessagesCountSubscription } from "./hooks/useUnreadMessagesCountSubscription";
+import { useUnReadMessagesCountQuery } from "./hooks/UseUnReadMessagesCount";
 
 interface SubscriptionProviderProps {
   children?: React.ReactNode;
@@ -26,8 +28,13 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({
   useNewSwapRequestSubscription();
   
   useSwapUpdateSubscription();
+  
+  useUnreadMessagesCountSubscription();
 
   useUpdateChatSubscription();
+
+  useUnReadMessagesCountQuery();
+
 
   return (
     <SubscriptionContext.Provider value={{}}>

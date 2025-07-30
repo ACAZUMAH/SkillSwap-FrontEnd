@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { Query, QueryGetMessagesArgs } from "src/interfaces";
+import { GetMessageInput, Query, QueryGetMessagesArgs } from "src/interfaces";
 
 const getMessagesQuery = gql`
   query GetMessages($data: getMessageInput!) {
@@ -60,16 +60,9 @@ const getMessagesQuery = gql`
   }
 `;
 
-export const useGetMessagesQuery = (
-  filters: {
-    chatId: string;
-    from: string;
-    to: string;
-  },
-  skip = false
-) => {
+export const useGetMessagesQuery = (filters: GetMessageInput, skip = false) => {
   const { data, ...result } = useQuery<
-    Pick<Query, "getMessages">,
+    { getMessages: Query["getMessages"] },
     QueryGetMessagesArgs
   >(getMessagesQuery, {
     variables: { data: filters },

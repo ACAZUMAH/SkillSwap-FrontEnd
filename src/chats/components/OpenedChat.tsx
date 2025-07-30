@@ -19,14 +19,11 @@ export const OpenedChat: React.FC<OpenedChatProps> = ({
   return (
     <>
       <Box className={classes.openedChat}>
-        {/* Header */}
         <ChatHeader currentUser={currentUser} />
-        {/* Messages */}
         <ChatContainer
           currentUser={currentUser}
           loadingMessages={loadingMessages}
         />
-        {/* Input */}
         <ChatInputBar
           currentUser={currentUser}
           selectedChat={chats[activeChat!]}

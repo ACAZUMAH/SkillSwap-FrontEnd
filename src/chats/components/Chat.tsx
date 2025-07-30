@@ -12,19 +12,13 @@ import { SearchMessages } from "./SearchMessages";
 import { useResponsive } from "../context";
 
 export const Chats: React.FC = () => {
-  const { search } = useResponsive();
+  const { search, showSidebar, showChat, isMobile } = useResponsive();
   const location = useLocation();
   const { user } = useAppAuthentication();
-  const { chats, activeChat, setActiveChat, addMessages } = useAppChats();
+  const { activeChat, setActiveChat, addMessages, updateRecentMessage } =
+    useAppChats();
   const { chat, loading } = useGetMessagesQuery(
-    {
-      chatId: activeChat || "",
-      from: user?.id!,
-      to:
-        user?.id !== chats[activeChat || ""]?.users?.receiver?.id
-          ? chats[activeChat || ""]?.users?.receiver?.id!
-          : chats[activeChat || ""]?.users?.sender?.id!,
-    },
+    { chatId: activeChat! },
     !activeChat
   );
 
@@ -35,11 +29,12 @@ export const Chats: React.FC = () => {
   }, [location.pathname, setActiveChat]);
 
   useEffect(() => {
-    addMessages(
-      activeChat || "",
-      (chat?.messages || []).filter((msg) => msg !== null),
-      chat?.recentMessage!
-    );
+    const messages = (chat?.messages || []).filter((msg) => msg !== null);
+    addMessages(activeChat!, messages);
+
+    if (chat?.recentMessage) {
+      updateRecentMessage(activeChat!, chat.recentMessage);
+    }
   }, [user?.id, chat, addMessages, activeChat]);
 
   return (
@@ -49,8 +44,10 @@ export const Chats: React.FC = () => {
         display: "flex",
       }}
     >
-      <Sidebar currentUser={user} />
-      <Conditional condition={Boolean(activeChat)}>
+      <Conditional condition={showSidebar}>
+        <Sidebar currentUser={user} />
+      </Conditional>
+      <Conditional condition={showChat && Boolean(activeChat)}>
         <Box
           style={{
             display: "flex",
@@ -78,7 +75,10 @@ export const Chats: React.FC = () => {
           </Conditional>
         </Box>
       </Conditional>
-      <Conditional condition={!Boolean(activeChat)}>
+      <Conditional condition={showChat && !Boolean(activeChat)}>
+        <EmptyChat />
+      </Conditional>
+      <Conditional condition={isMobile && !Boolean(activeChat)}>
         <EmptyChat />
       </Conditional>
     </Box>

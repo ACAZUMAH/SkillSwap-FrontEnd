@@ -8,10 +8,11 @@ import {
 import React from "react";
 import { routerEndPoints } from "src/constants";
 import { getInitialsNameLatter } from "src/helpers";
-import { useAppAuthentication, useRouteNavigation } from "src/hooks";
+import { useAppAuthentication, useAppChats, useRouteNavigation } from "src/hooks";
 
 export const MainDropdown: React.FC = () => {
   const { user, logoutUser } = useAppAuthentication();
+  const { resetChats } = useAppChats();
   const navigateToLanding = useRouteNavigation(routerEndPoints.ROOT);
   const navigateToProfile = useRouteNavigation(routerEndPoints.PROFILE);
   const navigateToSettings = useRouteNavigation(routerEndPoints.SETTINGS);
@@ -63,6 +64,7 @@ export const MainDropdown: React.FC = () => {
           color="red"
           onClick={() => {
             logoutUser();
+            resetChats();
             navigateToLanding();
           }}
         >

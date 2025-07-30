@@ -55,7 +55,7 @@ export const ChatContainer: React.FC<ChatcontainerProps> = ({
               />
             ))}
           </Conditional>
-          <div ref={messagesEndRef} style={{ marginTop: "20px" }} />
+          <div ref={messagesEndRef} style={{ marginTop: "30px" }} />
         </Stack>
       </Box>
     </ScrollArea>

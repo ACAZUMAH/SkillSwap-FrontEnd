@@ -26,7 +26,7 @@ export const useSwapUpdateSubscription = () => {
   const { user } = useAppAuthentication();
   const client = useApolloClient();
 
-  useSubscription<Pick<Subscription, "swapUpdated">>(
+  useSubscription<{ swapUpdated: Subscription["swapUpdated"] }>(
     swapUpdateSubscriptionGql,
     {
       variables: { userId: user?.id },

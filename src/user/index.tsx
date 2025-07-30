@@ -1,16 +1,16 @@
-import { Alert, Container, Grid, } from "@mantine/core";
+import { Alert, Container, Grid } from "@mantine/core";
 import React from "react";
 import { BasicInfo } from "./components/BasicInfo";
 import { useParams } from "react-router-dom";
 import { useGetUserQuery } from "./hooks/useGetUserQuery";
 import { SkillsInfo } from "./components/skillsInfo";
-//import classes from "./styles/index.module.css";
 import { EducationInfo } from "./components/EducationInfo";
 import { RatingsAndReviews } from "./components/RatingsAndReviews";
 import { Avalability } from "./components/Avalability";
 import { useGetSwapQuery } from "./hooks/useGetSwapQuery";
 import { Conditional } from "src/components";
 import { UserLoader } from "./components/UserLoader";
+import { Links } from "./components/Links";
 
 export const UserDetails: React.FC = () => {
   const param = useParams();
@@ -26,7 +26,11 @@ export const UserDetails: React.FC = () => {
       <Conditional condition={Boolean(showDetails)}>
         <Grid gutter="xl">
           <Grid.Col span={{ base: 12, md: 4.5, lg: 3.5, xl: 3 }}>
-            <BasicInfo user={user!} swapData={swap} />
+            <div>
+              <BasicInfo user={user!} swapData={swap} />
+
+              <Links user={user!} />
+            </div>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 7.5, lg: 8.5, xl: 9 }}>
             <div>

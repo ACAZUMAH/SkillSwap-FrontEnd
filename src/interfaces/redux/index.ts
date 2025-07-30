@@ -23,11 +23,10 @@ export interface StateChat {
     sender: User;
     receiver: User;
   };
-  recentMessage?: Message;
+  recentMessage: Message;
   messages?: Message[];
   loadingMessages: boolean;
   unreadCount?: number; // Add this
-  lastReadMessageId?: string; // Optional: track last read message
 }
 
 export interface Chats {
@@ -37,12 +36,13 @@ export interface Chats {
       users?: ChatUsers;
       messages?: Maybe<Message>[];
       recentMessage?: Message;
+      unreadCount?: number;
       loadingMessages?: boolean;
       createdAt: string;
       updatedAt: string;
     };
   };
-  totalUnReadCount?: number;
+  totalUnreadCount: number;
   activeChat: string | null;
   loadingChats: boolean;
   chatsLoaded: boolean;
