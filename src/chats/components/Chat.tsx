@@ -12,19 +12,13 @@ import { SearchMessages } from "./SearchMessages";
 import { useResponsive } from "../context";
 
 export const Chats: React.FC = () => {
-  const { search } = useResponsive();
+  const { search, showSidebar, showChat, isMobile } = useResponsive();
   const location = useLocation();
   const { user } = useAppAuthentication();
-  const { chats, activeChat, setActiveChat, addMessages } = useAppChats();
+  const { activeChat, setActiveChat, addMessages, updateRecentMessage } =
+    useAppChats();
   const { chat, loading } = useGetMessagesQuery(
-    {
-      chatId: activeChat || "",
-      from: user?.id!,
-      to:
-        user?.id !== chats[activeChat || ""]?.users?.receiver?.id
-          ? chats[activeChat || ""]?.users?.receiver?.id!
-          : chats[activeChat || ""]?.users?.sender?.id!,
-    },
+    { chatId: activeChat! },
     !activeChat
   );
 
@@ -35,21 +29,25 @@ export const Chats: React.FC = () => {
   }, [location.pathname, setActiveChat]);
 
   useEffect(() => {
-    addMessages(
-      activeChat || "",
-      (chat?.messages || []).filter((msg) => msg !== null)
-    );
-  }, [user?.id, chat, addMessages, loading]);
+    const messages = (chat?.messages || []).filter((msg) => msg !== null);
+    addMessages(activeChat!, messages);
+
+    if (chat?.recentMessage) {
+      updateRecentMessage(activeChat!, chat.recentMessage);
+    }
+  }, [user?.id, chat, addMessages, activeChat]);
 
   return (
     <Box
       style={{
-        height: "calc(100vh - 64px)",
+        height: "calc(100vh - 70px)",
         display: "flex",
       }}
     >
-      <Sidebar currentUser={user} />
-      <Conditional condition={Boolean(activeChat)}>
+      <Conditional condition={showSidebar}>
+        <Sidebar currentUser={user} />
+      </Conditional>
+      <Conditional condition={showChat && Boolean(activeChat)}>
         <Box
           style={{
             display: "flex",
@@ -59,7 +57,7 @@ export const Chats: React.FC = () => {
         >
           <Box
             style={{
-              flex: search ? "1" : "1",
+              flex: search ? "2" : "1",
               minWidth: 0,
             }}
           >
@@ -72,12 +70,15 @@ export const Chats: React.FC = () => {
                 minWidth: 0,
               }}
             >
-              <SearchMessages />
+              <SearchMessages currentUser={user} />
             </Box>
           </Conditional>
         </Box>
       </Conditional>
-      <Conditional condition={!Boolean(activeChat)}>
+      <Conditional condition={showChat && !Boolean(activeChat)}>
+        <EmptyChat />
+      </Conditional>
+      <Conditional condition={isMobile && !Boolean(activeChat)}>
         <EmptyChat />
       </Conditional>
     </Box>

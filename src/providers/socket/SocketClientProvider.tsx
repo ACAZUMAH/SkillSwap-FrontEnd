@@ -38,12 +38,10 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
           console.log("Setting up socket event listeners");
 
           socket.current?.on("receivedMessage", (data) => {
-            console.log("Received message:", data);
             addMessage(data.chatId, data.message);
           });
 
           socket.current?.on("sentMessage", (data) => {
-            console.log("Sent message:", data);
             addMessage(data.chatId, data.message);
           });
 

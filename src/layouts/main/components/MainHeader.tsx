@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Anchor,
+  Badge,
   Box,
   Burger,
   Container,
@@ -17,7 +18,7 @@ import {
 } from "@tabler/icons-react";
 import React, { useEffect, useMemo } from "react";
 import { Conditional } from "src/components";
-import { useAppSettings, useRouteNavigation } from "src/hooks";
+import { useAppChats, useAppSettings, useRouteNavigation } from "src/hooks";
 import { HeaderTabs } from "./HeaderTabs";
 import { MainDrawer } from "./MainDrawer";
 import { SearchDropdown } from "./SearchDropdown";
@@ -34,6 +35,11 @@ export const MainHeader: React.FC = () => {
   const settings = useAppSettings();
   const location = useLocation();
   const navigate = useNavigate();
+  const { totalUnreadCount, chats } = useAppChats();
+
+  const totalCount = useMemo(() => {
+    return totalUnreadCount > 10 ? "10+" : totalUnreadCount;
+  }, [chats, totalUnreadCount]);
 
   useEffect(() => {
     if (search) {
@@ -99,14 +105,21 @@ export const MainHeader: React.FC = () => {
             </Conditional>
           </ActionIcon>
           <Tooltip label="Chats" position="bottom" withArrow>
-            <ActionIcon
-              variant="subtle"
-              radius="xl"
-              size="sm"
-              onClick={navigateToChats}
-            >
-              <IconBrandMessenger size={50} stroke={1.5} />
-            </ActionIcon>
+            <Box pos="relative" mt="xs">
+              <ActionIcon
+                variant="subtle"
+                radius="xl"
+                size="sm"
+                onClick={navigateToChats}
+              >
+                <IconBrandMessenger size={50} stroke={1.5} />
+              </ActionIcon>
+              <Conditional condition={totalUnreadCount > 0}>
+                <Badge pos="absolute" top={-5} right={-5} size="xs" circle>
+                  {totalCount}
+                </Badge>
+              </Conditional>
+            </Box>
           </Tooltip>
           <Tooltip label="Search" position="bottom" withArrow>
             <ActionIcon hiddenFrom="md" variant="subtle" radius="xl" size="sm">

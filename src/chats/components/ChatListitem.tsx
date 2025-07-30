@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Box,
   Group,
   rem,
@@ -14,12 +15,14 @@ import { getInitialsNameLatter } from "src/helpers";
 import { formatSideBarChatDate } from "src/helpers/date";
 import { useAppSettings } from "src/hooks";
 import { User } from "src/interfaces";
+import { useResponsive } from "../context";
 
 interface ChatListitemProps {
   chat: any; // TODO: Define a proper type for chat
   currentUser?: User;
   setActiveChat: (chatId: string) => void;
   activeChat: string | null;
+  unreadCount?: number;
 }
 
 export const ChatListitem: React.FC<ChatListitemProps> = ({
@@ -27,16 +30,34 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
   currentUser,
   setActiveChat,
   activeChat,
+  unreadCount,
 }) => {
+  const { isMobile, setShowSidebar, setShowChat } = useResponsive();
   const settings = useAppSettings();
   const { hovered, ref } = useHover();
   const { ref: currentRef, width } = useElementSize();
+  const fullName =
+    chat?.users?.sender?.id !== currentUser?.id
+      ? chat?.users?.sender?.firstName + " " + chat?.users?.sender?.lastName
+      : chat?.users?.receiver?.firstName +
+        " " +
+        chat?.users?.receiver?.lastName;
+
+  const handleChatClick = () => {
+    setActiveChat(chat.id);
+
+    if (isMobile) {
+      setShowSidebar(false);
+      setShowChat(true);
+    }
+  };
+
   return (
     <>
       <UnstyledButton
         ref={ref}
         key={chat?.id}
-        onClick={() => setActiveChat(chat?.id || "")}
+        onClick={handleChatClick}
         style={{
           backgroundColor:
             hovered || chat?.id === activeChat
@@ -87,9 +108,7 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
                 maxWidth: `${Math.max(width - 80, 100)}px`,
               }}
             >
-              {chat?.users?.sender?.id !== currentUser?.id
-                ? chat?.users?.sender?.firstName
-                : chat?.users?.receiver?.firstName}
+              {fullName}
             </Title>
             <Conditional condition={chat?.recentMessage?.updatedAt}>
               <Text size="xs" c="dimmed" style={{ flexShrink: 0 }}>
@@ -97,19 +116,26 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
               </Text>
             </Conditional>
           </Group>
-          <Conditional condition={chat?.recentMessage?.message}>
-            <Text
-              size="xs"
-              c="dimmed"
-              style={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                maxWidth: `${Math.max(width - 20, 100)}px`,
-              }}
-            >
-              {chat?.recentMessage?.message}
-            </Text>
+          <Conditional condition={chat?.recentMessage?.message || unreadCount}>
+            <Group wrap="nowrap" justify="space-between">
+              <Text
+                size="xs"
+                c="dimmed"
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  maxWidth: `${Math.max(width - 20, 100)}px`,
+                }}
+              >
+                {chat?.recentMessage?.message}
+              </Text>
+              <Conditional condition={Boolean(unreadCount && unreadCount > 0)}>
+                <Badge size="xs" circle>
+                  {unreadCount}
+                </Badge>
+              </Conditional>
+            </Group>
           </Conditional>
         </Box>
       </UnstyledButton>

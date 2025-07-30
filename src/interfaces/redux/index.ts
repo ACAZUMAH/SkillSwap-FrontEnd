@@ -17,6 +17,18 @@ export interface Settings {
 
 export interface SettingsActions extends PayloadAction<Partial<Settings>> {}
 
+export interface StateChat {
+  id: string;
+  users: {
+    sender: User;
+    receiver: User;
+  };
+  recentMessage: Message;
+  messages?: Message[];
+  loadingMessages: boolean;
+  unreadCount?: number; // Add this
+}
+
 export interface Chats {
   chats: {
     [chatId: string]: {
@@ -24,11 +36,13 @@ export interface Chats {
       users?: ChatUsers;
       messages?: Maybe<Message>[];
       recentMessage?: Message;
-      loadingMessages: boolean;
+      unreadCount?: number;
+      loadingMessages?: boolean;
       createdAt: string;
       updatedAt: string;
     };
   };
+  totalUnreadCount: number;
   activeChat: string | null;
   loadingChats: boolean;
   chatsLoaded: boolean;

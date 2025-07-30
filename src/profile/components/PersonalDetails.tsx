@@ -18,10 +18,12 @@ import { useDisclosure, useHover } from "@mantine/hooks";
 import { UpdatePersonalDetailsModal } from "../modals/UpdatePersonalDetailsModal";
 import { Conditional } from "src/components";
 import { PersonalDetailsProps } from "../interfaces";
+import { useAppSettings } from "src/hooks";
 
 export const PersonalDetails: React.FC<PersonalDetailsProps> = ({ user }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const { hovered, ref } = useHover();
+  const { isDarkMode } = useAppSettings();
 
   return (
     <>
@@ -87,7 +89,7 @@ export const PersonalDetails: React.FC<PersonalDetailsProps> = ({ user }) => {
                     borderRadius: "50%",
                     background: "#1f5de5",
                     cursor: "pointer",
-                    backgroundColor: "rgba(0,0,0,0.5)",
+                    backgroundColor: isDarkMode ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.9)",
                   }}
                   justify="center"
                   align="center"

@@ -386,6 +386,7 @@ export type Query = {
   getSwapByUsers?: Maybe<Swap>;
   getSwapRequest?: Maybe<Swap>;
   getSwapRequests?: Maybe<SwapConnection>;
+  getUnreadMessagesCount?: Maybe<Array<Maybe<UnreadCount>>>;
   hello?: Maybe<Scalars['String']['output']>;
   me?: Maybe<User>;
   recommendation?: Maybe<RecomendationConnection>;
@@ -516,16 +517,11 @@ export enum Status {
 export type Subscription = {
   __typename?: 'Subscription';
   _empty?: Maybe<Scalars['String']['output']>;
-  getChatByUserId: Array<Maybe<Chat>>;
   newChatCreated?: Maybe<Chat>;
   newSwapRequest?: Maybe<Swap>;
   swapUpdated?: Maybe<Swap>;
   testSubscription?: Maybe<Test>;
-};
-
-
-export type SubscriptionGetChatByUserIdArgs = {
-  userId?: InputMaybe<Scalars['ID']['input']>;
+  unreadMessagesCount?: Maybe<Array<Maybe<UnreadCount>>>;
 };
 
 
@@ -540,6 +536,11 @@ export type SubscriptionNewSwapRequestArgs = {
 
 
 export type SubscriptionSwapUpdatedArgs = {
+  userId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionUnreadMessagesCountArgs = {
   userId: Scalars['ID']['input'];
 };
 
@@ -611,6 +612,12 @@ export type TimeTableInput = {
   time: Scalars['String']['input'];
 };
 
+export type UnreadCount = {
+  __typename?: 'UnreadCount';
+  chatId: Scalars['ID']['output'];
+  unreadCount: Scalars['Int']['output'];
+};
+
 export type UpdatePasswordInput = {
   newPassword: Scalars['String']['input'];
   oldPassword: Scalars['String']['input'];
@@ -672,8 +679,6 @@ export type CreateUserInput = {
 
 export type GetMessageInput = {
   chatId: Scalars['ID']['input'];
-  from: Scalars['ID']['input'];
-  to: Scalars['ID']['input'];
 };
 
 export type LoginUserInput = {

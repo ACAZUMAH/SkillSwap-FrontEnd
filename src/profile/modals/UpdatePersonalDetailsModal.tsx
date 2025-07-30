@@ -23,6 +23,7 @@ import { useHover } from "@mantine/hooks";
 import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
 import { useUploadProfileImage } from "../hooks/useUploadProfileImage";
 import { UpdatePersonalDetailsModalProps } from "../interfaces";
+import { useAppSettings } from "src/hooks";
 
 export const UpdatePersonalDetailsModal: React.FC<
   UpdatePersonalDetailsModalProps
@@ -33,6 +34,7 @@ export const UpdatePersonalDetailsModal: React.FC<
   const imageForm = useProfileImageform();
   const { updateUser, loading } = useUpdateUserProfileMutation();
   const { uploadProfileImage } = useUploadProfileImage();
+  const { isDarkMode } = useAppSettings();
 
   const url = imageForm.values.profileImgFile
     ? URL.createObjectURL(imageForm.values.profileImgFile)
@@ -166,7 +168,7 @@ export const UpdatePersonalDetailsModal: React.FC<
                       borderRadius: "50%",
                       background: "#1f5de5",
                       cursor: "pointer",
-                      backgroundColor: "rgba(0,0,0,0.5)",
+                      backgroundColor: isDarkMode ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.9)",
                     }}
                     justify="center"
                     align="center"

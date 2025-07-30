@@ -11,12 +11,12 @@
   padding: var(--mantine-spacing-sm);
   overflow-y: auto;
   height: auto;
-  border-right: 0.1px solid var(--mantine-color-gray-7);
+  border-right: 0.1px solid light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
   transition: transform 0.3s ease;
 }
 
 .chatInputBar {
-  border-top: 0.1px solid var(--mantine-color-gray-7);
+  border-top: 0.1px solid light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
   position: relative;
 }
 
@@ -35,12 +35,15 @@
 }
 
 .chatHeader {
-  border-bottom: 0.1px solid var(--mantine-color-gray-7);
+  border-bottom: 0.1px solid light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
+  display: flex;
+  align-items: center;
+  padding: var(--mantine-spacing-sm);
 }
 
 .chatContainer {
   flex: 1;
-  height: 80vh;
+  height: 83vh;
   width: 100%;
   padding: 16px;
 }
@@ -50,6 +53,7 @@
 }
 
 .openedChat {
+  border-right: 1px solid light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -106,26 +110,19 @@
 /* Mobile styles */
 @media (max-width: 768px) {
   .chatSidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100% !important;
-    height: 100vh;
-    z-index: 1000;
-    transform: translateX(-100%);
-    background-color: var(--mantine-color-dark-7);
+    min-width: 100%;
+    height: 100%;
+    border-right: none;
   }
 
-  .chatSidebar.open {
-    transform: translateX(0);
+  .openedChat {
+    width: 100%;
+    border-right: none;
   }
 
   .chatAreaContainer {
     width: 100%;
-  }
-
-  .chatAreaContainer.sidebarOpen {
-    display: none;
   }
 }
 
@@ -135,4 +132,17 @@
     width: 300px !important;
     min-width: 300px;
   }
+}
+
+.searchMessage {
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-7));
+}
+
+.searchMessage:hover {
+  background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
 }

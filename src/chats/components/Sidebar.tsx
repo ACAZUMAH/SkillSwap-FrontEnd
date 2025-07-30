@@ -5,29 +5,64 @@ import {
   Group,
   Loader,
   Stack,
+  Text,
   TextInput,
   Title,
 } from "@mantine/core";
-import { IconDotsVertical, IconSearch } from "@tabler/icons-react";
+import {
+  IconArrowLeft,
+  IconDotsVertical,
+  IconSearch,
+} from "@tabler/icons-react";
 import React from "react";
 import { User } from "src/interfaces";
 import { ChatListitem } from "./ChatListitem";
-import { useAppChats } from "src/hooks/useAppChats";
 import { Conditional } from "src/components";
 import classes from "../styles/index.module.css";
+import { useSideBarActions } from "../hooks/useSideBarActions";
+import { useResponsive } from "../context";
 interface SidebarProps {
   currentUser?: User;
-  //chats?: Chats;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentUser }) => {
-  const { chats, setActiveChat, activeChat, loadingChats } = useAppChats();
+  const {
+    search,
+    setSearch,
+    chats,
+    sortedChats,
+    sortedFilteredChats,
+    activeChat,
+    setActiveChat,
+    loadingChats,
+    unreadCounts,
+  } = useSideBarActions();
+  const { isMobile, setShowChat, setShowSidebar } = useResponsive();
+
+  const handleBackToChat = () => {
+    if (isMobile && activeChat) {
+      setShowChat(true);
+      setShowSidebar(false);
+    }
+  };
+
   return (
     <Box className={classes.chatSidebar}>
       <Group justify="space-between" mb="md">
-        <Title order={3} fw={500}>
-          Chats
-        </Title>
+        <Group gap="sm">
+          <Conditional condition={isMobile && Boolean(activeChat)}>
+            <ActionIcon
+              variant="transparent"
+              size="md"
+              onClick={handleBackToChat}
+            >
+              <IconArrowLeft />
+            </ActionIcon>
+          </Conditional>
+          <Title order={3} fw={500}>
+            Chats
+          </Title>
+        </Group>
         <ActionIcon variant="transparent" size="md">
           <IconDotsVertical />
         </ActionIcon>
@@ -35,32 +70,61 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser }) => {
       <TextInput
         placeholder="Search"
         mb="md"
+        radius="lg"
         leftSection={<IconSearch stroke={1.5} size={20} />}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
-      <Conditional condition={loadingChats}>
-        <Center>
-          <Loader size="md" type="dots" />
-        </Center>
-      </Conditional>
-      <Conditional condition={!loadingChats && Object.keys(chats).length === 0}>
-        <Box p="md" style={{ textAlign: "center" }}>
-          <Title order={5} c="dimmed">
+      <Conditional condition={!search.trim()}>
+        <Conditional condition={loadingChats}>
+          <Center>
+            <Loader size="md" type="dots" />
+          </Center>
+        </Conditional>
+        <Conditional
+          condition={!loadingChats && Object.keys(chats).length === 0}
+        >
+          <Text ta="center" c="dimmed" size="md" fw={500}>
             No chats available
-          </Title>
-        </Box>
+          </Text>
+        </Conditional>
+        <Conditional condition={!loadingChats && Object.keys(chats).length > 0}>
+          <Stack gap="xs">
+            {sortedChats.map((chat) => (
+              <ChatListitem
+                key={chat.id}
+                chat={chat}
+                currentUser={currentUser}
+                setActiveChat={setActiveChat}
+                activeChat={activeChat}
+                unreadCount={unreadCounts[chat.id] || 0}
+              />
+            ))}
+          </Stack>
+        </Conditional>
       </Conditional>
-      <Conditional condition={!loadingChats && Object.keys(chats).length > 0}>
-        <Stack gap="xs">
-          {Object.entries(chats).map(([chatId, chat]) => (
-            <ChatListitem
-              key={chatId}
-              chat={chat}
-              currentUser={currentUser}
-              setActiveChat={setActiveChat}
-              activeChat={activeChat}
-            />
-          ))}
-        </Stack>
+      <Conditional condition={Boolean(search.trim())}>
+        <Conditional
+          condition={Boolean(search.trim()) && sortedFilteredChats.length === 0}
+        >
+          <Text mt="lg" ta="center" c="dimmed" size="md" fw={500}>
+            No chats found for "{search}"
+          </Text>
+        </Conditional>
+        <Conditional condition={sortedFilteredChats.length > 0}>
+          <Stack gap="xs" mt="md">
+            {sortedFilteredChats.map((chat) => (
+              <ChatListitem
+                key={chat.id}
+                chat={chat}
+                currentUser={currentUser}
+                setActiveChat={setActiveChat}
+                activeChat={activeChat}
+                unreadCount={unreadCounts[chat.id] || 0}
+              />
+            ))}
+          </Stack>
+        </Conditional>
       </Conditional>
     </Box>
   );

@@ -48,14 +48,14 @@ export const ChatContainer: React.FC<ChatcontainerProps> = ({
             {currentChat?.messages?.map((message, index) => (
               <MessageBubble
                 key={index}
-                message={message}
+                message={message!}
                 currentChat={currentChat}
                 currentUser={currentUser}
                 index={index}
               />
             ))}
           </Conditional>
-          <div ref={messagesEndRef} style={{ marginTop: "20px" }} />
+          <div ref={messagesEndRef} style={{ marginTop: "30px" }} />
         </Stack>
       </Box>
     </ScrollArea>

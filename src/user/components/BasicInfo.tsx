@@ -1,5 +1,4 @@
 import {
-  Anchor,
   Avatar,
   Button,
   Center,
@@ -14,12 +13,7 @@ import { getInitialsNameLatter } from "src/helpers";
 import { Swap, User } from "src/interfaces";
 import classes from "../styles/index.module.css";
 import {
-  IconBrandGithub,
-  IconBrandLinkedin,
-  IconMail,
-  IconPhone,
   IconStar,
-  IconWorld,
 } from "@tabler/icons-react";
 import { useSwapMutation } from "../hooks/useSwapMutation";
 import { Conditional } from "src/components";
@@ -111,91 +105,6 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({ user, swapData }) => {
       <Text mt="md" ta="center" c="dimmed">
         {user?.bio || "No bio available"}
       </Text>
-      <Group justify="center" mt="xl" gap={15}>
-        <HoverCard withArrow shadow="md">
-          <HoverCard.Target>
-            <Anchor
-              href={`mailto:${user?.email}`}
-              target="_blank"
-              size="xs"
-              c="dimmed"
-            >
-              <IconMail size={25} stroke={1.5} />
-            </Anchor>
-          </HoverCard.Target>
-          <HoverCard.Dropdown>
-            <Text>{user?.firstName} email</Text>
-          </HoverCard.Dropdown>
-        </HoverCard>
-        <Conditional condition={Boolean(user?.phoneNumber)}>
-          <HoverCard withArrow shadow="md">
-            <HoverCard.Target>
-              <Anchor
-                href={`tel:${user?.phoneNumber}`}
-                target="_blank"
-                size="xs"
-                c="dimmed"
-              >
-                <IconPhone size={25} stroke={1.5} />
-              </Anchor>
-            </HoverCard.Target>
-            <HoverCard.Dropdown>
-              <Text>Call {user?.firstName}</Text>
-            </HoverCard.Dropdown>
-          </HoverCard>
-        </Conditional>
-        <Conditional condition={Boolean(user?.gitHub)}>
-          <HoverCard withArrow shadow="md">
-            <HoverCard.Target>
-              <Anchor
-                href={user?.gitHub || ""}
-                target="_blank"
-                size="xs"
-                c="dimmed"
-              >
-                <IconBrandGithub size={25} stroke={1.5} />
-              </Anchor>
-            </HoverCard.Target>
-            <HoverCard.Dropdown>
-              <Text>View {user?.firstName}'s GitHub</Text>
-            </HoverCard.Dropdown>
-          </HoverCard>
-        </Conditional>
-        <Conditional condition={Boolean(user?.linkedIn)}>
-          <HoverCard withArrow shadow="md">
-            <HoverCard.Target>
-              <Anchor
-                href={user?.linkedIn || ""}
-                target="_blank"
-                size="xs"
-                c="dimmed"
-              >
-                <IconBrandLinkedin size={25} stroke={1.5} />
-              </Anchor>
-            </HoverCard.Target>
-            <HoverCard.Dropdown>
-              <Text>View {user?.firstName}'s LinkedIn</Text>
-            </HoverCard.Dropdown>
-          </HoverCard>
-        </Conditional>
-        <Conditional condition={Boolean(user?.portfolio)}>
-          <HoverCard withArrow shadow="md">
-            <HoverCard.Target>
-              <Anchor
-                href={user?.portfolio || ""}
-                target="_blank"
-                size="xs"
-                c="dimmed"
-              >
-                <IconWorld size={25} stroke={1.5} />
-              </Anchor>
-            </HoverCard.Target>
-            <HoverCard.Dropdown>
-              <Text size="sm">View {user?.firstName}'s Portfolio</Text>
-            </HoverCard.Dropdown>
-          </HoverCard>
-        </Conditional>
-      </Group>
     </Paper>
   );
 };

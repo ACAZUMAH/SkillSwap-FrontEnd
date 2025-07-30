@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import React, { useState } from "react";
 import { Conditional } from "src/components";
-import { MessageType, User } from "src/interfaces";
+import { Message, MessageType, User } from "src/interfaces";
 import { createMessageStatus } from "../helper";
 import { formatMessageDate } from "src/helpers/date";
 import { useAppSettings } from "src/hooks";
@@ -18,7 +18,7 @@ import { useUploadFile } from "../hooks/useUplaodFile";
 
 interface MessageBubbleProps {
   currentUser?: User;
-  message: any; // TODO: Define a proper type for message
+  message: Message; 
   currentChat: any; // TODO: Define a proper type for currentChat
   index: number;
 }
@@ -126,7 +126,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           >
             <video
               width="100%"
-              src={message?.mediaUrl}
+              src={message?.mediaUrl!}
               controls
               style={{
                 maxHeight: "200px",
@@ -160,7 +160,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                   variant="outline"
                   size="sm"
                   radius="xl"
-                  onClick={() => handledownloadFile(message?.mediaUrl)}
+                  onClick={() => handledownloadFile(message?.mediaUrl!)}
                   loading={downloading}
                   disabled={downloading}
                 >

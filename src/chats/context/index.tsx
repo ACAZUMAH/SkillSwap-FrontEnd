@@ -4,14 +4,18 @@ import { useMediaQuery } from "@mantine/hooks"
 
 interface ResponsiveContextType {
   search: boolean
-  openSearch: () => void,
-  closeSearch: () => void,
-  toggleSearch: () => void,
+  openSearch: () => void
+  closeSearch: () => void
+  toggleSearch: () => void
   isMobile: boolean
-  isSidebarOpen: boolean
-  openSidebar: () => void
-  closeSidebar: () => void
-  toggleSidebar: () => void
+  isChatOpen: boolean
+  openChat: () => void
+  closeChat: () => void
+  toggleChat: () => void
+  showSidebar: boolean
+  showChat: boolean
+  setShowSidebar: (show: boolean) => void
+  setShowChat: (show: boolean) => void
 }
 
 const ResponsiveContext = createContext<ResponsiveContextType | undefined>(undefined)
@@ -29,21 +33,29 @@ interface ResponsiveProviderProps {
 }
 
 export const ChatProvider: React.FC<ResponsiveProviderProps> = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isChatOpen, setIsChatOpen] = useState(false)
   const isMobile = useMediaQuery("(max-width: 768px)")
   const [search, setOpenSearch] = useState(false)
+  
+  const [showSidebar, setShowSidebar] = useState(true)
+  const [showChat, setShowChat] = useState(false)
 
-  const openSidebar = () => setIsSidebarOpen(true)
-  const closeSidebar = () => setIsSidebarOpen(false)
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen)
+  const openChat = () => setIsChatOpen(true)
+  const closeChat = () => setIsChatOpen(false)
+  const toggleChat = () => setIsChatOpen(!isChatOpen)
+
   const openSearch = () => setOpenSearch(true)
   const closeSearch = () => setOpenSearch(false)
   const toggleSearch = () => setOpenSearch(!search)
 
-  // Close sidebar when switching to desktop
   useEffect(() => {
     if (!isMobile) {
-      setIsSidebarOpen(false)
+      setShowSidebar(true)
+      setShowChat(true)
+      setIsChatOpen(false)
+    } else {
+      setShowSidebar(true)
+      setShowChat(false)
     }
   }, [isMobile])
 
@@ -55,10 +67,14 @@ export const ChatProvider: React.FC<ResponsiveProviderProps> = ({ children }) =>
         closeSearch,
         toggleSearch,
         isMobile,
-        isSidebarOpen,
-        openSidebar,
-        closeSidebar,
-        toggleSidebar,
+        isChatOpen,
+        openChat,
+        closeChat,
+        toggleChat,
+        showSidebar,
+        showChat,
+        setShowSidebar,
+        setShowChat,
       }}
     >
       {children}
