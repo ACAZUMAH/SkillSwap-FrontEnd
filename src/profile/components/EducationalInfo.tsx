@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import { IconPencil, IconPlus, IconSchool } from "@tabler/icons-react";
 import React from "react";
@@ -33,29 +34,34 @@ export const EducationalInfo: React.FC<EducationalInfoProps> = ({ user }) => {
             <Flex>
               <IconSchool size={70} stroke={1} color="gray" />
               <Stack gap={2} ml="md">
-                <Title order={2} fw={500}>{user?.education?.institution}</Title>
+                <Title order={2} fw={500}>
+                  {user?.education?.institution}
+                </Title>
                 <Text size="sm">
-                  {user?.education?.degree} in {user?.education?.fieldOfStudy}, {user?.education?.level}
+                  {user?.education?.degree} in {user?.education?.fieldOfStudy},{" "}
+                  {user?.education?.level}
                 </Text>
                 <Text size="sm" c="dimmed">
-                 {formatDate(user?.education?.startDate)} - {formatDate(user?.education?.endDate)}
+                  {formatDate(user?.education?.startDate)} -{" "}
+                  {formatDate(user?.education?.endDate)}
                 </Text>
               </Stack>
             </Flex>
-
-            <ActionIcon
-              onClick={open}
-              variant="transparent"
-              style={{
-                position: "absolute",
-                top: rem(10),
-                right: rem(10),
-                zIndex: 1,
-              }}
-              aria-label="Edit profile"
-            >
-              <IconPencil size={18} />
-            </ActionIcon>
+            <Tooltip label="Edit" withArrow>
+              <ActionIcon
+                onClick={open}
+                variant="transparent"
+                style={{
+                  position: "absolute",
+                  top: rem(10),
+                  right: rem(10),
+                  zIndex: 1,
+                }}
+                aria-label="Edit profile"
+              >
+                <IconPencil size={18} />
+              </ActionIcon>
+            </Tooltip>
           </Group>
         </Conditional>
         <Conditional condition={!showDetails}>
@@ -77,7 +83,7 @@ export const EducationalInfo: React.FC<EducationalInfoProps> = ({ user }) => {
         </Conditional>
       </Card>
 
-      <UpdateEducationModal opened={opened} onClose={close} user={user}/>
+      <UpdateEducationModal opened={opened} onClose={close} user={user} />
     </>
   );
 };

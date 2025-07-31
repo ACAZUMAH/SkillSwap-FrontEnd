@@ -10,6 +10,7 @@ import {
   Stack,
   Text,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import { IconCamera, IconLink, IconPencil } from "@tabler/icons-react";
 import React from "react";
@@ -28,20 +29,21 @@ export const PersonalDetails: React.FC<PersonalDetailsProps> = ({ user }) => {
   return (
     <>
       <Card padding="md" radius="md" withBorder>
-        <ActionIcon
-          variant="transparent"
-          style={{
-            position: "absolute",
-            top: rem(10),
-            right: rem(10),
-            zIndex: 1,
-          }}
-          aria-label="Edit profile"
-          onClick={open}
-        >
-          <IconPencil size={18} />
-        </ActionIcon>
-
+        <Tooltip label="Edit" withArrow>
+          <ActionIcon
+            variant="transparent"
+            style={{
+              position: "absolute",
+              top: rem(10),
+              right: rem(10),
+              zIndex: 1,
+            }}
+            aria-label="Edit profile"
+            onClick={open}
+          >
+            <IconPencil size={18} />
+          </ActionIcon>
+        </Tooltip>
         <Title order={4} ta="center" mt="sm" mb="md">
           Personal Details
         </Title>
@@ -89,7 +91,9 @@ export const PersonalDetails: React.FC<PersonalDetailsProps> = ({ user }) => {
                     borderRadius: "50%",
                     background: "#1f5de5",
                     cursor: "pointer",
-                    backgroundColor: isDarkMode ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.9)",
+                    backgroundColor: isDarkMode
+                      ? "rgba(0,0,0,0.5)"
+                      : "rgba(0,0,0,0.9)",
                   }}
                   justify="center"
                   align="center"

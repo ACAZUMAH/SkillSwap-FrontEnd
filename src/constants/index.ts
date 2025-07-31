@@ -13,6 +13,7 @@ export const routerEndPoints = {
     USER: '/home/user/:id',
     SETTINGS: '/home/account-settings',
     WHITEBOARD: '/home/whiteboard',
+    CODE_EDITOR: '/home/code-editor',
 }
 
 export * from './theme/theme'

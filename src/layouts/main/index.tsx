@@ -16,6 +16,7 @@ export const Mainlayout: React.FC = () => {
       currentPath === routerEndPoints.CHAT ||
       currentPath === routerEndPoints.SETTINGS ||
       currentPath === routerEndPoints.WHITEBOARD ||
+      currentPath === routerEndPoints.CODE_EDITOR ||
       currentPath.startsWith(routerEndPoints.USER.replace(":id", "")) ||
       `${currentPath}${location.search}`.startsWith(`/home/?query=`)
     ) {
@@ -26,7 +27,11 @@ export const Mainlayout: React.FC = () => {
   }, [location.pathname]);
 
   const isChatRoute = useMemo(() => {
-    return location.pathname.startsWith(routerEndPoints.CHAT);
+    return (
+      location.pathname.startsWith(routerEndPoints.CHAT) ||
+      location.pathname.startsWith(routerEndPoints.WHITEBOARD) ||
+      location.pathname.startsWith(routerEndPoints.CODE_EDITOR)
+    );
   }, [location.pathname]);
 
   return (

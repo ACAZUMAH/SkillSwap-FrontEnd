@@ -14,6 +14,7 @@ import { UserDetails } from "src/user";
 import { Recommendations } from "src/recommendations";
 import { Settings } from "src/settings";
 import { WhiteBoard } from "src/whiteboard";
+import { CodeEditor } from "src/codeEditor";
 
 export const routes = [
   {
@@ -77,7 +78,10 @@ export const routes = [
       {
         path: routerEndPoints.WHITEBOARD,
         element: <WhiteBoard />,
-      },
+      },{
+        path: routerEndPoints.CODE_EDITOR,
+        element: <CodeEditor />,
+      }
     ],
   },
 ] satisfies RouteObject[];

@@ -1,6 +1,7 @@
 import { Anchor, Avatar, Divider, Menu, Text } from "@mantine/core";
 import {
   IconChalkboard,
+  IconCode,
   IconLogout,
   IconSettings,
   IconUser,
@@ -8,7 +9,11 @@ import {
 import React from "react";
 import { routerEndPoints } from "src/constants";
 import { getInitialsNameLatter } from "src/helpers";
-import { useAppAuthentication, useAppChats, useRouteNavigation } from "src/hooks";
+import {
+  useAppAuthentication,
+  useAppChats,
+  useRouteNavigation,
+} from "src/hooks";
 
 export const MainDropdown: React.FC = () => {
   const { user, logoutUser } = useAppAuthentication();
@@ -17,6 +22,7 @@ export const MainDropdown: React.FC = () => {
   const navigateToProfile = useRouteNavigation(routerEndPoints.PROFILE);
   const navigateToSettings = useRouteNavigation(routerEndPoints.SETTINGS);
   const navigateToWhiteBoard = useRouteNavigation(routerEndPoints.WHITEBOARD);
+  const navigateToCodeEditor = useRouteNavigation(routerEndPoints.CODE_EDITOR);
 
   return (
     <Menu trigger="hover" width={230} offset={10}>
@@ -37,26 +43,36 @@ export const MainDropdown: React.FC = () => {
           </Avatar>
         </Anchor>
       </Menu.Target>
-      <Menu.Dropdown>
+      <Menu.Dropdown p="md">
         <Menu.Item
           leftSection={<IconUser stroke={1.5} />}
           onClick={navigateToProfile}
+          mb="xs"
         >
           Profile
         </Menu.Item>
-        <Divider />
         <Menu.Item
           leftSection={<IconSettings stroke={1.5} />}
           onClick={navigateToSettings}
+          mb="xs"
         >
           Settings
         </Menu.Item>
         <Divider />
+        <Menu.Label>Tools</Menu.Label>
         <Menu.Item
           leftSection={<IconChalkboard stroke={1.5} />}
           onClick={navigateToWhiteBoard}
+          mb="xs"
         >
           WhiteBoard
+        </Menu.Item>
+        <Menu.Item
+          leftSection={<IconCode stroke={1.5} />}
+          onClick={navigateToCodeEditor}
+          mb="sm"
+        >
+          Code Editor
         </Menu.Item>
         <Divider />
         <Menu.Item
@@ -67,6 +83,7 @@ export const MainDropdown: React.FC = () => {
             resetChats();
             navigateToLanding();
           }}
+          mt="xs"
         >
           Logout
         </Menu.Item>

@@ -8,6 +8,7 @@ import {
   rem,
   Text,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import {
   IconBrandDaysCounter,
@@ -19,7 +20,6 @@ import { Conditional } from "src/components";
 import { UpdateAvailabiltyModal } from "../modals/UpdateAvailabiltyModal";
 import { useDisclosure } from "@mantine/hooks";
 import { AvailabilityProps } from "../interfaces";
-
 
 export const Availability: React.FC<AvailabilityProps> = ({ user }) => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -34,20 +34,21 @@ export const Availability: React.FC<AvailabilityProps> = ({ user }) => {
 
       <Card mb="xl" padding="md" radius="md" withBorder>
         <Conditional condition={showDetails}>
-          <ActionIcon
-            onClick={open}
-            variant="transparent"
-            style={{
-              position: "absolute",
-              top: rem(10),
-              right: rem(10),
-              zIndex: 1,
-            }}
-            aria-label="Edit profile"
-          >
-            <IconPencil size={18} />
-          </ActionIcon>
-
+          <Tooltip label="Edit" withArrow>
+            <ActionIcon
+              onClick={open}
+              variant="transparent"
+              style={{
+                position: "absolute",
+                top: rem(10),
+                right: rem(10),
+                zIndex: 1,
+              }}
+              aria-label="Edit profile"
+            >
+              <IconPencil size={18} />
+            </ActionIcon>
+          </Tooltip>
           <Text mb="md" size="sm" c="dimmed">
             You are available on the following days:
           </Text>
