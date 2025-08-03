@@ -261,6 +261,11 @@ export type Filters = {
   userId?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type ForgetPasswordInput = {
+  newPassword: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+};
+
 export type Message = {
   __typename?: 'Message';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -304,6 +309,7 @@ export type Mutation = {
   completeAuthAndSignToken: Authenticated;
   createAccount: Response;
   createSwapRequest: Swap;
+  forgetPassword: Response;
   login?: Maybe<Response>;
   testMutation?: Maybe<Scalars['String']['output']>;
   updateSwap?: Maybe<Swap>;
@@ -340,6 +346,11 @@ export type MutationCreateAccountArgs = {
 
 export type MutationCreateSwapRequestArgs = {
   input: SwapRequestInput;
+};
+
+
+export type MutationForgetPasswordArgs = {
+  data: ForgetPasswordInput;
 };
 
 

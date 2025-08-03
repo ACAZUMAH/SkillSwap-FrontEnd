@@ -73,22 +73,6 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
     }
   }, [user?.id, addMessage]);
 
-  // useEffect(() => {
-  //   if (socket.current && !socketEvent) {
-  //     socket.current.on("receivedMessage", (data) => {
-  //       console.log("Received message:", data);
-  //       addMessage(data.chatId, data.message);
-  //     });
-
-  //     socket.current.on("sentMessage", (data) => {
-  //       console.log("Sent message:", data);
-  //       addMessage(data.chatId, data.message);
-  //     });
-
-  //     setSocketEvent(true);
-  //   }
-  // }, [socket.current]);
-
   const value: SocketContextType = {
     socket: socket.current,
     isconnected: isConnected,
