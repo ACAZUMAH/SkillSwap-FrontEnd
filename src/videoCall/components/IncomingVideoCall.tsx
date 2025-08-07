@@ -1,20 +1,35 @@
 import { Button, Group, Paper, Text, Title } from "@mantine/core";
 import React from "react";
 import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
+import { useSocket } from "src/hooks";
 import { useAppVideoCall } from "src/hooks/useAppvideoCall";
 
 export const IncomingVideoCall: React.FC = () => {
-  const { incomingVideoCall } = useAppVideoCall();
+  const { incomingVideoCall, setVideoCall, setIncomingVideoCall, resetVideoCall } = useAppVideoCall();
+  const { socket } = useSocket();
 
-  const handleAcceptCall = () => {};
+  const handleAcceptCall = () => {
+    setVideoCall({
+      chatId: incomingVideoCall?.chatId,
+      users: incomingVideoCall?.users,
+      type: "incoming",
+      roomId: incomingVideoCall?.roomId,
+    });
+    socket?.emit("accept-incoming-call", { id: incomingVideoCall?.from.id })
+    setIncomingVideoCall(undefined);
+  };
 
-  const handleRejectCall = () => {};
+  const handleRejectCall = () => {
+    socket?.emit("reject-incoming-call", { id: incomingVideoCall?.from.id });
+    resetVideoCall();
+  };
+  
   return (
     <>
       <Paper
         withBorder
-        h="24%"
-        w="27%"
+        h={180}
+        w={400}
         shadow="xl"
         p="md"
         pos="fixed"
@@ -28,19 +43,25 @@ export const IncomingVideoCall: React.FC = () => {
           justifyContent: "flex-start",
           gap: "1rem",
           zIndex: 50,
+          minWidth: 400,
+          minHeight: 180,
+          maxWidth: 400,
+          maxHeight: 180,
         }}
       >
         <DisplayAvatar
           url={incomingVideoCall?.from.profile_img}
           name={incomingVideoCall?.from.firstName!}
-          width={100}
-          height={100}
+          width={120}
+          height={120}
+          textSize="2rem"
+          radius="50%"
         />
         <div>
-          <Title order={2} ta="center">
+          <Title ta="center" order={2}>
             {`${incomingVideoCall?.from.firstName} ${incomingVideoCall?.from.lastName}`}
           </Title>
-          <Text size="sm" color="dimmed" ta="center">
+          <Text size="sm" c="dimmed" ta="center">
             In coming video call
           </Text>
           <Group justify="center" mt="md" grow>

@@ -26,17 +26,34 @@ import { useAppVideoCall } from "src/hooks/useAppvideoCall";
 import { useAppAuthentication, useSocket } from "src/hooks";
 import { Conditional } from "src/components";
 import { OutGoingCall } from "./components/OutGoingCall";
+import { ZegoExpressEngine } from "zego-express-engine-webrtc";
 
 export const VideoCallLayout: React.FC = () => {
   const { videoCall, resetVideoCall } = useAppVideoCall();
   const { socket } = useSocket();
-  const { user } = useAppAuthentication();
+  const { user, zegoToken } = useAppAuthentication();
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(true);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [callAccepted, setCallAccepted] = useState(false);
   const localVideoRef = useRef<HTMLVideoElement>(null);
-  //const remoteVideoRef = useRef<HTMLVideoElement>(null);
+  const remoteVideoRef = useRef<HTMLVideoElement>(null);
+  const [zgInstance, setZgInstance] = useState<ZegoExpressEngine | null>(null);
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
+  const [publishStream, setPublishStream] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (remoteStream && remoteVideoRef.current) {
+      remoteVideoRef.current.srcObject = remoteStream;
+    }
+  }, [remoteStream]);
+
+  useEffect(() => {
+    if (localStream && localVideoRef.current) {
+      localVideoRef.current.srcObject = localStream;
+    }
+  }, [localStream]);
 
   useEffect(() => {
     if (videoCall?.type === "outgoing") {
@@ -52,19 +69,114 @@ export const VideoCallLayout: React.FC = () => {
           firstName: user?.firstName,
           lastName: user?.lastName,
         },
-        callType: "video",
+        type: videoCall?.type,
         roomId: videoCall?.roomId,
+        users: videoCall?.users,
+        chatId: videoCall?.chatId,
       });
     }
   }, [videoCall]);
 
   useEffect(() => {
-    // Simulate getting user media for local video
-    if (localVideoRef.current && isVideoOn) {
-      // In a real app, you'd use getUserMedia here
-      localVideoRef.current.src = "/placeholder.svg?height=200&width=300";
+    const startCall = async () => {
+      import("zego-express-engine-webrtc").then(
+        async ({ ZegoExpressEngine }) => {
+          const zego = new ZegoExpressEngine(
+            parseInt(`${import.meta.env.VITE_ZEGO_APP_ID}`),
+            import.meta.env.VITE_ZEGO_SERVER_SECRET
+          );
+
+          setZgInstance(zego);
+
+          zego.on(
+            "roomStreamUpdate",
+            async (roomId, updateType, streamList, _extendedData) => {
+              if (updateType === "ADD") {
+                const remotevideo = document.getElementById("remote-video");
+                const vd = document.createElement("video");
+                vd.id = streamList[0].streamID;
+                vd.autoplay = true;
+                vd.playsInline = true;
+                vd.muted = false;
+                if (remotevideo) {
+                  remotevideo.appendChild(vd);
+                }
+                zego
+                  .startPlayingStream(streamList[0].streamID, {
+                    audio: true,
+                    video: true,
+                  })
+                  .then((stream) => {
+                    setRemoteStream(stream);
+                  });
+              } else if (
+                updateType === "DELETE" &&
+                zego &&
+                localStream &&
+                streamList[0].streamID
+              ) {
+                zego.destroyStream(localStream);
+                zego.stopPublishingStream(streamList[0].streamID);
+                zego.logoutRoom(roomId.toString());
+                resetVideoCall();
+              }
+            }
+          );
+          await zego.loginRoom(
+            videoCall?.roomId?.toString()!,
+            zegoToken!,
+            {
+              userID: user?.id.toString()!,
+              userName: `${user?.firstName} ${user?.lastName}`,
+            },
+            { userUpdate: true }
+          );
+
+          const localStream = await zego.createStream({
+            camera: {
+              audio: !isMuted,
+              video: isVideoOn,
+            },
+          });
+          const localVideo = document.getElementById("local-video");
+          const videoElement = document.createElement("video");
+          videoElement.id = "local-video-zego";
+          //videoElement.className = ``
+          videoElement.autoplay = true;
+          videoElement.playsInline = true;
+          videoElement.muted = false;
+
+          if (localVideo) {
+            localVideo.appendChild(videoElement);
+          }
+
+          const td = document.getElementById("local-video-zego");
+
+          if (td) {
+            (td as HTMLVideoElement).srcObject = localStream;
+          }
+
+          const streamID = `${user?.id}-${videoCall?.roomId}`;
+          setPublishStream(streamID);
+          setLocalStream(localStream);
+        }
+      );
+    };
+
+    if (videoCall?.roomId && zegoToken) {
+      startCall();
     }
-  }, [isVideoOn]);
+  }, [zegoToken]);
+
+  useEffect(() => {
+    if (videoCall?.type === "outgoing") {
+      socket?.on("call-accepted", () => setCallAccepted(true));
+    } else {
+      setTimeout(() => {
+        setCallAccepted(true);
+      }, 1000);
+    }
+  }, [videoCall]);
 
   const toggleScreenShare = () => {
     setIsScreenSharing(!isScreenSharing);
@@ -72,9 +184,22 @@ export const VideoCallLayout: React.FC = () => {
   };
 
   const endCall = () => {
+    if (zgInstance && localStream && publishStream) {
+      zgInstance.destroyStream(localStream);
+      zgInstance.stopPublishingStream(publishStream);
+      zgInstance.logoutRoom(videoCall?.roomId?.toString()!);
+    }
+    socket?.emit("reject-incoming-call", {
+      id:
+        videoCall?.users?.receiverId !== user?.id
+          ? videoCall?.users?.receiverId
+          : videoCall?.users?.senderId,
+    });
     setCallAccepted(false);
     resetVideoCall();
   };
+
+  console.log("instanses", zgInstance, localStream, publishStream);
 
   return (
     <Stack
@@ -110,93 +235,159 @@ export const VideoCallLayout: React.FC = () => {
             }}
           >
             {/* Main Video/Screen Share Area */}
-            <Box
-              style={{
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {isScreenSharing ? (
-                <Stack align="center" gap="md">
-                  <IconScreenShare size={64} color="white" />
-                  <Text c="white" size="xl" fw={500}>
-                    Screen Sharing Active
-                  </Text>
-                  <Text c="white" size="sm" opacity={0.8}>
-                    Sharing your entire screen with Alice Johnson
-                  </Text>
-                </Stack>
-              ) : (
-                <Stack align="center" gap="md">
-                  <Avatar size={120} color="white" variant="light">
-                    AJ
-                  </Avatar>
-                  <Text c="white" size="xl" fw={500}>
-                    Alice Johnson
-                  </Text>
-                  <Badge color="green" variant="light">
-                    Video On
-                  </Badge>
-                </Stack>
-              )}
-            </Box>
+            {/* <div id="remote-video">
+              <Box
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {isScreenSharing ? (
+                  <Stack align="center" gap="md">
+                    <IconScreenShare size={64} color="white" />
+                    <Text c="white" size="xl" fw={500}>
+                      Screen Sharing Active
+                    </Text>
+                    <Text c="white" size="sm" opacity={0.8}>
+                      Sharing your entire screen with Alice Johnson
+                    </Text>
+                  </Stack>
+                ) : (
+                  <Stack align="center" gap="md">
+                    <Avatar size={120} color="white" variant="light">
+                      AJ
+                    </Avatar>
+                    <Text c="white" size="xl" fw={500}>
+                      Alice Johnson
+                    </Text>
+                    <Badge color="green" variant="light">
+                      Video On
+                    </Badge>
+                  </Stack>
+                )}
+              </Box>
+            </div> */}
 
+            <div id="remote-video">
+              <Box
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {remoteStream ? (
+                  <video
+                    ref={remoteVideoRef}
+                    autoPlay
+                    playsInline
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      background: "#000",
+                    }}
+                  />
+                ) : (
+                  // fallback UI
+                  <Stack align="center" gap="md">
+                    <Avatar size={120} color="white" variant="light">
+                      AJ
+                    </Avatar>
+                    <Text c="white" size="xl" fw={500}>
+                      Alice Johnson
+                    </Text>
+                    <Badge color="green" variant="light">
+                      Video On
+                    </Badge>
+                  </Stack>
+                )}
+              </Box>
+            </div>
             {/* Local Video Preview */}
-            <Paper
-              shadow="lg"
-              radius="md"
-              pos="absolute"
-              bottom={20}
-              right={20}
-              w={200}
-              h={150}
-              style={{
-                background: isVideoOn
-                  ? "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-                  : "#333",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {isVideoOn ? (
-                <Stack align="center" gap="xs">
-                  <Avatar size={40} color="white" variant="light">
-                    You
-                  </Avatar>
-                  <Text c="white" size="xs">
-                    You
-                  </Text>
-                </Stack>
-              ) : (
-                <Stack align="center" gap="xs">
-                  <IconVideoOff size={32} color="white" />
-                  <Text c="white" size="xs">
-                    Camera Off
-                  </Text>
-                </Stack>
-              )}
-            </Paper>
+            {/* <div id="local-video">
+              <Paper
+                shadow="lg"
+                radius="md"
+                pos="absolute"
+                bottom={20}
+                right={20}
+                w={200}
+                h={150}
+                style={{
+                  background: isVideoOn
+                    ? "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+                    : "#333",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {isVideoOn ? (
+                  <Stack align="center" gap="xs">
+                    <Avatar size={40} color="white" variant="light">
+                      You
+                    </Avatar>
+                    <Text c="white" size="xs">
+                      You
+                    </Text>
+                  </Stack>
+                ) : (
+                  <Stack align="center" gap="xs">
+                    <IconVideoOff size={32} color="white" />
+                    <Text c="white" size="xs">
+                      Camera Off
+                    </Text>
+                  </Stack>
+                )}
+              </Paper>
+            </div> */}
 
-            {/* Maximize Chat Button */}
-            {/* <ActionIcon
-            pos="absolute"
-            top={20}
-            right={20}
-            size="lg"
-            variant="filled"
-            color="dark"
-            onClick={() => setIsChatExpanded(!isChatExpanded)}
-          >
-            {isChatExpanded ? (
-              <IconMinimize size={18} />
-            ) : (
-              <IconMaximize size={18} />
-            )}
-          </ActionIcon> */}
+            <div id="local-video">
+              <Paper
+                shadow="lg"
+                radius="md"
+                pos="absolute"
+                bottom={20}
+                right={20}
+                w={200}
+                h={150}
+                style={{
+                  background: isVideoOn
+                    ? "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+                    : "#333",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {isVideoOn && localStream ? (
+                  <video
+                    ref={localVideoRef}
+                    autoPlay
+                    playsInline
+                    muted
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: 8,
+                      background: "#000",
+                    }}
+                  />
+                ) : (
+                  <Stack align="center" gap="xs">
+                    <IconVideoOff size={32} color="white" />
+                    <Text c="white" size="xs">
+                      Camera Off
+                    </Text>
+                  </Stack>
+                )}
+              </Paper>
+            </div>
           </Paper>
         </Box>
 
@@ -211,11 +402,12 @@ export const VideoCallLayout: React.FC = () => {
                 onClick={() => setIsMuted(!isMuted)}
                 radius="xl"
               >
-                {isMuted ? (
+                <Conditional condition={isMuted}>
                   <IconMicrophoneOff size={24} />
-                ) : (
+                </Conditional>
+                <Conditional condition={!isMuted}>
                   <IconMicrophone size={24} />
-                )}
+                </Conditional>
               </ActionIcon>
             </Tooltip>
 
@@ -227,11 +419,12 @@ export const VideoCallLayout: React.FC = () => {
                 onClick={() => setIsVideoOn(!isVideoOn)}
                 radius="xl"
               >
-                {isVideoOn ? (
+                <Conditional condition={isVideoOn}>
                   <IconVideo size={24} />
-                ) : (
+                </Conditional>
+                <Conditional condition={!isVideoOn}>
                   <IconVideoOff size={24} />
-                )}
+                </Conditional>
               </ActionIcon>
             </Tooltip>
 
@@ -243,11 +436,12 @@ export const VideoCallLayout: React.FC = () => {
                 onClick={toggleScreenShare}
                 radius="xl"
               >
-                {isScreenSharing ? (
+                <Conditional condition={isScreenSharing}>
                   <IconScreenShareOff size={24} />
-                ) : (
+                </Conditional>
+                <Conditional condition={!isScreenSharing}>
                   <IconScreenShare size={24} />
-                )}
+                </Conditional>
               </ActionIcon>
             </Tooltip>
 

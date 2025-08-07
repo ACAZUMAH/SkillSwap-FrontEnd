@@ -10,15 +10,11 @@ import { EmptyChat } from "./EmptyChat";
 import { OpenedChat } from "./OpenedChat";
 import { SearchMessages } from "./SearchMessages";
 import { useResponsive } from "../context";
-import { useAppVideoCall } from "src/hooks/useAppvideoCall";
-import { VideoCallLayout } from "src/videoCall";
-import { IncomingVideoCall } from "src/videoCall/components/IncomingVideoCall";
 
 export const Chats: React.FC = () => {
   const { search, showSidebar, showChat, isMobile } = useResponsive();
   const location = useLocation();
   const { user } = useAppAuthentication();
-  const { videoCall, incomingVideoCall } = useAppVideoCall();
   const {
     activeChat,
     setActiveChat,
@@ -52,58 +48,50 @@ export const Chats: React.FC = () => {
 
   return (
     <>
-    <Conditional condition={Boolean(incomingVideoCall)}>
-      <IncomingVideoCall />
-    </Conditional>
-      <Conditional condition={Boolean(videoCall?.roomId)}>
-        <VideoCallLayout />
-      </Conditional>
-      <Conditional condition={!Boolean(videoCall?.roomId)}>
-        <Box
-          style={{
-            height: "calc(100vh - 70px)",
-            display: "flex",
-          }}
-        >
-          <Conditional condition={showSidebar}>
-            <Sidebar currentUser={user} />
-          </Conditional>
-          <Conditional condition={showChat && Boolean(activeChat)}>
+      <Box
+        style={{
+          height: "calc(100vh - 70px)",
+          display: "flex",
+        }}
+      >
+        <Conditional condition={showSidebar}>
+          <Sidebar currentUser={user} />
+        </Conditional>
+        <Conditional condition={showChat && Boolean(activeChat)}>
+          <Box
+            style={{
+              display: "flex",
+              flex: 1,
+              gap: search ? "8px" : "0",
+            }}
+          >
             <Box
               style={{
-                display: "flex",
-                flex: 1,
-                gap: search ? "8px" : "0",
+                flex: search ? "2" : "1",
+                minWidth: 0,
               }}
             >
+              <OpenedChat currentUser={user} loadingMessages={loading} />
+            </Box>
+            <Conditional condition={search}>
               <Box
                 style={{
-                  flex: search ? "2" : "1",
+                  flex: "1",
                   minWidth: 0,
                 }}
               >
-                <OpenedChat currentUser={user} loadingMessages={loading} />
+                <SearchMessages currentUser={user} />
               </Box>
-              <Conditional condition={search}>
-                <Box
-                  style={{
-                    flex: "1",
-                    minWidth: 0,
-                  }}
-                >
-                  <SearchMessages currentUser={user} />
-                </Box>
-              </Conditional>
-            </Box>
-          </Conditional>
-          <Conditional condition={showChat && !Boolean(activeChat)}>
-            <EmptyChat />
-          </Conditional>
-          <Conditional condition={isMobile && !Boolean(activeChat)}>
-            <EmptyChat />
-          </Conditional>
-        </Box>
-      </Conditional>
+            </Conditional>
+          </Box>
+        </Conditional>
+        <Conditional condition={showChat && !Boolean(activeChat)}>
+          <EmptyChat />
+        </Conditional>
+        <Conditional condition={isMobile && !Boolean(activeChat)}>
+          <EmptyChat />
+        </Conditional>
+      </Box>
     </>
   );
 };

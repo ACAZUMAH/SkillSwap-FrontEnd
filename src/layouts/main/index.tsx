@@ -5,10 +5,14 @@ import { Conditional, Footer } from "src/components";
 import { MainHeader } from "./components/MainHeader";
 import { routerEndPoints } from "src/constants";
 import { SocketClientProvider, SubscriptionProvider } from "src/providers";
+import { IncomingVideoCall } from "src/videoCall/components/IncomingVideoCall";
+import { useAppVideoCall } from "src/hooks/useAppvideoCall";
+import { VideoCallLayout } from "src/videoCall";
+//import { VideoCallUI } from "src/videoCall/videoLayout";
 
 export const Mainlayout: React.FC = () => {
   const location = useLocation();
-
+  const { incomingVideoCall, videoCall } = useAppVideoCall();
   const height = useMemo(() => {
     const currentPath = location.pathname;
     if (
@@ -42,7 +46,15 @@ export const Mainlayout: React.FC = () => {
             <MainHeader />
           </AppShell.Header>
           <AppShell.Main>
-            <Outlet />
+            <Conditional condition={Boolean(incomingVideoCall)}>
+              <IncomingVideoCall />
+            </Conditional>
+            <Conditional condition={Boolean(videoCall?.roomId)}>
+              <VideoCallLayout />
+            </Conditional>
+            <Conditional condition={!Boolean(videoCall?.roomId)}>
+              <Outlet />
+            </Conditional>
           </AppShell.Main>
           <Conditional condition={!isChatRoute}>
             <AppShell.Footer pos="relative">

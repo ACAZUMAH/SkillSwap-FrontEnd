@@ -5,6 +5,7 @@ import { Maybe } from "graphql/jsutils/Maybe";
 export interface Authentication {
   user?: User;
   token?: string | null;
+  zegoToken?: string | null;
   isAuthenticated: boolean;
 }
 
@@ -64,8 +65,10 @@ export interface IncomingVideoCall {
     firstName?: string;
     lastName?: string;
   };
-  callType: string;
   roomId: string;
+  users?: ChatUsers
+  chatId?: string
+  type?: "incoming" | "outgoing";
 }
 export interface VideoCallState {
   videoCall?: VideoCall | undefined;

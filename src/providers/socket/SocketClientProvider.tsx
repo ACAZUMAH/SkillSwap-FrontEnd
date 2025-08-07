@@ -48,11 +48,13 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
             addMessage(data.chatId, data.message);
           });
 
-          socket.current?.on("incoming-call", ({ from, callType, roomId }) => {
-            setIncomingVideoCall({ from, callType, roomId })
+          socket.current?.on("incoming-call", (data) => {
+            console.log("Incoming call receiveed");
+            setIncomingVideoCall({ ...data });
           })
 
           socket.current?.on("call-rejected", () => {
+            console.log("Call rejected");
             resetVideoCall();
           })
 

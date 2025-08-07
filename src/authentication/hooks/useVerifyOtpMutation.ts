@@ -12,6 +12,7 @@ const verifyOtpMutationgql = gql`
   mutation CompleteAuthAndSignToken($otp: String!) {
     completeAuthAndSignToken(otp: $otp) {
       token
+      zegoToken
       user {
         id
         profile_img

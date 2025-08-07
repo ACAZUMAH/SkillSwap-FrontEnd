@@ -201,6 +201,7 @@ export type Authenticated = {
   __typename?: 'Authenticated';
   token?: Maybe<Scalars['String']['output']>;
   user: User;
+  zegoToken?: Maybe<Scalars['String']['output']>;
 };
 
 export type CancelSwapRequestInput = {
