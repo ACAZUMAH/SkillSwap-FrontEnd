@@ -35,19 +35,6 @@ const chatsSlice = createSlice({
       if (state.chats[chatId]) {
         state.chats[chatId].messages = messages;
         state.chats[chatId].loadingMessages = false;
-
-        // state.chats[chatId].recentMessage = recentMessage;
-
-        // if (messages.length > 0) {
-        //   const latestMessage = messages[messages.length - 1];
-        //   if (
-        //     !state.chats[chatId].recentMessage ||
-        //     new Date(latestMessage.createdAt) >
-        //       new Date(state.chats[chatId].recentMessage!.createdAt)
-        //   ) {
-        //     state.chats[chatId].recentMessage = latestMessage;
-        //   }
-        // }
       }
     },
 
@@ -68,11 +55,11 @@ const chatsSlice = createSlice({
       const { chatId, count } = action.payload;
       if (state.chats[chatId]) {
         state.chats[chatId].unreadCount = count;
-        state.totalUnreadCount = Object.values(state.chats).reduce(
-          (total, chat) => total + (chat.unreadCount || 0),
-          0
-        );
       }
+      state.totalUnreadCount = Object.values(state.chats).reduce(
+        (total, chat) => total + (chat.unreadCount || 0),
+        0
+      );
     },
 
     setLoadingChats(state, action: PayloadAction<boolean>) {
@@ -147,12 +134,8 @@ const chatsSlice = createSlice({
       state.activeChat = null;
     },
 
-    reset(state) {
-      state.chats = {};
-      state.activeChat = null;
-      state.loadingChats = false;
-      state.chatsLoaded = false;
-      state.totalUnreadCount = 0;
+    reset: () => {
+      return initialState;
     },
   },
 });

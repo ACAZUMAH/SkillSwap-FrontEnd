@@ -1,6 +1,5 @@
 import {
   ActionIcon,
-  Avatar,
   Button,
   Card,
   Center,
@@ -8,18 +7,17 @@ import {
   Paper,
   rem,
   Stack,
-  Text,
   Title,
   Tooltip,
 } from "@mantine/core";
 import { IconCamera, IconLink, IconPencil } from "@tabler/icons-react";
 import React from "react";
-import { getInitialsNameLatter } from "src/helpers";
 import { useDisclosure, useHover } from "@mantine/hooks";
 import { UpdatePersonalDetailsModal } from "../modals/UpdatePersonalDetailsModal";
 import { Conditional } from "src/components";
 import { PersonalDetailsProps } from "../interfaces";
 import { useAppSettings } from "src/hooks";
+import { UserAvatar } from "src/components/Avatar/UserAvatar";
 
 export const PersonalDetails: React.FC<PersonalDetailsProps> = ({ user }) => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -67,21 +65,15 @@ export const PersonalDetails: React.FC<PersonalDetailsProps> = ({ user }) => {
           >
             <Group>
               <Conditional condition={!hovered}>
-                <Avatar
+                <UserAvatar
+                  url={user?.profile_img!}
+                  name={user?.firstName!}
+                  textSize="3rem"
+                  width={140}
+                  height={140}
+                  radius="50%"
                   size={100}
-                  src={user?.profile_img}
-                  style={{
-                    width: 140,
-                    height: 140,
-                    borderRadius: "50%",
-                    background: "#1f5de5",
-                    cursor: "pointer",
-                  }}
-                >
-                  <Text c="white" size="3rem" fw="bold">
-                    {getInitialsNameLatter(user?.firstName!)}
-                  </Text>
-                </Avatar>
+                />
               </Conditional>
               <Conditional condition={hovered}>
                 <Stack

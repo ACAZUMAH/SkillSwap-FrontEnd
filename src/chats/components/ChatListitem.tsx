@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Badge,
   Box,
   Group,
@@ -11,11 +10,12 @@ import {
 import { useElementSize, useHover } from "@mantine/hooks";
 import React from "react";
 import { Conditional } from "src/components";
-import { getInitialsNameLatter } from "src/helpers";
 import { formatSideBarChatDate } from "src/helpers/date";
 import { useAppSettings } from "src/hooks";
-import { User } from "src/interfaces";
+import { MessageType, User } from "src/interfaces";
 import { useResponsive } from "../context";
+import { UserAvatar } from "src/components/Avatar/UserAvatar";
+import {  IconCamera, IconFile, IconVideo } from "@tabler/icons-react";
 
 interface ChatListitemProps {
   chat: any; // TODO: Define a proper type for chat
@@ -74,28 +74,18 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
           alignItems: "center",
         }}
       >
-        <Avatar
-          src={
+        <UserAvatar
+          url={
             chat?.users?.sender?.id !== currentUser?.id
               ? chat?.users?.sender?.profile_img
               : chat?.users?.receiver?.profile_img
           }
-          style={{
-            background: "#1f5de5",
-            borderRadius: "var(--mantine-radius-xl)",
-            cursor: "pointer",
-          }}
-          size="md"
-        >
-          <Text c="white" fw="bold" size="xl">
-            {getInitialsNameLatter(
-              chat?.users?.sender?.id !== currentUser?.id
-                ? chat?.users?.sender?.firstName!
-                : chat?.users?.receiver?.firstName!
-            )}
-          </Text>
-        </Avatar>
-
+          name={
+            chat?.users?.sender?.id !== currentUser?.id
+              ? chat?.users?.sender?.firstName!
+              : chat?.users?.receiver?.firstName!
+          }
+        />
         <Box ref={currentRef} style={{ minWidth: 0 }}>
           <Group justify="space-between" wrap="nowrap" mb={2}>
             <Title
@@ -118,18 +108,63 @@ export const ChatListitem: React.FC<ChatListitemProps> = ({
           </Group>
           <Conditional condition={chat?.recentMessage?.message || unreadCount}>
             <Group wrap="nowrap" justify="space-between">
-              <Text
-                size="xs"
-                c="dimmed"
-                style={{
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  maxWidth: `${Math.max(width - 20, 100)}px`,
-                }}
+              <Conditional
+                condition={
+                  chat?.recentMessage?.messageType === MessageType.Text
+                }
               >
-                {chat?.recentMessage?.message}
-              </Text>
+                <Text
+                  size="xs"
+                  c="dimmed"
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    maxWidth: `${Math.max(width - 20, 100)}px`,
+                  }}
+                >
+                  {chat?.recentMessage?.message}
+                </Text>
+              </Conditional>
+              <Conditional
+                condition={
+                  chat?.recentMessage?.messageType ===
+                  MessageType.Image
+                }
+              >
+                <Group gap="3" align="center">
+                  <IconCamera size={15} />
+                  <Text size="xs" c="dimmed">
+                    Image
+                  </Text>
+                </Group>
+              </Conditional>
+              <Conditional
+                condition={
+                  chat?.recentMessage?.messageType ===
+                  MessageType.Video
+                }
+              >
+                <Group gap="3" align="center">
+                  <IconVideo size={15} />
+                  <Text size="xs" c="dimmed">
+                    Video
+                  </Text>
+                </Group>
+              </Conditional>
+              <Conditional
+                condition={
+                  chat?.recentMessage?.messageType ===
+                  MessageType.Document
+                }
+              >
+                <Group gap="3" align="center">
+                  <IconFile size={15} />
+                  <Text size="xs" c="dimmed">
+                    Document
+                  </Text>
+                </Group>
+              </Conditional>
               <Conditional condition={Boolean(unreadCount && unreadCount > 0)}>
                 <Badge size="xs" circle>
                   {unreadCount}

@@ -28,7 +28,9 @@ export const ChatContainer: React.FC<ChatcontainerProps> = ({
     <ScrollArea>
       <Box className={classes.chatContainer}>
         <Stack gap="md" className={classes.chatLoader}>
-          <Conditional condition={loadingMessages}>
+          <Conditional
+            condition={Boolean(loadingMessages || chats[activeChat!]?.loadingMessages)}
+          >
             <Center>
               <Loader size="md" type="dots" />
             </Center>

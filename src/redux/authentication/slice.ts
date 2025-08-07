@@ -9,11 +9,8 @@ const slice = createSlice({
     name: "authentication",
     initialState,
     reducers: {
-        update: (state, action: AuthenticationsActions) => {
-            
-            const newState = { ...state, ...action.payload };
-            
-            return newState;
+        update: (state, action: AuthenticationsActions) => { 
+            return { ...state, ...action.payload };          
         },
         reset: () => {
             return initialState;

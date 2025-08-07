@@ -1,7 +1,4 @@
-export const CapitalizeFirstLetter = (str: string): string => {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
+import { CapitalizeFirstLetter } from "src/helpers";
 
 export const createSelectDegreeData = (degrees: object) => {
     return Object.entries(degrees).map(([value, label]) => ({

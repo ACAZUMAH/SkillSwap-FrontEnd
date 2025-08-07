@@ -17,7 +17,7 @@ export const useGetSwapQuery = (id: string) => {
   const { user } = useAppAuthentication();
 
   const { data, ...result } = useQuery<
-    Pick<Query, "getSwapByUsers">,
+    { getSwapByUsers: Query["getSwapByUsers"] },
     QueryGetSwapByUsersArgs
   >(getSwapQuerygql, {
     variables: { data: { receiverId: id, senderId: user?.id || "" } },

@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Box,
   Group,
   Image,
   Paper,
@@ -15,10 +16,11 @@ import { formatMessageDate } from "src/helpers/date";
 import { useAppSettings } from "src/hooks";
 import { IconArrowDown, IconFile } from "@tabler/icons-react";
 import { useUploadFile } from "../hooks/useUplaodFile";
+import { UserAvatar } from "src/components/Avatar/UserAvatar";
 
 interface MessageBubbleProps {
   currentUser?: User;
-  message: Message; 
+  message: Message;
   currentChat: any; // TODO: Define a proper type for currentChat
   index: number;
 }
@@ -43,7 +45,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
 
   return (
     <Group
-      gap="sm"
+      gap="0"
       align="flex-end"
       justify={isCurrentUser ? "flex-end" : "flex-start"}
       style={{
@@ -51,6 +53,17 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         alignSelf: isCurrentUser ? "flex-end" : "flex-start",
       }}
     >
+      <Conditional condition={!isCurrentUser}>
+        <Box style={{ width: 32, display: "flex", justifyContent: "center" }}>
+          <UserAvatar
+            url={message?.sender?.profile_img!}
+            name={message?.sender?.firstName!}
+            size="sm"
+            radius="xl"
+            style={{ flexShrink: 0 }}
+          />
+        </Box>
+      </Conditional>
       <Stack gap={4} style={{ maxWidth: "100%" }}>
         <Conditional condition={message?.messageType === MessageType.Text}>
           <Paper
@@ -187,6 +200,17 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           </Text>
         </Group>
       </Stack>
+      <Conditional condition={isCurrentUser}>
+        <Box style={{ width: 32, display: "flex", justifyContent: "center" }}>
+          <UserAvatar
+            url={currentUser?.profile_img!}
+            name={currentUser?.firstName!}
+            size="sm"
+            radius="xl"
+            style={{ flexShrink: 0 }}
+          />
+        </Box>
+      </Conditional>
     </Group>
   );
 };

@@ -3,10 +3,15 @@ import dayjs from "dayjs";
 /**
  * Formats a date to a human-readable string.
  * @param {Date} date - The date to format.
- * @returns {string} The formatted date string.
+ * @returns - The formatted date string.
  */
 export const formatDate = (date: Date) => {
   return dayjs(new Date(date)).format("MMMM D, YYYY");
+};
+
+export const formatTime = (time: string | Date) => {
+  console.log(time)
+  return dayjs(time).format("h:mm A");
 };
 
 /**
@@ -39,8 +44,13 @@ export const formatSideBarChatDate = (date: Date): string => {
   } else {
     return `${diffInSeconds} s${diffInSeconds > 1 ? "s" : ""} ago`;
   }
-}
+};
 
+/**
+ *
+ * @param date
+ * @returns
+ */
 export const formatMessageDate = (date: Date) => {
   const now = dayjs();
   const chatDate = dayjs(new Date(date));

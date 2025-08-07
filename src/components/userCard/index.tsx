@@ -6,7 +6,6 @@ import {
   Text,
   Title,
   Button,
-  Avatar,
   Progress,
   Stack,
   ActionIcon,
@@ -23,11 +22,11 @@ import classes from "./styles/style.module.css";
 import { Conditional } from "../conditional/Conditional";
 import defaultProfiile from "../../assets/images/defualt-profile.avif";
 import { calculateMatchScore, getMatchScoreColor } from "./helpers";
-import { getInitialsNameLatter } from "src/helpers";
 import { Ratings } from "./components/Ratings";
 import { Skill, User } from "src/interfaces";
 import { useRouteNavigation } from "src/hooks";
 import { routerEndPoints } from "src/constants";
+import { DisplayAvatar } from "../Avatar/DisplayAvatar";
 
 interface UserCardProps {
   user?: User;
@@ -99,15 +98,12 @@ export const UserCard: React.FC<UserCardProps> = ({
 
       <Card.Section className={classes.content}>
         <Group gap="md" mb="md" align="flex-start">
-          <Avatar
-            src={user?.profile_img || defaultProfiile}
+          <DisplayAvatar
+            url={user?.profile_img || defaultProfiile}
             size="xl"
             radius="3rem"
-            className={classes.avatar}
-          >
-            {getInitialsNameLatter(user?.firstName!)}
-          </Avatar>
-
+            name={user?.firstName!}
+          />
           <Stack gap="xs" style={{ flex: 1 }}>
             <Title order={3} size="lg" className={classes.name}>
               {user?.firstName} {user?.lastName}
