@@ -4,11 +4,9 @@ import {
   Group,
   Stack,
   Paper,
-  Badge,
   ActionIcon,
   Tooltip,
   Text,
-  Avatar,
   Divider,
   Box,
 } from "@mantine/core";
@@ -27,6 +25,7 @@ import { useAppAuthentication, useSocket } from "src/hooks";
 import { Conditional } from "src/components";
 import { OutGoingCall } from "./components/OutGoingCall";
 import { ZegoExpressEngine } from "zego-express-engine-webrtc";
+import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
 
 export const VideoCallLayout: React.FC = () => {
   const { videoCall, resetVideoCall } = useAppVideoCall();
@@ -178,11 +177,64 @@ export const VideoCallLayout: React.FC = () => {
     }
   }, [videoCall]);
 
-  const toggleScreenShare = () => {
-    setIsScreenSharing(!isScreenSharing);
-    // In a real app, you'd handle screen sharing logic here
-  };
+  const toggleScreenShare = async () => {
+    if (!zgInstance || !videoCall?.roomId) return;
 
+    if (!isScreenSharing) {
+      // Start screen sharing
+      try {
+        const screenStream = await zgInstance.createStream({
+          screen: {
+            audio: true,
+          },
+        });
+        setLocalStream(screenStream);
+        setIsScreenSharing(true);
+
+        // Stop publishing old stream and publish the new one
+        if (publishStream) {
+          zgInstance.stopPublishingStream(publishStream);
+        }
+        const streamID = `${user?.id}-${videoCall?.roomId}-screen`;
+        zgInstance.startPublishingStream(streamID, screenStream);
+        setPublishStream(streamID);
+
+        // Listen for when the user stops sharing from browser UI
+        screenStream.getVideoTracks()[0].onended = () => {
+          stopScreenShare();
+        };
+      } catch (err) {
+        console.error("Screen sharing failed", err);
+      }
+    } else {
+      // Stop screen sharing and revert to camera
+      stopScreenShare();
+    }
+  };
+  const stopScreenShare = async () => {
+    if (!zgInstance || !videoCall?.roomId) return;
+
+    if (localStream) {
+      zgInstance.destroyStream(localStream);
+    }
+    // Recreate camera stream
+    const cameraStream = await zgInstance.createStream({
+      camera: {
+        audio: !isMuted,
+        video: isVideoOn,
+      },
+    });
+    setLocalStream(cameraStream);
+    setIsScreenSharing(false);
+
+    // Stop publishing old stream and publish the new one
+    if (publishStream) {
+      zgInstance.stopPublishingStream(publishStream);
+    }
+    const streamID = `${user?.id}-${videoCall?.roomId}`;
+    zgInstance.startPublishingStream(streamID, cameraStream);
+    setPublishStream(streamID);
+  };
   const endCall = () => {
     if (zgInstance && localStream && publishStream) {
       zgInstance.destroyStream(localStream);
@@ -281,7 +333,7 @@ export const VideoCallLayout: React.FC = () => {
                   justifyContent: "center",
                 }}
               >
-                {remoteStream ? (
+                <Conditional condition={Boolean(remoteStream)}>
                   <video
                     ref={remoteVideoRef}
                     autoPlay
@@ -292,20 +344,30 @@ export const VideoCallLayout: React.FC = () => {
                       background: "#000",
                     }}
                   />
-                ) : (
-                  // fallback UI
+                </Conditional>
+                <Conditional condition={!remoteStream}>
                   <Stack align="center" gap="md">
-                    <Avatar size={120} color="white" variant="light">
-                      AJ
-                    </Avatar>
+                    <DisplayAvatar
+                      url={
+                        videoCall?.users?.senderId !== user?.id
+                          ? videoCall?.users?.sender?.profile_img!
+                          : videoCall?.users?.receiver?.profile_img!
+                      }
+                      name={
+                        videoCall?.users?.senderId !== user?.id
+                          ? videoCall?.users?.sender?.firstName!
+                          : videoCall?.users?.receiver?.firstName!
+                      }
+                      size={120}
+                      variant="light"
+                    />
                     <Text c="white" size="xl" fw={500}>
-                      Alice Johnson
+                      {videoCall?.users?.senderId !== user?.id
+                        ? videoCall?.users?.sender?.firstName!
+                        : videoCall?.users?.receiver?.firstName!}
                     </Text>
-                    <Badge color="green" variant="light">
-                      Video On
-                    </Badge>
                   </Stack>
-                )}
+                </Conditional>
               </Box>
             </div>
             {/* Local Video Preview */}
@@ -365,7 +427,7 @@ export const VideoCallLayout: React.FC = () => {
                   justifyContent: "center",
                 }}
               >
-                {isVideoOn && localStream ? (
+                <Conditional condition={Boolean(isVideoOn && localStream)}>
                   <video
                     ref={localVideoRef}
                     autoPlay
@@ -378,14 +440,15 @@ export const VideoCallLayout: React.FC = () => {
                       background: "#000",
                     }}
                   />
-                ) : (
+                </Conditional>
+                <Conditional condition={!isVideoOn}>
                   <Stack align="center" gap="xs">
                     <IconVideoOff size={32} color="white" />
                     <Text c="white" size="xs">
                       Camera Off
                     </Text>
                   </Stack>
-                )}
+                </Conditional>
               </Paper>
             </div>
           </Paper>

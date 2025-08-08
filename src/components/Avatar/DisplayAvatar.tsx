@@ -13,6 +13,7 @@ interface DisplayAvatarProps {
   height?: string | number;
   radius?: string;
   style?: React.CSSProperties;
+  variant?: "filled" | "light" | "gradient";
 }
 
 export const DisplayAvatar: React.FC<DisplayAvatarProps> = ({
@@ -25,6 +26,7 @@ export const DisplayAvatar: React.FC<DisplayAvatarProps> = ({
   style = {},
   width,
   height,
+  variant
 }) => {
   return (
     <>
@@ -35,6 +37,7 @@ export const DisplayAvatar: React.FC<DisplayAvatarProps> = ({
         radius={radius}
         style={{ ...style, width, height }}
         alt={name}
+        variant={variant}
       >
         <Text c={textColor} fw="bold" size={textSize}>
           {getInitialsNameLatter(name)}

@@ -7,7 +7,8 @@ import { routerEndPoints } from "src/constants";
 import { SocketClientProvider, SubscriptionProvider } from "src/providers";
 import { IncomingVideoCall } from "src/videoCall/components/IncomingVideoCall";
 import { useAppVideoCall } from "src/hooks/useAppvideoCall";
-import { VideoCallLayout } from "src/videoCall";
+import { VideoCallLayout } from "src/videoCall/videoLayout";
+//import { VideoCallLayout } from "src/videoCall";
 //import { VideoCallUI } from "src/videoCall/videoLayout";
 
 export const Mainlayout: React.FC = () => {
