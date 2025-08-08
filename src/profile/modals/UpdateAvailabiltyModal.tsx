@@ -11,9 +11,9 @@ import React, { useEffect, useState } from "react";
 import { useUpdateAvailabilityForm } from "../hooks/useUpdateAvailabilityForm";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { Conditional } from "src/components";
-import { CapitalizeFirstLetter } from "../helpers";
 import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutation";
 import { UpdateAvailabiltyModalProps } from "../interfaces";
+import { CapitalizeFirstLetter } from "src/helpers";
 
 
 export const UpdateAvailabiltyModal: React.FC<UpdateAvailabiltyModalProps> = ({

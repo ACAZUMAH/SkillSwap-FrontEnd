@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Card,
   Group,
@@ -16,9 +15,9 @@ import { routerEndPoints } from "src/constants";
 import { Conditional } from "src/components";
 import classes from "../styles/index.module.css";
 import { IconClock } from "@tabler/icons-react";
-import { getInitialsNameLatter } from "src/helpers";
 import { Ratings } from "src/components/userCard/components/Ratings";
 import { useUpdateSwapMutation } from "../hooks/useUpdateMutation";
+import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
 
 interface SwapUserCardProps {
   swapId: string;
@@ -80,14 +79,12 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
       >
         <Card.Section className={classes.content}>
           <Group gap="md" mb="md" align="flex-start">
-            <Avatar
-              src={swapUser?.profile_img || defaultProfiile}
+            <DisplayAvatar
+              url={swapUser?.profile_img || defaultProfiile}
+              name={swapUser?.firstName!}
               size="xl"
               radius="3rem"
-              className={classes.avatar}
-            >
-              {getInitialsNameLatter(swapUser?.firstName!)}
-            </Avatar>
+            />
 
             <Stack gap="xs" style={{ flex: 1 }}>
               <Title order={3} size="lg" className={classes.name}>

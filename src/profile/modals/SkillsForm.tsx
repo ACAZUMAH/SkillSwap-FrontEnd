@@ -1,7 +1,6 @@
 import { Button, Group, Select, TextInput } from "@mantine/core";
 import React from "react";
-import { leveldata } from "src/helpers";
-import { CapitalizeFirstLetter } from "../helpers";
+import { CapitalizeFirstLetter, leveldata } from "src/helpers";
 import { SkillsFormProps } from "../interfaces";
 
 

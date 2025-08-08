@@ -20,7 +20,7 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({
   const { chatsLoaded, loadInitialChats } = useAppChats();
   const { chats } = useGetAllChatsQuery(!user || chatsLoaded);
   useEffect(() => {
-    if (user && !chatsLoaded && chats && Object.keys(chats).length > 0) {
+    if (user?.id && !chatsLoaded && chats && Object.keys(chats).length > 0) {
       loadInitialChats(chats.filter((chat) => chat !== null));
     }
   }, [user?.id!, chats, chatsLoaded, loadInitialChats]);

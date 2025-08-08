@@ -1,4 +1,4 @@
-import { Anchor, Avatar, Divider, Menu, Text } from "@mantine/core";
+import { Anchor, Divider, Menu, } from "@mantine/core";
 import {
   IconChalkboard,
   IconCode,
@@ -7,8 +7,8 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import React from "react";
+import { UserAvatar } from "src/components/Avatar/UserAvatar";
 import { routerEndPoints } from "src/constants";
-import { getInitialsNameLatter } from "src/helpers";
 import {
   useAppAuthentication,
   useAppChats,
@@ -28,33 +28,21 @@ export const MainDropdown: React.FC = () => {
     <Menu trigger="hover" width={230} offset={10}>
       <Menu.Target>
         <Anchor component="div" style={{ textDecoration: "none" }}>
-          <Avatar
-            src={user?.profile_img}
-            style={{
-              background: "#1f5de5",
-              borderRadius: "var(--mantine-radius-xl)",
-              cursor: "pointer",
-            }}
-            size="sm"
-          >
-            <Text c="white" fw="bold" size="xl">
-              {getInitialsNameLatter(user?.firstName!)}
-            </Text>
-          </Avatar>
+          <UserAvatar url={user?.profile_img!} name={user?.firstName!} size="sm" />
         </Anchor>
       </Menu.Target>
       <Menu.Dropdown p="md">
         <Menu.Item
           leftSection={<IconUser stroke={1.5} />}
           onClick={navigateToProfile}
-          mb="xs"
+          mb="4px"
         >
           Profile
         </Menu.Item>
         <Menu.Item
           leftSection={<IconSettings stroke={1.5} />}
           onClick={navigateToSettings}
-          mb="xs"
+          mb="4px"
         >
           Settings
         </Menu.Item>
@@ -63,14 +51,14 @@ export const MainDropdown: React.FC = () => {
         <Menu.Item
           leftSection={<IconChalkboard stroke={1.5} />}
           onClick={navigateToWhiteBoard}
-          mb="xs"
+          mb="4px"
         >
           WhiteBoard
         </Menu.Item>
         <Menu.Item
           leftSection={<IconCode stroke={1.5} />}
           onClick={navigateToCodeEditor}
-          mb="sm"
+          mb="4px"
         >
           Code Editor
         </Menu.Item>
@@ -83,7 +71,7 @@ export const MainDropdown: React.FC = () => {
             resetChats();
             navigateToLanding();
           }}
-          mt="xs"
+          mt="4px"
         >
           Logout
         </Menu.Item>

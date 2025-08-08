@@ -15,7 +15,7 @@ const unreadMessagesCountGql = gql`
 export const useUnReadMessagesCountQuery = () => {
   const { user } = useAppAuthentication();
   const { justCameOnline, isOnline } = useOnlineStatus();
-  const { setUnreadCount } = useAppChats()
+  const { updateUnreadCount } = useAppChats()
   const { data, refetch } = useQuery<{
     getUnreadMessagesCount: Query["getUnreadMessagesCount"];
   }>(unreadMessagesCountGql, {
@@ -30,11 +30,11 @@ export const useUnReadMessagesCountQuery = () => {
       data?.getUnreadMessagesCount?.forEach((item) => {
         if (item) {
           const { chatId, unreadCount } = item;
-          setUnreadCount(chatId, unreadCount);
+          updateUnreadCount(chatId, unreadCount);
         }
       });
     }
-  }, [data, setUnreadCount])
+  }, [data, updateUnreadCount])
 
   useEffect(() => {
     if (justCameOnline && user?.id) {

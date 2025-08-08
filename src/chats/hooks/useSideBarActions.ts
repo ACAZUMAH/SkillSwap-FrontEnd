@@ -4,7 +4,6 @@ import { useAppChats } from "src/hooks";
 export const useSideBarActions = () => {
   const [search, setSearch] = useState("");
   const { chats, setActiveChat, activeChat, loadingChats } = useAppChats();
-
   const filteredChats = useMemo(() => {
     const chatList = Object.values(chats);
     if (!search.trim()) {
@@ -22,6 +21,7 @@ export const useSideBarActions = () => {
     });
   }, [search]);
 
+  // console.log('chat list', JSON.stringify(chats, null, 2));
   const sortedChats = useMemo(() => {
     const chatList = Object.values(chats);
     return chatList.sort((a, b) => {
@@ -30,6 +30,8 @@ export const useSideBarActions = () => {
       return bDate.getTime() - aDate.getTime();
     });
   }, [chats]);
+
+  // console.log("Sorted Chats", JSON.stringify(sortedChats, null, 2));
 
   const unreadCounts = useMemo(() => {
     const chatsList = Object.values(chats);

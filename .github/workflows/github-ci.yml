@@ -122,6 +122,8 @@ jobs:
           touch ".env"
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
           echo "VITE_API_GRAPHQLWS_URL=${{ secrets.VITE_API_GRAPHQLWS_URL }}" >> .env
+          echo "VITE_ZEGO_APP_ID=${{ secrets.VITE_ZEGO_APP_ID }}" >> .env
+          echo "VITE_ZEGO_SERVER_SECRET=${{ secrets.VITE_ZEGO_SERVER_SECRET }}" >> .env
 
       - name: Install Netlify CLI
         run: yarn global add netlify-cli
@@ -164,7 +166,9 @@ jobs:
           touch ".env"
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
           echo "VITE_API_GRAPHQLWS_URL=${{ secrets.VITE_API_GRAPHQLWS_URL }}" >> .env
-        
+          echo "VITE_ZEGO_APP_ID=${{ secrets.VITE_ZEGO_APP_ID }}" >> .env
+          echo "VITE_ZEGO_SERVER_SECRET=${{ secrets.VITE_ZEGO_SERVER_SECRET }}" >> .env
+
       - name: Install Netlify CLI
         run: yarn global add netlify-cli
 
@@ -175,4 +179,4 @@ jobs:
             --site=${{ secrets.NETLIFY_PRODUCTION_SITE_ID }} \
             --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} \
             --dir dist/ \
-            --prod 
+            --prod

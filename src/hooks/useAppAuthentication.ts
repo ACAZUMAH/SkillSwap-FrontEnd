@@ -8,9 +8,9 @@ export const useAppAuthentication = () => {
   const authentication = useAppSelctor((state) => state.authentication);
 
   const registerUser = useCallback(
-    ({ user, token }: Authenticated) => {
+    ({ user, token, zegoToken }: Authenticated) => {
       dispatch(
-        authenticationActions.update({ user, token, isAuthenticated: true })
+        authenticationActions.update({ user, token, isAuthenticated: true, zegoToken })
       );
     },
     [dispatch]

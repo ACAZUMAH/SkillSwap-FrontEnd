@@ -71,13 +71,6 @@ export const useAppChats = () => {
     [dispatch]
   );
 
-  const setUnreadCount = useCallback(
-    (chatId: string, count: number) => {
-      dispatch(chatsActions.setUnreadMessagesCount({ chatId, count }));
-    },
-    [dispatch]
-  );
-
   const updateUnreadCount = useCallback(
     (chatId: string, count: number) => {
       dispatch(chatsActions.setUnreadMessagesCount({ chatId, count }));
@@ -101,7 +94,6 @@ export const useAppChats = () => {
     addMessage,
     setLoadingMessages,
     resetChats,
-    setUnreadCount,
     updateUnreadCount,
     updateRecentMessage,
   };

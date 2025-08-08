@@ -5,6 +5,7 @@ import { Maybe } from "graphql/jsutils/Maybe";
 export interface Authentication {
   user?: User;
   token?: string | null;
+  zegoToken?: string | null;
   isAuthenticated: boolean;
 }
 
@@ -19,14 +20,13 @@ export interface SettingsActions extends PayloadAction<Partial<Settings>> {}
 
 export interface StateChat {
   id: string;
-  users: {
-    sender: User;
-    receiver: User;
-  };
+  users: ChatUsers;
   recentMessage: Message;
   messages?: Message[];
   loadingMessages: boolean;
-  unreadCount?: number; // Add this
+  unreadCount?: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Chats {
@@ -49,3 +49,29 @@ export interface Chats {
 }
 
 export interface ChatsActions extends PayloadAction<Partial<Chats>> {}
+
+
+export interface VideoCall {
+  chatId?: string;
+  users?: ChatUsers;
+  type?: "incoming" | "outgoing";
+  roomId?: string;
+}
+
+export interface IncomingVideoCall {
+  from: {
+    id: string;
+    profile_img?: string;
+    firstName?: string;
+    lastName?: string;
+  };
+  roomId: string;
+  users?: ChatUsers
+  chatId?: string
+  type?: "incoming" | "outgoing";
+}
+export interface VideoCallState {
+  videoCall?: VideoCall | undefined;
+  incomingVideoCall?: IncomingVideoCall | undefined;
+}
+

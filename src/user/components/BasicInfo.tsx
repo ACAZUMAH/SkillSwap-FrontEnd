@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Center,
   Group,
@@ -9,15 +8,13 @@ import {
   Title,
 } from "@mantine/core";
 import React from "react";
-import { getInitialsNameLatter } from "src/helpers";
 import { Swap, User } from "src/interfaces";
 import classes from "../styles/index.module.css";
-import {
-  IconStar,
-} from "@tabler/icons-react";
+import { IconStar } from "@tabler/icons-react";
 import { useSwapMutation } from "../hooks/useSwapMutation";
 import { Conditional } from "src/components";
 import { SwapStatusButtons } from "./SwapStatusButtons";
+import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
 
 interface BasicInfoProps {
   user?: User;
@@ -39,17 +36,12 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({ user, swapData }) => {
 
   return (
     <Paper withBorder shadow="0" p="sm" h="100%" w="100%" radius="md">
-      <Center>
-        <Avatar
-          src={user?.profile_img}
+      <Center  mt="sm">
+        <DisplayAvatar
+          url={user?.profile_img!}
+          name={user?.firstName!}
           size="12rem"
-          mt="sm"
-          className={classes.avatar}
-        >
-          <Text c="white" fw="bold" size="xl">
-            {getInitialsNameLatter(user?.firstName!)}
-          </Text>
-        </Avatar>
+        />
       </Center>
       <Group gap={5} justify="center" mt="md">
         <Title order={2} ta="center" className={classes.title}>

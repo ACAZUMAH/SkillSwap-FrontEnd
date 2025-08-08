@@ -92,7 +92,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser }) => {
           <Stack gap="xs">
             {sortedChats.map((chat) => (
               <ChatListitem
-                key={chat.id}
+                key={chat?.id}
                 chat={chat}
                 currentUser={currentUser}
                 setActiveChat={setActiveChat}

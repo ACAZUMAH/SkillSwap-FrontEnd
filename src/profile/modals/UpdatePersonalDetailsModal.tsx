@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Group,
@@ -13,7 +12,6 @@ import {
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconCamera, IconCancel } from "@tabler/icons-react";
 import React from "react";
-import { getInitialsNameLatter } from "src/helpers";
 import {
   useProfileImageform,
   useUpdatePersonalInfoForm,
@@ -24,6 +22,7 @@ import { useUpdateUserProfileMutation } from "../hooks/useUpdateUserProfileMutat
 import { useUploadProfileImage } from "../hooks/useUploadProfileImage";
 import { UpdatePersonalDetailsModalProps } from "../interfaces";
 import { useAppSettings } from "src/hooks";
+import { UserAvatar } from "src/components/Avatar/UserAvatar";
 
 export const UpdatePersonalDetailsModal: React.FC<
   UpdatePersonalDetailsModalProps
@@ -120,45 +119,35 @@ export const UpdatePersonalDetailsModal: React.FC<
           >
             <Group>
               <Dropzone.Accept>
-                <Avatar
+                <UserAvatar
+                  width={190}
+                  height={190}
+                  url={url}
+                  name={user?.firstName!}
+                  radius="50%"
                   size={100}
-                  src={url}
-                  style={{
-                    width: 190,
-                    height: 190,
-                    borderRadius: "50%",
-                    background: "#1f5de5",
-                    cursor: "pointer",
-                  }}
-                >
-                  <Text c="white" size="3rem" fw="bold">
-                    {getInitialsNameLatter(user?.firstName!)}
-                  </Text>
-                </Avatar>
+                  textSize="3rem"
+                  textColor="white"
+                />
               </Dropzone.Accept>
               <Dropzone.Reject>
                 <IconCancel />
               </Dropzone.Reject>
               <Dropzone.Idle>
                 <Conditional condition={!hovered}>
-                  <Avatar
+                  <UserAvatar
+                    width={190}
+                    height={190}
+                    url={url || user?.profile_img!}
+                    name={user?.firstName!}
+                    radius="50%"
                     size={100}
-                    src={user?.profile_img || url}
+                    textSize="3rem"
+                    textColor="white"
                     onLoad={() => {
                       URL.revokeObjectURL(url!);
                     }}
-                    style={{
-                      width: 190,
-                      height: 190,
-                      borderRadius: "50%",
-                      background: "#1f5de5",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <Text c="white" size="3rem" fw="bold">
-                      {getInitialsNameLatter(user?.firstName!)}
-                    </Text>
-                  </Avatar>
+                  />
                 </Conditional>
                 <Conditional condition={hovered}>
                   <Stack
@@ -168,7 +157,9 @@ export const UpdatePersonalDetailsModal: React.FC<
                       borderRadius: "50%",
                       background: "#1f5de5",
                       cursor: "pointer",
-                      backgroundColor: isDarkMode ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.9)",
+                      backgroundColor: isDarkMode
+                        ? "rgba(0,0,0,0.5)"
+                        : "rgba(0,0,0,0.9)",
                     }}
                     justify="center"
                     align="center"

@@ -6,17 +6,22 @@ import { useLoginMutation } from "../hooks/useLoginMutation";
 import { getPhoneNumberWithCode } from "src/helpers/phone-numbers";
 import {
   Paper,
-  Stack,
   TextInput,
   Container,
   Button,
   PasswordInput,
+  Anchor,
+  Group,
+  Text,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { ResetPasswordModal } from "./ResetPasswordModal";
 
 export const Login: React.FC = () => {
   const form = useLoginForm();
   const [showOtp, setShowOtp] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [opened, { open, close }] = useDisclosure(false);
   const { handleLogin, loading } = useLoginMutation();
 
   const handleSubmit = async () => {
@@ -32,12 +37,13 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <Container size="xs">
-      <Paper p="xl" radius="xl" w={500} withBorder>
-        <Conditional condition={!showOtp}>
-          <Stack gap="sm" w={400} mx="auto">
+    <>
+      <Container size="xs">
+        <Paper p="xl" radius="xl" w={500} withBorder>
+          <Conditional condition={!showOtp}>
             <TextInput
               size="md"
+              mb="md"
               radius="xl"
               withAsterisk
               name="phoneNumber"
@@ -59,22 +65,29 @@ export const Login: React.FC = () => {
               onChange={form.handleChange}
               error={form.errors.password}
             />
+            <Group justify="flex-end">
+              <Anchor onClick={open} component="b">
+                <Text size="sm">Forget password</Text>
+              </Anchor>
+            </Group>
             <Button
               size="md"
               radius="xl"
-              mt="md"
+              mt="lg"
               loading={loading}
               disabled={!form.isValid}
               onClick={handleSubmit}
+              fullWidth
             >
               Login
             </Button>
-          </Stack>
-        </Conditional>
-        <Conditional condition={showOtp}>
-          <VerifyOtp phoneNumber={phoneNumber} />
-        </Conditional>
-      </Paper>
-    </Container>
+          </Conditional>
+          <Conditional condition={showOtp}>
+            <VerifyOtp phoneNumber={phoneNumber} />
+          </Conditional>
+        </Paper>
+      </Container>
+      <ResetPasswordModal opened={opened} onClose={close} />
+    </>
   );
 };

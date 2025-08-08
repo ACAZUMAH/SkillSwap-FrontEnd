@@ -3,6 +3,7 @@ import { io, Socket } from "socket.io-client";
 import { SocketContext, SocketContextType } from "src/context/socketContext";
 import { useAppAuthentication } from "src/hooks";
 import { useAppChats } from "src/hooks/useAppChats";
+import { useAppVideoCall } from "src/hooks/useAppvideoCall";
 
 interface SocketClientProviderProps {
   children?: React.ReactNode;
@@ -16,6 +17,7 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
   const [isConnected, setIsConnected] = React.useState(false);
   const { user } = useAppAuthentication();
   const { addMessage } = useAppChats();
+  const { setIncomingVideoCall, resetVideoCall } = useAppVideoCall();
 
   useEffect(() => {
     if (user) {
@@ -38,12 +40,23 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
           console.log("Setting up socket event listeners");
 
           socket.current?.on("receivedMessage", (data) => {
+            console.log("Received message:", data);
             addMessage(data.chatId, data.message);
           });
 
           socket.current?.on("sentMessage", (data) => {
             addMessage(data.chatId, data.message);
           });
+
+          socket.current?.on("incoming-call", (data) => {
+            console.log("Incoming call receiveed");
+            setIncomingVideoCall({ ...data });
+          })
+
+          socket.current?.on("call-rejected", () => {
+            console.log("Call rejected");
+            resetVideoCall();
+          })
 
           setSocketEvent(true);
         }
@@ -72,22 +85,6 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
       };
     }
   }, [user?.id, addMessage]);
-
-  // useEffect(() => {
-  //   if (socket.current && !socketEvent) {
-  //     socket.current.on("receivedMessage", (data) => {
-  //       console.log("Received message:", data);
-  //       addMessage(data.chatId, data.message);
-  //     });
-
-  //     socket.current.on("sentMessage", (data) => {
-  //       console.log("Sent message:", data);
-  //       addMessage(data.chatId, data.message);
-  //     });
-
-  //     setSocketEvent(true);
-  //   }
-  // }, [socket.current]);
 
   const value: SocketContextType = {
     socket: socket.current,

@@ -201,6 +201,7 @@ export type Authenticated = {
   __typename?: 'Authenticated';
   token?: Maybe<Scalars['String']['output']>;
   user: User;
+  zegoToken?: Maybe<Scalars['String']['output']>;
 };
 
 export type CancelSwapRequestInput = {
@@ -261,6 +262,11 @@ export type Filters = {
   userId?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type ForgetPasswordInput = {
+  newPassword: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+};
+
 export type Message = {
   __typename?: 'Message';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -304,6 +310,7 @@ export type Mutation = {
   completeAuthAndSignToken: Authenticated;
   createAccount: Response;
   createSwapRequest: Swap;
+  forgetPassword: Response;
   login?: Maybe<Response>;
   testMutation?: Maybe<Scalars['String']['output']>;
   updateSwap?: Maybe<Swap>;
@@ -343,13 +350,18 @@ export type MutationCreateSwapRequestArgs = {
 };
 
 
+export type MutationForgetPasswordArgs = {
+  data: ForgetPasswordInput;
+};
+
+
 export type MutationLoginArgs = {
   data: LoginUserInput;
 };
 
 
 export type MutationUpdateSwapArgs = {
-  input: UpdateSwapInput;
+  data: UpdateSwapInput;
 };
 
 
@@ -477,8 +489,8 @@ export enum ScheduleStatus {
 
 export type Session = {
   __typename?: 'Session';
-  date: Scalars['Date']['output'];
-  recievedBy: Scalars['ID']['output'];
+  date: Scalars['DateTime']['output'];
+  receivedBy: Scalars['ID']['output'];
   skill: Scalars['String']['output'];
   status: ScheduleStatus;
   taughtBy: Scalars['ID']['output'];
@@ -486,8 +498,8 @@ export type Session = {
 };
 
 export type SessionInput = {
-  date: Scalars['Date']['input'];
-  recievedBy: Scalars['ID']['input'];
+  date: Scalars['DateTime']['input'];
+  receivedBy: Scalars['ID']['input'];
   skill: Scalars['String']['input'];
   status?: InputMaybe<ScheduleStatus>;
   taughtBy: Scalars['ID']['input'];
@@ -598,7 +610,7 @@ export type TimeTable = {
   dayOfweek: Scalars['String']['output'];
   durationInWeeks: Scalars['Int']['output'];
   skill: Scalars['String']['output'];
-  startDate: Scalars['Date']['output'];
+  startDate: Scalars['DateTime']['output'];
   taughtBy: Scalars['ID']['output'];
   time: Scalars['String']['output'];
 };
@@ -607,7 +619,7 @@ export type TimeTableInput = {
   dayOfweek: Scalars['String']['input'];
   durationInWeeks: Scalars['Int']['input'];
   skill: Scalars['String']['input'];
-  startDate: Scalars['Date']['input'];
+  startDate: Scalars['DateTime']['input'];
   taughtBy: Scalars['ID']['input'];
   time: Scalars['String']['input'];
 };

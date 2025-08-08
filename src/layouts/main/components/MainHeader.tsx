@@ -32,6 +32,7 @@ export const MainHeader: React.FC = () => {
   const [openedSearch, SetOpenedSearch] = React.useState(false);
   const [search, setSearch] = useDebouncedState("", 200);
   const navigateToChats = useRouteNavigation(routerEndPoints.CHAT);
+  const navigateToHome = useRouteNavigation(routerEndPoints.HOME);
   const settings = useAppSettings();
   const location = useLocation();
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ export const MainHeader: React.FC = () => {
             lineSize={2}
             onClick={() => setOpened(true)}
           />
-          <Anchor underline="never" href="/home">
+          <Anchor underline="never" component="b" onClick={navigateToHome}>
             <Title c="brand" fs="italic" order={1} size={35}>
               SkillSwap
             </Title>
