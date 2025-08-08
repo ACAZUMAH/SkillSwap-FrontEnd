@@ -53,9 +53,7 @@ export const Mainlayout: React.FC = () => {
             <Conditional condition={Boolean(videoCall?.roomId)}>
               <VideoCallLayout />
             </Conditional>
-            <Conditional condition={!Boolean(videoCall?.roomId)}>
-              <Outlet />
-            </Conditional>
+            <Outlet />
           </AppShell.Main>
           <Conditional condition={!isChatRoute}>
             <AppShell.Footer pos="relative">

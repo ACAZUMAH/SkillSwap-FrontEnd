@@ -1,28 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Group,
-  Stack,
-  Paper,
-  ActionIcon,
-  Tooltip,
-  Divider,
-  Box,
-} from "@mantine/core";
-import {
-  IconMicrophone,
-  IconMicrophoneOff,
-  IconVideo,
-  IconVideoOff,
-  IconScreenShare,
-  IconScreenShareOff,
-  IconSettings,
-  IconPhone,
-} from "@tabler/icons-react";
+import { Stack, Paper, Box, Text } from "@mantine/core";
+import { IconVideoOff } from "@tabler/icons-react";
 import { useAppVideoCall } from "src/hooks/useAppvideoCall";
 import { useAppAuthentication, useSocket } from "src/hooks";
 import { Conditional } from "src/components";
 import { OutGoingCall } from "./components/OutGoingCall";
 import { ZegoExpressEngine } from "zego-express-engine-webrtc";
+import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
+import { ControlBar } from "./components/ControlBar";
 //import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
 
 export const VideoCallLayout: React.FC = () => {
@@ -42,6 +27,8 @@ export const VideoCallLayout: React.FC = () => {
 
   const [zgInstance, setZgInstance] = useState<ZegoExpressEngine | null>(null);
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
+  const [remoteScreen, setRemoteScreen] = useState<MediaStream | null>(null);
   const [screenStream, setScreenStream] = useState<MediaStream | null>(null);
 
   const [cameraStreamID, setCameraStreamID] = useState<string | null>(null);
@@ -59,6 +46,18 @@ export const VideoCallLayout: React.FC = () => {
       localScreenRef.current.srcObject = screenStream;
     }
   }, [screenStream]);
+
+  useEffect(() => {
+    if (remoteScreen && remoteScreenRef.current) {
+      remoteScreenRef.current.srcObject = remoteScreen;
+    }
+  }, [remoteScreen]);
+
+  useEffect(() => {
+    if (remoteStream && remoteVideoRef.current) {
+      remoteVideoRef.current.srcObject = remoteStream;
+    }
+  }, [remoteStream]);
 
   // Outgoing call emit
   useEffect(() => {
@@ -99,20 +98,13 @@ export const VideoCallLayout: React.FC = () => {
             const remoteStream = await zego.startPlayingStream(
               streamInfo.streamID
             );
-
-            // Detect if it's a screen share or camera based on streamID
             if (streamInfo.streamID.includes("-screen")) {
-              if (remoteScreenRef.current) {
-                remoteScreenRef.current.srcObject = remoteStream;
-              }
+              setRemoteScreen(remoteStream);
             } else {
-              if (remoteVideoRef.current) {
-                remoteVideoRef.current.srcObject = remoteStream;
-              }
+              setRemoteStream(remoteStream);
             }
           }
         } else if (updateType === "DELETE") {
-          // If remote user stops sharing screen
           if (remoteScreenRef.current) {
             remoteScreenRef.current.srcObject = null;
           }
@@ -130,14 +122,19 @@ export const VideoCallLayout: React.FC = () => {
       );
 
       // Create camera stream
-      const cameraStream = await zego.createStream({
-        camera: { audio: true, video: true },
-      });
-      setLocalStream(cameraStream);
+      try {
+        const cameraStream = await zego.createStream({
+          camera: { audio: true, video: true },
+        });
+        setLocalStream(cameraStream);
 
-      const camID = `${user?.id!}-${videoCall?.roomId!}-camera`;
-      setCameraStreamID(camID);
-      zego.startPublishingStream(camID, cameraStream);
+        const camID = `${user?.id!}-${videoCall?.roomId!}-camera`;
+        setCameraStreamID(camID);
+        zego.startPublishingStream(camID, cameraStream);
+      } catch (err) {
+        console.warn("Camera not available, using avatar fallback:", err);
+        setIsVideoOn(false);
+      }
     };
 
     if (videoCall?.roomId && zegoToken) {
@@ -208,20 +205,25 @@ export const VideoCallLayout: React.FC = () => {
     if (screenStream) {
       screenStream.getTracks().forEach((track) => track.stop());
       setScreenStream(null);
+      setScreenStreamID(null);
     }
     setIsScreenSharing(false);
   };
 
   const endCall = () => {
-    if (zgInstance && localStream && cameraStreamID) {
-      zgInstance.stopPublishingStream(cameraStreamID);
-      localStream.getTracks().forEach((track) => track.stop());
+    console.log(
+      "logging instances",
+      zgInstance,
+      localStream,
+      cameraStreamID,
+      screenStreamID
+    );
+    if (zgInstance) {
+      zgInstance.stopPublishingStream(cameraStreamID!);
+      localStream?.getTracks().forEach((track) => track.stop());
+      zgInstance.stopPublishingStream(screenStreamID!);
+      zgInstance?.logoutRoom(videoCall?.roomId?.toString()!);
     }
-    if (zgInstance && screenStreamID) {
-      zgInstance.stopPublishingStream(screenStreamID);
-    }
-    zgInstance?.logoutRoom(videoCall?.roomId?.toString()!);
-
     socket?.emit("reject-incoming-call", {
       id:
         videoCall?.users?.receiverId !== user?.id
@@ -234,20 +236,33 @@ export const VideoCallLayout: React.FC = () => {
 
   return (
     <Stack
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        zIndex: 1000,
-        backgroundColor: "var(--mantine-color-body)",
-      }}
+      style={
+        isScreenSharing && Boolean(screenStream)
+          ? {
+              position: "fixed",
+              bottom: 20,
+              left: 20,
+              width: 300,
+              height: 200,
+              zIndex: 1000,
+              backgroundColor: "var(--mantine-color-body)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+              borderRadius: 12,
+            }
+          : {
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              zIndex: 1000,
+              backgroundColor: "var(--mantine-color-body)",
+            }
+      }
     >
       <Conditional condition={!callAccepted}>
         <OutGoingCall user={user} videoCall={videoCall} endCall={endCall} />
       </Conditional>
-
       <Conditional condition={callAccepted}>
         <Box flex={1} pos="relative" mt="md" mx="xs">
           <Paper
@@ -263,143 +278,218 @@ export const VideoCallLayout: React.FC = () => {
               background: "#000",
             }}
           >
-            {/* Remote Screen */}
-            <video
-              ref={remoteScreenRef}
-              autoPlay
-              playsInline
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                objectFit: "contain",
-              }}
-            />
-
-            {/* Remote Camera (small overlay) */}
-            <video
-              ref={remoteVideoRef}
-              autoPlay
-              playsInline
-              style={{
-                position: "absolute",
-                bottom: 20,
-                right: 20,
-                width: "200px",
-                borderRadius: 8,
-                background: "#000",
-              }}
-            />
-
-            {/* Local Screen (if sharing) */}
-            {isScreenSharing && (
+            {/* 1. LOCAL SCREEN SHARING */}
+            <Conditional condition={isScreenSharing && Boolean(screenStream)}>
               <video
                 ref={localScreenRef}
                 autoPlay
                 playsInline
                 muted
                 style={{
-                  position: "absolute",
-                  top: 20,
-                  left: 20,
-                  width: "200px",
+                  width: 200,
+                  height: 150,
                   borderRadius: 8,
+                  background: "#000",
+                  objectFit: "cover",
+                }}
+              />
+            </Conditional>
+            {/* 2. REMOTE SCREEN SHARING */}
+            <Conditional condition={Boolean(remoteScreen)}>
+              <video
+                ref={remoteScreenRef}
+                autoPlay
+                playsInline
+                style={{
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
                   background: "#000",
                 }}
               />
-            )}
+              <Conditional condition={Boolean(remoteStream)}>
+                <video
+                  ref={remoteVideoRef}
+                  autoPlay
+                  playsInline
+                  style={{
+                    position: "absolute",
+                    top: 20,
+                    right: 20,
+                    width: 180,
+                    height: 135,
+                    borderRadius: 8,
+                    background: "#222",
+                    zIndex: 2,
+                    objectFit: "cover",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                  }}
+                />
+              </Conditional>
+              <Conditional
+                condition={
+                  !remoteStream || !remoteStream.getVideoTracks().length
+                }
+              >
+                <Box
+                  style={{
+                    position: "absolute",
+                    top: 20,
+                    right: 20,
+                    width: 180,
+                    height: 135,
+                    borderRadius: 8,
+                    background: "#222",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 2,
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                  }}
+                >
+                  <Stack align="center" gap="md">
+                    <DisplayAvatar
+                      url={
+                        videoCall?.users?.senderId !== user?.id
+                          ? videoCall?.users?.sender?.profile_img!
+                          : videoCall?.users?.receiver?.profile_img!
+                      }
+                      name={
+                        videoCall?.users?.senderId !== user?.id
+                          ? videoCall?.users?.sender?.firstName!
+                          : videoCall?.users?.receiver?.firstName!
+                      }
+                      size={50}
+                      variant="light"
+                    />
+                  </Stack>
+                </Box>
+              </Conditional>
+            </Conditional>
 
-            {/* Local Camera (small overlay) */}
-            <video
-              ref={localVideoRef}
-              autoPlay
-              playsInline
-              muted
-              style={{
-                position: "absolute",
-                bottom: 20,
-                left: 20,
-                width: "200px",
-                borderRadius: 8,
-                background: "#000",
-              }}
-            />
+            {/* 3. NO REMOTE SCREEN */}
+            <Conditional condition={!remoteScreen}>
+              <Conditional condition={Boolean(remoteStream)}>
+                <video
+                  ref={remoteVideoRef}
+                  autoPlay
+                  playsInline
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    borderRadius: 8,
+                    background: "#000",
+                  }}
+                />
+              </Conditional>
+              <Conditional
+                condition={
+                  !remoteStream || !remoteStream.getVideoTracks().length
+                }
+              >
+                <Box
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Stack align="center" gap="md">
+                    <DisplayAvatar
+                      url={
+                        videoCall?.users?.senderId !== user?.id
+                          ? videoCall?.users?.sender?.profile_img!
+                          : videoCall?.users?.receiver?.profile_img!
+                      }
+                      name={
+                        videoCall?.users?.senderId !== user?.id
+                          ? videoCall?.users?.sender?.firstName!
+                          : videoCall?.users?.receiver?.firstName!
+                      }
+                      size={120}
+                      variant="light"
+                    />
+                    <Text c="white" size="xl" fw={500}>
+                      {videoCall?.users?.senderId !== user?.id
+                        ? videoCall?.users?.sender?.firstName!
+                        : videoCall?.users?.receiver?.firstName!}
+                    </Text>
+                  </Stack>
+                </Box>
+              </Conditional>
+            </Conditional>
+
+            <Conditional condition={!isScreenSharing}>
+              <Conditional
+                condition={Boolean(
+                  isVideoOn && localStream?.getVideoTracks().length
+                )}
+              >
+                <video
+                  ref={localVideoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  style={{
+                    position: "absolute",
+                    bottom: 20,
+                    right: 20,
+                    width: 180,
+                    height: 135,
+                    borderRadius: 8,
+                    background: "#222",
+                    zIndex: 2,
+                    objectFit: "cover",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                  }}
+                />
+              </Conditional>
+              <Conditional
+                condition={!isVideoOn || !localStream?.getVideoTracks().length}
+              >
+                <Box
+                  w={180}
+                  h={135}
+                  style={{
+                    position: "absolute",
+                    bottom: 20,
+                    right: 20,
+                    borderRadius: 8,
+                    backgroundColor: "#333",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 2,
+                  }}
+                >
+                  <Stack align="center" gap="xs">
+                    <IconVideoOff size={32} color="white" />
+                    <Text c="white" size="xs">
+                      Camera Off
+                    </Text>
+                  </Stack>
+                </Box>
+              </Conditional>
+            </Conditional>
           </Paper>
         </Box>
 
         {/* Control Bar */}
-        <Paper shadow="md" radius="md" p="sm">
-          <Group justify="center" gap="md">
-            <Tooltip label={isMuted ? "Unmute" : "Mute"}>
-              <ActionIcon
-                size="xl"
-                variant={isMuted ? "filled" : "light"}
-                color={isMuted ? "red" : "blue"}
-                onClick={toggleMute}
-                radius="xl"
-              >
-                {isMuted ? (
-                  <IconMicrophoneOff size={24} />
-                ) : (
-                  <IconMicrophone size={24} />
-                )}
-              </ActionIcon>
-            </Tooltip>
-
-            <Tooltip label={isVideoOn ? "Turn off camera" : "Turn on camera"}>
-              <ActionIcon
-                size="xl"
-                variant={isVideoOn ? "light" : "filled"}
-                color={isVideoOn ? "blue" : "red"}
-                onClick={toggleVideo}
-                radius="xl"
-              >
-                {isVideoOn ? (
-                  <IconVideo size={24} />
-                ) : (
-                  <IconVideoOff size={24} />
-                )}
-              </ActionIcon>
-            </Tooltip>
-
-            <Tooltip label={isScreenSharing ? "Stop sharing" : "Share screen"}>
-              <ActionIcon
-                size="xl"
-                variant={isScreenSharing ? "filled" : "light"}
-                color={isScreenSharing ? "green" : "blue"}
-                onClick={toggleScreenShare}
-                radius="xl"
-              >
-                {isScreenSharing ? (
-                  <IconScreenShareOff size={24} />
-                ) : (
-                  <IconScreenShare size={24} />
-                )}
-              </ActionIcon>
-            </Tooltip>
-
-            <Divider orientation="vertical" />
-
-            <Tooltip label="Settings">
-              <ActionIcon size="xl" variant="light" color="gray" radius="xl">
-                <IconSettings size={24} />
-              </ActionIcon>
-            </Tooltip>
-
-            <Tooltip label="End call">
-              <ActionIcon
-                size="xl"
-                variant="filled"
-                color="red.9"
-                onClick={endCall}
-                radius="xl"
-                w={70}
-              >
-                <IconPhone size={24} style={{ transform: "rotate(135deg)" }} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
-        </Paper>
+        <ControlBar
+          isMuted={isMuted}
+          toggleMute={toggleMute}
+          isVideoOn={isVideoOn}
+          toggleVideo={toggleVideo}
+          isScreenSharing={isScreenSharing}
+          toggleScreenShare={toggleScreenShare}
+          endCall={endCall}
+          localStream={localStream}
+        />
       </Conditional>
     </Stack>
   );
