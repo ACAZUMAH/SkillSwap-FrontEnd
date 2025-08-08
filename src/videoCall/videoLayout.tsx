@@ -205,6 +205,7 @@ export const VideoCallLayout: React.FC = () => {
     if (screenStream) {
       screenStream.getTracks().forEach((track) => track.stop());
       setScreenStream(null);
+      setScreenStreamID(null);
     }
     setIsScreenSharing(false);
   };
