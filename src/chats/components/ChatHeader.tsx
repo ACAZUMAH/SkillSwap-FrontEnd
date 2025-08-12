@@ -1,7 +1,9 @@
-import { ActionIcon, Group, Stack, Text } from "@mantine/core";
+import { ActionIcon, Group, Menu, Stack, Text } from "@mantine/core";
 import {
   IconArrowLeft,
+  IconBook,
   IconDotsVertical,
+  IconEye,
   IconSearch,
   IconVideo,
 } from "@tabler/icons-react";
@@ -15,6 +17,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { UserAvatar } from "src/components/Avatar/UserAvatar";
 import { SwapModal } from "src/swapManagement";
 import { useAppVideoCall } from "src/hooks/useAppvideoCall";
+import { ReviewModal } from "src/components/reviews/components/ReviewsModal";
 
 interface ChatHeaderProps {
   currentUser?: User;
@@ -22,6 +25,8 @@ interface ChatHeaderProps {
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({ currentUser }) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [openedReview, { open: openReview, close: closeReview }] =
+    useDisclosure(false);
   const { chats, activeChat } = useAppChats();
   const { setVideoCall } = useAppVideoCall();
   const { toggleSearch, isMobile, setShowSidebar, setShowChat } =
@@ -44,7 +49,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ currentUser }) => {
         type: "outgoing",
       });
     }
-  }
+  };
   return (
     <>
       <Group
@@ -97,9 +102,32 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ currentUser }) => {
           <ActionIcon variant="subtle" onClick={toggleSearch}>
             <IconSearch size={20} />
           </ActionIcon>
-          <ActionIcon variant="subtle" onClick={open}>
+          <Menu trigger="hover" width={150} offset={10}>
+            <Menu.Target>
+              <ActionIcon variant="subtle">
+                <IconDotsVertical size={18} />
+              </ActionIcon>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item
+                leftSection={<IconEye stroke={1} />}
+                onClick={open}
+                mb="4px"
+              >
+                View Swap
+              </Menu.Item>
+              <Menu.Item
+                leftSection={<IconBook stroke={1} />}
+                onClick={openReview}
+                mb="4px"
+              >
+                Review
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+          {/* <ActionIcon variant="subtle" onClick={open}>
             <IconDotsVertical size={18} />
-          </ActionIcon>
+          </ActionIcon> */}
         </Group>
       </Group>
       <SwapModal
@@ -107,6 +135,21 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ currentUser }) => {
         onClose={close}
         senderId={currentChat.users?.senderId!}
         receiverId={currentChat.users?.receiverId!}
+      />
+
+      <ReviewModal
+        isOpen={openedReview}
+        onClose={closeReview}
+        revieweeName={
+          currentChat?.users?.sender?.id !== currentUser?.id
+            ? `${currentChat?.users?.sender?.firstName!} ${currentChat?.users?.sender?.lastName!}`
+            : `${currentChat?.users?.receiver?.firstName!} ${currentChat?.users?.receiver?.lastName!}`
+        }
+        revieweeId={
+          currentChat?.users?.senderId !== currentUser?.id
+            ? currentChat?.users?.senderId!
+            : currentChat?.users?.receiverId!
+        }
       />
     </>
   );

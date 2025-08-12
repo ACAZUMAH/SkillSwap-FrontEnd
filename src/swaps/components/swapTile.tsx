@@ -18,6 +18,7 @@ import { IconClock } from "@tabler/icons-react";
 import { Ratings } from "src/components/userCard/components/Ratings";
 import { useUpdateSwapMutation } from "../hooks/useUpdateMutation";
 import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
+import { useCancelSwapMutation } from "../hooks/useCancelRequestMutation";
 
 interface SwapUserCardProps {
   swapId: string;
@@ -39,6 +40,7 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
     routerEndPoints.USER.replace(":id", swapUser?.id!)
   );
   const { updateHandler, loading } = useUpdateSwapMutation();
+  const { cancelRequestHandler, loading: cancelLoader } = useCancelSwapMutation()
 
   const handleAcceptRequest = () => {
     if (user?.id === receiverId) {
@@ -51,9 +53,8 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
 
   const handleCancelRequest = () => {
     if (user?.id === senderId) {
-      updateHandler({
+      cancelRequestHandler({
         swapId: swapId,
-        status: Status.Pending,
       });
     }
   };
@@ -118,7 +119,8 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
                 variant="default"
                 radius="xl"
                 c="red"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   if (receiverId === user?.id) {
                     handleRejectRequest();
                   }
@@ -126,7 +128,7 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
                     handleCancelRequest();
                   }
                 }}
-                loading={loading}
+                loading={loading || cancelLoader}
               >
                 <Conditional
                   condition={
@@ -155,7 +157,8 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
                     <IconClock stroke={1.5} />
                   </Conditional>
                 }
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   if (receiverId === user?.id) {
                     handleAcceptRequest();
                   }

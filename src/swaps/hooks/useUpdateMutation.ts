@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import { showNotification } from "@mantine/notifications";
 import {
   AcceptOrDeclineSwapInput,
   Mutation,
@@ -38,7 +39,13 @@ export const useUpdateSwapMutation = () => {
       const res = await mutate({ variables: { input } });
 
       return res.data?.acceptOrDeclineSwapRequest;
-    } catch (error) {}
+    } catch (error) {
+      showNotification({
+        title: "Error",
+        message: "Failed to update swap request. Please try again.",
+        color: "red",
+      })
+    }
   };
 
   return { updateHandler, ...result };

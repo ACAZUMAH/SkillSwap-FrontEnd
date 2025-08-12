@@ -1,26 +1,16 @@
 import { Alert, Group, Select, Stack, Text, Title } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
-import React, { useState } from "react";
-import { Conditional, Paginations } from "src/components";
-import { useGetUserReviews } from "../hooks/useGetUserReviews";
+import React from "react";
+import { Conditional } from "src/components";
 import { ReviewsCard, ReviewsLoader } from "src/components/reviews";
+import { useGetUserReviews } from "../hooks/useGetUserReviews";
 
 interface RatingsAndReviewsProps {
-  averageRating?: number;
-  revieweeId?: string;
+    averageRating?: number;
 }
 
-export const RatingsAndReviews: React.FC<RatingsAndReviewsProps> = ({ averageRating, revieweeId }) => {
-  const [page, setPage] = useState(1);
-  const { reviews, pageInfo, loading, error } = useGetUserReviews({
-    revieweeId: revieweeId,
-    page: page,
-    limit: 15,
-  });
-
-  const onPageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+export const RatingsAndReviews: React.FC<RatingsAndReviewsProps> = ({ averageRating  }) => {
+  const { reviews, loading, error } = useGetUserReviews();
 
   return (
     <>
@@ -81,14 +71,9 @@ export const RatingsAndReviews: React.FC<RatingsAndReviewsProps> = ({ averageRat
           ))}
         </Conditional>
       </Stack>
-      <Conditional condition={Boolean(pageInfo?.hasNextPage)}>
-        <Group justify="space-between" mt="md">
-          <Paginations pageInfo={pageInfo!} onPageChange={onPageChange} />
-        </Group>
-      </Conditional>
-      <Conditional condition={!loading && reviews.length === 0}>
+      <Conditional condition={!loading && !error && reviews.length === 0}>
         <Alert>
-          <Text size="md">No reviews yet!.</Text>
+          <Text size="md">You haven't received reviews yet!.</Text>
         </Alert>
       </Conditional>
       <Conditional condition={Boolean(error)}>
