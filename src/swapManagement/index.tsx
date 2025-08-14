@@ -11,7 +11,7 @@ import {
 import { OverView } from "./components/OverView";
 import { TimeTable } from "./components/TimeTable";
 import { Sessions } from "./components/Sessions";
-import { Calander } from "./components/Calander";
+import { CalendarTab } from "./components/Calendar";
 import { getSwapByUsersQuery } from "./hooks/useGetSwapQuery";
 import { CapitalizeFirstLetter } from "src/helpers";
 import { Conditional } from "src/components";
@@ -50,7 +50,7 @@ export const SwapModal: React.FC<SwapModalProps> = ({
           </Title>
         </Group>
       }
-      size="80%"
+      size="90%"
       overlayProps={{ backgroundOpacity: 0.55, blur: 4 }}
     >
       <Tabs value={activeTab} onChange={setActiveTab}>
@@ -82,7 +82,7 @@ export const SwapModal: React.FC<SwapModalProps> = ({
           </Tabs.Panel>
 
           <Tabs.Panel value="calendar" pt="md">
-            <Calander swapData={swap!} />
+            <CalendarTab swapData={swap!} />
           </Tabs.Panel>
         </Conditional>
 

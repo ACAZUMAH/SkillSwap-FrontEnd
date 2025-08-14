@@ -52,7 +52,7 @@ export const useAddSkillsExchangeActions = ({ sender, receiver }: Users) => {
   };
 };
 
-export const useCalanderActions = (data: Swap) => {
+export const useCalendarActions = (data: Swap) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const getSessionsForDate = (date: Date) => {

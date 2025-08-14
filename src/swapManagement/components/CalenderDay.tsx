@@ -1,5 +1,5 @@
 import React from "react";
-import { useCalanderActions } from "../hooks/useSwapActions";
+import { useCalendarActions } from "../hooks/useSwapActions";
 import { User } from "src/interfaces";
 import {
   Badge,
@@ -15,13 +15,13 @@ import { getStatusColor } from "../helpers";
 import { DayContent } from "./DayContent";
 import { formatDate, formatTime } from "src/helpers/date";
 
-interface CalanderDayProps {
-  actions: ReturnType<typeof useCalanderActions>;
+interface CalendarDayProps {
+  actions: ReturnType<typeof useCalendarActions>;
   date: string;
   user?: User;
 }
 
-export const CalanderDay: React.FC<CalanderDayProps> = ({
+export const CalendarDay: React.FC<CalendarDayProps> = ({
   actions,
   date,
   user,

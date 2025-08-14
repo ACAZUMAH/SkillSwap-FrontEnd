@@ -1,10 +1,10 @@
 import React from "react";
-import { useCalanderActions } from "../hooks/useSwapActions";
+import { useCalendarActions } from "../hooks/useSwapActions";
 import { Conditional } from "src/components";
 import { Text } from "@mantine/core";
 
 interface EmptyScheduleProps {
-  actions: ReturnType<typeof useCalanderActions>;
+  actions: ReturnType<typeof useCalendarActions>;
   selectedDate: Date;
 }
 

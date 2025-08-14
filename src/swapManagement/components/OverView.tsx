@@ -16,8 +16,8 @@ import { Swap } from "src/interfaces";
 import { UserAvatar } from "src/components/Avatar/UserAvatar";
 import { formatDate } from "src/helpers/date";
 import { Conditional } from "src/components";
-import { AddskillsExchnage } from "./AddskillsExchnage";
 import { SkillPairs } from "./SkillPairs";
+import { AddSkillsExchange } from "./AddSkillExchange";
 
 interface OverViewProps {
   swapData: Swap;
@@ -91,7 +91,7 @@ export const OverView: React.FC<OverViewProps> = ({ swapData }) => {
             </Tooltip>
           </Group>
           <Conditional condition={addSkills}>
-            <AddskillsExchnage swapData={swapData} />
+            <AddSkillsExchange swapData={swapData} />
           </Conditional>
           <Conditional condition={!addSkills}>
             <Conditional condition={!Boolean(swapData?.skills?.length)}>

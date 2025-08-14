@@ -1,7 +1,6 @@
 import {
   Button,
   Checkbox,
-  Container,
   Paper,
   PasswordInput,
   Stack,
@@ -13,8 +12,10 @@ import { useState } from "react";
 import { getPhoneNumberWithCode } from "src/helpers/phone-numbers";
 import { Conditional } from "src/components";
 import { VerifyOtp } from "./VerifyOtp";
+import { useMediaQuery } from "@mantine/hooks";
 
 export const Register: React.FC = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [showOtp, setShowOtp] = useState(false);
   const [phoneNumber, sesPhoneNumber] = useState<string>("");
   const form = useRegisterForm();
@@ -33,68 +34,73 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <Container size="xs">
-      <Paper p="xl" radius="xl" mt="md" maw={500} withBorder>
-        <Conditional condition={!showOtp}>
-          <Stack gap="sm" w={400} mx="auto">
-            <TextInput
-              size="md"
-              radius="xl"
-              name="firstName"
-              label="First Name"
-              placeholder="Enter first name"
-              value={form.values.firstName}
-              onChange={form.handleChange}
-              error={form.touched.firstName ? form.errors.firstName : ""}
-            />
-            <TextInput
-              name="lastName"
-              label="last Name"
-              placeholder="Enter last name"
-              radius="xl"
-              value={form.values.lastName}
-              onChange={form.handleChange}
-              error={form.touched.lastName ? form.errors.lastName : ""}
-            />
-            <TextInput
-              size="md"
-              radius="xl"
-              withAsterisk
-              name="phoneNumber"
-              label="Phone Number"
-              placeholder="Enter phone Number"
-              value={form.values.phoneNumber}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-              error={form.errors.phoneNumber}
-            />
-            <PasswordInput
-              size="md"
-              radius="xl"
-              name="password"
-              label="Password"
-              placeholder="Enter password"
-              value={form.values.password}
-              onChange={form.handleChange}
-              error={form.errors.password}
-            />
-            <Checkbox label="Remember me" />
-            <Button
-              size="md"
-              radius="xl"
-              mt="md"
-              disabled={!form.isValid}
-              loading={loading}
-              onClick={handleSubmit}
-            >
-              Register
-            </Button>
-          </Stack>
-        </Conditional>
-        <Conditional condition={showOtp}>
-          <VerifyOtp phoneNumber={phoneNumber} />
-        </Conditional>
-      </Paper>
-    </Container>
+    <Paper
+      p="xl"
+      radius="xl"
+      w="100%"
+      withBorder
+      maw={isMobile ? "100%" : 450}
+      mx="xl"
+    >
+      <Conditional condition={!showOtp}>
+        <Stack gap="sm" w="100%" mx="auto">
+          <TextInput
+            size="md"
+            radius="xl"
+            name="firstName"
+            label="First Name"
+            placeholder="Enter first name"
+            value={form.values.firstName}
+            onChange={form.handleChange}
+            error={form.touched.firstName ? form.errors.firstName : ""}
+          />
+          <TextInput
+            name="lastName"
+            label="last Name"
+            placeholder="Enter last name"
+            radius="xl"
+            value={form.values.lastName}
+            onChange={form.handleChange}
+            error={form.touched.lastName ? form.errors.lastName : ""}
+          />
+          <TextInput
+            size="md"
+            radius="xl"
+            withAsterisk
+            name="phoneNumber"
+            label="Phone Number"
+            placeholder="Enter phone Number"
+            value={form.values.phoneNumber}
+            onChange={form.handleChange}
+            onBlur={form.handleBlur}
+            error={form.errors.phoneNumber}
+          />
+          <PasswordInput
+            size="md"
+            radius="xl"
+            name="password"
+            label="Password"
+            placeholder="Enter password"
+            value={form.values.password}
+            onChange={form.handleChange}
+            error={form.errors.password}
+          />
+          <Checkbox label="Remember me" />
+          <Button
+            size="md"
+            radius="xl"
+            mt="md"
+            disabled={!form.isValid}
+            loading={loading}
+            onClick={handleSubmit}
+          >
+            Register
+          </Button>
+        </Stack>
+      </Conditional>
+      <Conditional condition={showOtp}>
+        <VerifyOtp phoneNumber={phoneNumber} />
+      </Conditional>
+    </Paper>
   );
 };

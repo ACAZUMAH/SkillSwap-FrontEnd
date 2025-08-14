@@ -10,7 +10,7 @@ interface AddSkillsExchangeProps {
   swapData: Swap;
 }
 
-export const AddskillsExchnage: React.FC<AddSkillsExchangeProps> = ({
+export const AddSkillsExchange: React.FC<AddSkillsExchangeProps> = ({
   swapData,
 }) => {
   const { user } = useAppAuthentication();

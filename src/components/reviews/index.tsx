@@ -31,7 +31,7 @@ export const ReviewsCard: React.FC<ReviewsCardProps> = ({
         />
         <Stack gap={8} style={{ flex: 1 }}>
           <Group justify="space-between" align="center">
-            <Title order={3} size="sm" fw={600} c="white">
+            <Title order={3} size="sm" fw={600}>
               {reviewerName}
             </Title>
             <Group gap={2}>
@@ -47,10 +47,10 @@ export const ReviewsCard: React.FC<ReviewsCardProps> = ({
               ))}
             </Group>
           </Group>
-          <Text size="sm" c="gray.3">
+          <Text size="sm">
             {comment}
           </Text>
-          <Text size="xs" c="gray.5">
+          <Text size="xs">
             {formatSideBarChatDate(new Date(date))}
           </Text>
         </Stack>
