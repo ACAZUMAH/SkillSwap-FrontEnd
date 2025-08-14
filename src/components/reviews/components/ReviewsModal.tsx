@@ -6,7 +6,6 @@ import {
   Stack,
   Text,
   Textarea,
-  Title,
   Rating,
 } from "@mantine/core";
 import { useReviewMutation } from "../hooks/useReviewMutation";
@@ -48,7 +47,11 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
     <Modal
       opened={isOpen}
       onClose={onClose}
-      title={<Title order={4}>Review {revieweeName}</Title>}
+      title={
+        <Text size="xl" fw={700}>
+          Review {revieweeName}
+        </Text>
+      }
       centered
       overlayProps={{
         backgroundOpacity: 0.55,
