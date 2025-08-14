@@ -12,7 +12,7 @@ import { SearchMessages } from "./SearchMessages";
 import { useResponsive } from "../context";
 
 export const Chats: React.FC = () => {
-  const { search, showSidebar, showChat, isMobile } = useResponsive();
+  const { search, showSidebar, showChat } = useResponsive();
   const location = useLocation();
   const { user } = useAppAuthentication();
   const {
@@ -86,9 +86,6 @@ export const Chats: React.FC = () => {
           </Box>
         </Conditional>
         <Conditional condition={showChat && !Boolean(activeChat)}>
-          <EmptyChat />
-        </Conditional>
-        <Conditional condition={isMobile && !Boolean(activeChat)}>
           <EmptyChat />
         </Conditional>
       </Box>
