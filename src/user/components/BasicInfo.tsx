@@ -25,7 +25,7 @@ interface BasicInfoProps {
 export const BasicInfo: React.FC<BasicInfoProps> = ({ user, swapData }) => {
   const { swap, loading } = useSwapMutation();
 
-  const disablemessageButton =
+  const disableMessageButton =
     !swapData ||
     swapData?.status === "PENDING" ||
     swapData?.status === "DECLINED";
@@ -41,6 +41,7 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({ user, swapData }) => {
           url={user?.profile_img!}
           name={user?.firstName!}
           size="12rem"
+          textSize="3rem"
         />
       </Center>
       <Group gap={5} justify="center" mt="md">
@@ -82,7 +83,7 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({ user, swapData }) => {
         <HoverCard withArrow shadow="md">
           <HoverCard.Target>
             <div style={{ width: "40%" }}>
-              <Button radius="xl" w="100%" disabled={disablemessageButton}>
+              <Button radius="xl" w="100%" disabled={disableMessageButton}>
                 Message
               </Button>
             </div>

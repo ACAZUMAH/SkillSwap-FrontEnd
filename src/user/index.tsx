@@ -6,11 +6,11 @@ import { useGetUserQuery } from "./hooks/useGetUserQuery";
 import { SkillsInfo } from "./components/skillsInfo";
 import { EducationInfo } from "./components/EducationInfo";
 import { RatingsAndReviews } from "./components/RatingsAndReviews";
-import { Avalability } from "./components/Avalability";
 import { useGetSwapQuery } from "./hooks/useGetSwapQuery";
 import { Conditional } from "src/components";
 import { UserLoader } from "./components/UserLoader";
 import { Links } from "./components/Links";
+import { Availability } from "./components/Availability";
 
 export const UserDetails: React.FC = () => {
   const param = useParams();
@@ -38,7 +38,7 @@ export const UserDetails: React.FC = () => {
 
               <EducationInfo educationalInfo={user?.education!} />
 
-              <Avalability available={user?.availability!} />
+              <Availability available={user?.availability!} />
             </div>
           </Grid.Col>
         </Grid>
@@ -51,7 +51,7 @@ export const UserDetails: React.FC = () => {
           <p>Something went wrong while fetching user details.</p>
         </Alert>
       </Conditional>
-      <RatingsAndReviews />
+      <RatingsAndReviews revieweeId={param.id!} averageRating={user?.averageRating! || 0}/>
     </Container>
   );
 };

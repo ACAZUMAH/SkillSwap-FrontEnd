@@ -127,7 +127,7 @@ export const CodeEditor: React.FC = () => {
         </Group>
       </Group>
 
-      <Box style={{ height: fullscreen ? "calc(100vh - 50px)" : 600 }}>
+      <Box style={{ height: fullscreen ? "calc(100vh - 50px)" : "calc(100vh - 120px)" }}>
         <Editor
           theme={isDarkMode ? "vs-dark" : "light"}
           height="100%"

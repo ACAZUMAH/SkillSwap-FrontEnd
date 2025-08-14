@@ -10,6 +10,7 @@ import {
   IconDeviceImacUp,
 } from "@tabler/icons-react";
 import { Conditional } from "src/components";
+import classes from "../css/index.module.css";
 
 interface ControlBarProps {
   isMuted: boolean;
@@ -37,21 +38,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
       shadow="md"
       radius="md"
       p={isScreenSharing ? "xs" : "sm"}
-      style={
-        isScreenSharing
-          ? {
-              position: "absolute",
-              bottom: 10,
-              left: 10,
-              right: 10,
-              width: "auto",
-              background: "rgba(30,30,30,0.85)",
-              zIndex: 10,
-              display: "flex",
-              justifyContent: "center",
-            }
-          : {}
-      }
+      className={isScreenSharing ? classes.controlsBar : ``}
     >
       <Group justify="center" gap="md">
         <Tooltip label={isMuted ? "Unmute" : "Mute"}>
@@ -62,11 +49,12 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             onClick={toggleMute}
             radius="xl"
           >
-            {isMuted ? (
+            <Conditional condition={isMuted}>
               <IconMicrophoneOff size={isScreenSharing ? 18 : 24} />
-            ) : (
+            </Conditional>
+            <Conditional condition={!isMuted}>
               <IconMicrophone size={isScreenSharing ? 18 : 24} />
-            )}
+            </Conditional>
           </ActionIcon>
         </Tooltip>
 

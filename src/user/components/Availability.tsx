@@ -3,11 +3,11 @@ import { IconBrandDaysCounter } from '@tabler/icons-react';
 import React from 'react'
 import { Conditional } from 'src/components';
 
-interface AvalabilityProps {
+interface AvailabilityProps {
     available?: Array<string | null>;
 }
 
-export const Avalability: React.FC<AvalabilityProps> = ({ available }) =>{
+export const Availability: React.FC<AvailabilityProps> = ({ available }) =>{
   return (
     <Paper shadow="0" p="xs" mt="lg" h="100%" w="100%" withBorder radius="md">
         <Title order={2} c="dimmed" mb="sm">Available on</Title>

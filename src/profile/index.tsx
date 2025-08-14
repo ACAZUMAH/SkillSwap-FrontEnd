@@ -6,6 +6,7 @@ import { AdditionalInfo } from "./components/AdditionalInfo";
 import { SkillSet } from "./components/SkillSet";
 import { EducationalInfo } from "./components/EducationalInfo";
 import { Availability } from "./components/Availability";
+import { RatingsAndReviews } from "./components/Review";
 
 export const UserProfile: React.FC = () => {
   const { user } = useAppAuthentication();
@@ -30,6 +31,7 @@ export const UserProfile: React.FC = () => {
             </div>
           </Grid.Col>
         </Grid>
+        <RatingsAndReviews averageRating={user?.averageRating || 0}/>
       </Container>
     </>
   );

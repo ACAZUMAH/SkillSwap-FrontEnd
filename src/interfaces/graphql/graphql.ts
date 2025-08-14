@@ -206,7 +206,7 @@ export type Authenticated = {
 
 export type CancelSwapRequestInput = {
   swapId: Scalars['ID']['input'];
-  userId: Scalars['ID']['input'];
+  userId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Chat = {
@@ -231,6 +231,13 @@ export type ChatUsers = {
 export type ChatUsersInput = {
   receiverId: Scalars['ID']['input'];
   senderId: Scalars['ID']['input'];
+};
+
+export type CreateReviewInput = {
+  comments?: InputMaybe<Scalars['String']['input']>;
+  ratings: Scalars['Int']['input'];
+  revieweeId: Scalars['ID']['input'];
+  reviewerId: Scalars['ID']['input'];
 };
 
 export type Education = {
@@ -309,7 +316,9 @@ export type Mutation = {
   changePassword: Response;
   completeAuthAndSignToken: Authenticated;
   createAccount: Response;
+  createReview: Review;
   createSwapRequest: Swap;
+  deleteReview: Review;
   forgetPassword: Response;
   login?: Maybe<Response>;
   testMutation?: Maybe<Scalars['String']['output']>;
@@ -345,8 +354,18 @@ export type MutationCreateAccountArgs = {
 };
 
 
+export type MutationCreateReviewArgs = {
+  data: CreateReviewInput;
+};
+
+
 export type MutationCreateSwapRequestArgs = {
   input: SwapRequestInput;
+};
+
+
+export type MutationDeleteReviewArgs = {
+  revieweeId: Scalars['ID']['input'];
 };
 
 
@@ -395,10 +414,12 @@ export type Query = {
   getChatByUserId: Array<Maybe<Chat>>;
   getMessages: Chat;
   getRequestedSwaps?: Maybe<SwapConnection>;
+  getReviews: ReviewConnection;
   getSwapByUsers?: Maybe<Swap>;
   getSwapRequest?: Maybe<Swap>;
   getSwapRequests?: Maybe<SwapConnection>;
   getUnreadMessagesCount?: Maybe<Array<Maybe<UnreadCount>>>;
+  getUserReviews: Array<Review>;
   hello?: Maybe<Scalars['String']['output']>;
   me?: Maybe<User>;
   recommendation?: Maybe<RecomendationConnection>;
@@ -432,6 +453,11 @@ export type QueryGetRequestedSwapsArgs = {
 };
 
 
+export type QueryGetReviewsArgs = {
+  filters: Reviewfilters;
+};
+
+
 export type QueryGetSwapByUsersArgs = {
   data?: InputMaybe<SwapByUsers>;
 };
@@ -444,6 +470,11 @@ export type QueryGetSwapRequestArgs = {
 
 export type QueryGetSwapRequestsArgs = {
   filter?: InputMaybe<SwapFilter>;
+};
+
+
+export type QueryGetUserReviewsArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -479,6 +510,35 @@ export type RecomendationConnection = {
 export type Response = {
   __typename?: 'Response';
   message?: Maybe<Scalars['String']['output']>;
+};
+
+export type Review = {
+  __typename?: 'Review';
+  comments?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  ratings: Scalars['Int']['output'];
+  reviewee: User;
+  revieweeId: Scalars['ID']['output'];
+  reviewer: User;
+  reviewerId: Scalars['ID']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type ReviewConnection = {
+  __typename?: 'ReviewConnection';
+  edges?: Maybe<Array<Review>>;
+  pageInfo?: Maybe<PageInfo>;
+};
+
+export type Reviewfilters = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  ratings?: InputMaybe<Scalars['Int']['input']>;
+  revieweeId?: InputMaybe<Scalars['ID']['input']>;
+  reviewerId?: InputMaybe<Scalars['ID']['input']>;
+  sortBy?: InputMaybe<Scalars['String']['input']>;
+  sortOrder?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum ScheduleStatus {
