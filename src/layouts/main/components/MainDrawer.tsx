@@ -13,7 +13,8 @@ import { routerEndPoints } from "src/constants";
 export const MainDrawer: React.FC<MainDrawerProps> = ({ opened, onClose }) => {
   const navigateToProfile = useRouteNavigation(routerEndPoints.PROFILE);
   const navigateToSettings = useRouteNavigation(routerEndPoints.SETTINGS);
-  const navigateTowhiteboard = useRouteNavigation(routerEndPoints.WHITEBOARD);
+  const navigateToWhiteboard = useRouteNavigation(routerEndPoints.WHITEBOARD);
+  const navigateToCode = useRouteNavigation(routerEndPoints.CODE_EDITOR);
   const { logoutUser } = useAppAuthentication();
   const navigateToLanding = useRouteNavigation(routerEndPoints.ROOT);
 
@@ -54,7 +55,14 @@ export const MainDrawer: React.FC<MainDrawerProps> = ({ opened, onClose }) => {
         label="WhiteBoard"
         leftSection={<IconChalkboard stroke={1.5} />}
         p="sm"
-        onClick={navigateTowhiteboard}
+        onClick={navigateToWhiteboard}
+      />
+      <Divider />
+      <NavLink
+        label="Code Editor"
+        leftSection={<IconChalkboard stroke={1.5} />}
+        p="sm"
+        onClick={navigateToCode}
       />
       <Divider />
       <NavLink

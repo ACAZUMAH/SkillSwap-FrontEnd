@@ -91,10 +91,10 @@ export const MainHeader: React.FC = () => {
           />
         </Group>
 
-        <Group justify="space-between" align="center" gap="lg">
+        <Group justify="center" align="center" gap="md">
           <ActionIcon
             aria-label="toggle theme"
-            size="sm"
+            size="md"
             variant="subtle"
             radius="xl"
             onClick={settings.toggleTheme}
@@ -107,17 +107,17 @@ export const MainHeader: React.FC = () => {
             </Conditional>
           </ActionIcon>
           <Tooltip label="Chats" position="bottom" withArrow>
-            <Box pos="relative" mt="xs">
+            <Box pos="relative" style={{ cursor: "pointer" }} mt="3px">
               <ActionIcon
                 variant="subtle"
                 radius="xl"
-                size="sm"
+                size="md"
                 onClick={navigateToChats}
               >
                 <IconBrandMessenger size={50} stroke={1.5} />
               </ActionIcon>
               <Conditional condition={totalUnreadCount > 0}>
-                <Badge pos="absolute" top={-5} right={-5} size="xs" circle>
+                <Badge pos="absolute" top={0} right={0} size="sm" circle>
                   {totalCount}
                 </Badge>
               </Conditional>

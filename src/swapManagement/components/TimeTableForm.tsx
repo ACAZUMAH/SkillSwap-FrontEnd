@@ -41,7 +41,7 @@ export const TimeTableForm: React.FC<TimeTableFormProps> = ({
 
     const updatedSwap = await handleUpdateSwap({
       id: swapData?.id!,
-      timeTable: [...(swapData?.timeTable || []), newTimeTable],
+      timeTable: [newTimeTable],
     });
 
     if (updatedSwap) {
@@ -57,7 +57,7 @@ export const TimeTableForm: React.FC<TimeTableFormProps> = ({
         </Text>
 
         <Grid>
-          <Grid.Col span={4}>
+          <Grid.Col span={{ base: 12, md: 4 }}>
             <Select
               mb="xs"
               label="Skill"
@@ -73,7 +73,7 @@ export const TimeTableForm: React.FC<TimeTableFormProps> = ({
               required
             />
           </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col span={{ base: 12, md: 4 }}>
             <Select
               mb="xs"
               label="Taught By"
@@ -102,7 +102,7 @@ export const TimeTableForm: React.FC<TimeTableFormProps> = ({
               required
             />
           </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col span={{ base: 12, md: 4 }}>
             <Select
               mb="xs"
               label="Day of Week"
@@ -124,7 +124,7 @@ export const TimeTableForm: React.FC<TimeTableFormProps> = ({
               required
             />
           </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col span={{ base: 12, md: 4 }}>
             <TimeInput
               label="Time"
               name="time"
@@ -138,7 +138,7 @@ export const TimeTableForm: React.FC<TimeTableFormProps> = ({
               required
             />
           </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col span={{ base: 12, md: 4 }}>
             <NumberInput
               label="Duration (weeks)"
               name="durationInWeeks"
@@ -154,7 +154,7 @@ export const TimeTableForm: React.FC<TimeTableFormProps> = ({
               required
             />
           </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col span={{ base: 12, md: 4 }}>
             <DateInput
               label="Start Date"
               name="startDate"

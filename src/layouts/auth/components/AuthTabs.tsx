@@ -5,13 +5,13 @@ import { useRouteNavigation } from "src/hooks";
 import { useLocation } from "react-router-dom";
 
 export const AuthTabs: React.FC = () => {
-  const loacation = useLocation();
+  const location = useLocation();
   const views = authTabs.map((tab) => tab.label);
 
   const navigateToRegister = useRouteNavigation(authTabs[0].route);
   const navigateToLogin = useRouteNavigation(authTabs[1].route);
 
-  const currentTab = getCurrentTab(authTabs, loacation);
+  const currentTab = getCurrentTab(authTabs, location);
 
   const handleTabChange = (newValue: string) => {
     if (newValue === views[0]) {

@@ -1,10 +1,11 @@
 import React from "react";
-import { useCalanderActions } from "../hooks/useSwapActions";
+import { useCalendarActions } from "../hooks/useSwapActions";
 import { Badge, Group, Paper, Text } from "@mantine/core";
 import { User } from "src/interfaces";
+import { formatTime } from "src/helpers/date";
 
 interface TimetableProps {
-  actions: ReturnType<typeof useCalanderActions>;
+  actions: ReturnType<typeof useCalendarActions>;
   selectedDate: Date;
   user?: User;
 }
@@ -31,7 +32,7 @@ export const TimeTableCard: React.FC<TimetableProps> = ({ actions, selectedDate,
             </Badge>
           </Group>
           <Text size="sm" c="dimmed">
-            {entry?.time} • Week{" "}
+            {formatTime(entry?.time!)} • Week{" "}
             {Math.floor(
               (selectedDate.getTime() - new Date(entry?.startDate).getTime()) /
                 (7 * 24 * 60 * 60 * 1000)
