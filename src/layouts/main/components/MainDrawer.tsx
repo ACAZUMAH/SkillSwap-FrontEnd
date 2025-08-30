@@ -41,28 +41,40 @@ export const MainDrawer: React.FC<MainDrawerProps> = ({ opened, onClose }) => {
         label="Profile"
         leftSection={<IconUser stroke={1.5} />}
         p="sm"
-        onClick={navigateToProfile}
+        onClick={() => {
+          navigateToProfile();
+          onClose();
+        }}
       />
       <Divider />
       <NavLink
         label="Setting"
         leftSection={<IconSettings stroke={1.5} />}
         p="sm"
-        onClick={navigateToSettings}
+        onClick={() => {
+          navigateToSettings();
+          onClose();
+        }}
       />
       <Divider />
       <NavLink
         label="WhiteBoard"
         leftSection={<IconChalkboard stroke={1.5} />}
         p="sm"
-        onClick={navigateToWhiteboard}
+        onClick={() => {
+          navigateToWhiteboard();
+          onClose();
+        }}
       />
       <Divider />
       <NavLink
         label="Code Editor"
         leftSection={<IconChalkboard stroke={1.5} />}
         p="sm"
-        onClick={navigateToCode}
+        onClick={() => {
+          navigateToCode();
+          onClose();
+        }}
       />
       <Divider />
       <NavLink

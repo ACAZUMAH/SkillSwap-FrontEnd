@@ -88,7 +88,7 @@ export const Footer: React.FC = () => {
             </Stack>
           </Group>
         </Group>
-        <Divider size="md" color={isDarkMode ? "gray.8" : "dark.0"} />
+        <Divider size="sm" color={isDarkMode ? "gray.8" : "dark.0"} />
         <Group justify="space-between" mt={20} mb={30}>
           <Text>Copyright. All Right Reserved</Text>
 
@@ -96,7 +96,7 @@ export const Footer: React.FC = () => {
             <Text>Privacy Policy</Text>
             <Divider
               orientation="vertical"
-              size="md"
+              size="sm"
               color={isDarkMode ? "gray.8" : "dark.0"}
             />
             <Text>Terms of Service</Text>
