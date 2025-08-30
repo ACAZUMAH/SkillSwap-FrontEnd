@@ -26,7 +26,7 @@ export const SearchMessages: React.FC<SearchMessagesProps> = ({
   currentUser,
 }) => {
   const [search, setSearch] = useState("");
-  const [seachedMessages, setSeachedMessages] = useState<Message[]>([]);
+  const [searchedMessages, setSearchedMessages] = useState<Message[]>([]);
   const { chats, activeChat } = useAppChats();
   const currentChat = chats[activeChat!];
   const { closeSearch } = useResponsive();
@@ -41,16 +41,16 @@ export const SearchMessages: React.FC<SearchMessagesProps> = ({
       const filteredMessages = currentChat?.messages?.filter((message) =>
         message?.message?.toLowerCase().includes(search.toLowerCase())
       );
-      setSeachedMessages((filteredMessages || []).filter((msg) => !!msg));
+      setSearchedMessages((filteredMessages || []).filter((msg) => !!msg));
     } else {
-      setSeachedMessages([]);
+      setSearchedMessages([]);
     }
   }, [search, currentChat?.messages]);
 
   return (
     <>
       <Box ml="0">
-        <Group justify="space-between" mt="xs" mb="sm" p="xs">
+        <Group justify="space-between" mt="xs" mb="sm" p="4px 7px">
           <Text>Search Messages</Text>
           <ActionIcon variant="subtle" onClick={closeSearch}>
             <IconX size={16} />
@@ -76,7 +76,7 @@ export const SearchMessages: React.FC<SearchMessagesProps> = ({
             >{`Search for messages with ${chatUser}`}</Text>
           </Conditional>
           <Conditional
-            condition={Boolean(search.trim() && !seachedMessages.length)}
+            condition={Boolean(search.trim() && !searchedMessages.length)}
           >
             <Text
               mt="md"
@@ -87,9 +87,9 @@ export const SearchMessages: React.FC<SearchMessagesProps> = ({
             >{`No messages found`}</Text>
           </Conditional>
 
-          <Conditional condition={Boolean(seachedMessages.length)}>
+          <Conditional condition={Boolean(searchedMessages.length)}>
             <Stack mt="md" gap={3} pr="7px">
-              {seachedMessages.map((message, index) => (
+              {searchedMessages.map((message, index) => (
                 <Paper
                   key={index}
                   px="sm"
