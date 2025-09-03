@@ -109,6 +109,7 @@ export const TimeTableTab: React.FC<TimeTableProps> = ({ swapData }) => {
                   entry={entry}
                   user={user!}
                   swapData={swapData}
+                  deleteEntry={deleteEntry}
                 />
               ))}
             </Stack>

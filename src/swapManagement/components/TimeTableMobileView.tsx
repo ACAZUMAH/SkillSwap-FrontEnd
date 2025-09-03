@@ -8,12 +8,14 @@ interface TimeTableMobileViewProps {
   entry: any; // TODO Replace 'any' with the actual type of entry
   swapData: Swap;
   user: User;
+  deleteEntry: (entryId: string) => void;
 }
 
 export const TimeTableMobileView: React.FC<TimeTableMobileViewProps> = ({
   entry,
   user,
   swapData,
+  deleteEntry,
 }) => {
   const teacher =
     entry?.taughtBy === user?.id
@@ -27,7 +29,12 @@ export const TimeTableMobileView: React.FC<TimeTableMobileViewProps> = ({
         <Text fw={600} size="sm">
           {entry?.skill}
         </Text>
-        <ActionIcon variant="subtle" color="red" size="sm">
+        <ActionIcon
+          variant="subtle"
+          color="red"
+          size="sm"
+          onClick={() => deleteEntry(entry?.id!)}
+        >
           <IconTrash size={14} />
         </ActionIcon>
       </Group>
