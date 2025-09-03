@@ -5,7 +5,7 @@ import { formatDate, formatTime } from "src/helpers/date";
 import { Swap, User } from "src/interfaces";
 
 interface TimeTableMobileViewProps {
-  entry: any; // TODO Replace 'any' with the actual type of entry
+  entry: any; // TODO: Replace 'any' with the actual type of entry
   swapData: Swap;
   user: User;
   deleteEntry: (entryId: string) => void;
