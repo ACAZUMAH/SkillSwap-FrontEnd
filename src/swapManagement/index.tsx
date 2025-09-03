@@ -8,9 +8,9 @@ import {
   IconUser,
   IconExchange,
 } from "@tabler/icons-react";
-import { OverView } from "./components/OverView";
+import { OverViewTab } from "./components/OverViewTab";
 import { TimeTableTab } from "./components/TimeTableTab";
-import { Sessions } from "./components/Sessions";
+import { SessionsTab } from "./components/SessionsTab";
 import { CalendarTab } from "./components/Calendar";
 import { getSwapByUsersQuery } from "./hooks/useGetSwapQuery";
 import { CapitalizeFirstLetter } from "src/helpers";
@@ -70,7 +70,7 @@ export const SwapModal: React.FC<SwapModalProps> = ({
         </Tabs.List>
         <Conditional condition={!loading}>
           <Tabs.Panel value="overview" pt="md">
-            <OverView swapData={swap!} />
+            <OverViewTab swapData={swap!} />
           </Tabs.Panel>
 
           <Tabs.Panel value="timetable" pt="md">
@@ -78,7 +78,7 @@ export const SwapModal: React.FC<SwapModalProps> = ({
           </Tabs.Panel>
 
           <Tabs.Panel value="sessions" pt="md">
-            <Sessions swapData={swap!} />
+            <SessionsTab swapData={swap!} />
           </Tabs.Panel>
 
           <Tabs.Panel value="calendar" pt="md">

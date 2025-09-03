@@ -38,9 +38,9 @@ interface SessionsProps {
   swapData: Swap;
 }
 
-export const Sessions: React.FC<SessionsProps> = ({ swapData }) => {
+export const SessionsTab: React.FC<SessionsProps> = ({ swapData }) => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [UpdateSession, setUpdateSession] = useState<Session>();
+  const [updateSession, setUpdateSession] = useState<Session>();
   const { user } = useAppAuthentication();
   const { handleUpdateSwapSession } = useUpdateSwapSessionMutation();
   const { handleDeleteSessionEntry } = useDeleteSessionMutation();
@@ -66,7 +66,7 @@ export const Sessions: React.FC<SessionsProps> = ({ swapData }) => {
             leftSection={<IconPlus size={16} />}
             variant="light"
             onClick={open}
-            disabled={opened || Boolean(UpdateSession)}
+            disabled={opened || Boolean(updateSession)}
           >
             Add
           </Button>
@@ -74,15 +74,15 @@ export const Sessions: React.FC<SessionsProps> = ({ swapData }) => {
         <Conditional condition={opened}>
           <ScheduleSessionForm swapData={swapData} user={user!} close={close} />
         </Conditional>
-        <Conditional condition={Boolean(UpdateSession)}>
+        <Conditional condition={Boolean(updateSession)}>
           <UpdateSessionForm
             swapData={swapData}
             user={user!}
-            currentSession={UpdateSession!}
+            currentSession={updateSession!}
             close={() => setUpdateSession(undefined)}
           />
         </Conditional>
-        <Conditional condition={!opened && !Boolean(UpdateSession)}>
+        <Conditional condition={!opened && !Boolean(updateSession)}>
           <Conditional condition={Boolean(swapData?.sessions?.length)}>
             <Table.ScrollContainer visibleFrom="sm" minWidth={800}>
               <Table striped highlightOnHover>
@@ -195,6 +195,7 @@ export const Sessions: React.FC<SessionsProps> = ({ swapData }) => {
             <Stack gap="xs" mt="xs" hiddenFrom="sm">
               {swapData?.sessions?.map((session, index) => (
                 <SessionsMobileView
+                  updateSession={setUpdateSession}
                   key={index}
                   session={session}
                   swapData={swapData}
