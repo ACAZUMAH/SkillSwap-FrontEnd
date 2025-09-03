@@ -319,10 +319,13 @@ export type Mutation = {
   createReview: Review;
   createSwapRequest: Swap;
   deleteReview: Review;
+  deleteSessionEntry?: Maybe<Swap>;
+  deleteTimeTableEntry?: Maybe<Swap>;
   forgetPassword: Response;
   login?: Maybe<Response>;
   testMutation?: Maybe<Scalars['String']['output']>;
   updateSwap?: Maybe<Swap>;
+  updateSwapSession?: Maybe<Swap>;
   updateUser: User;
   upsertMessage?: Maybe<Chat>;
   verifyOtpAndSaveNewPassword: Response;
@@ -369,6 +372,16 @@ export type MutationDeleteReviewArgs = {
 };
 
 
+export type MutationDeleteSessionEntryArgs = {
+  sessionId: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteTimeTableEntryArgs = {
+  entryId: Scalars['ID']['input'];
+};
+
+
 export type MutationForgetPasswordArgs = {
   data: ForgetPasswordInput;
 };
@@ -381,6 +394,11 @@ export type MutationLoginArgs = {
 
 export type MutationUpdateSwapArgs = {
   data: UpdateSwapInput;
+};
+
+
+export type MutationUpdateSwapSessionArgs = {
+  data: UpdateSwapSessionInput;
 };
 
 
@@ -550,6 +568,7 @@ export enum ScheduleStatus {
 export type Session = {
   __typename?: 'Session';
   date: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
   receivedBy: Scalars['ID']['output'];
   skill: Scalars['String']['output'];
   status: ScheduleStatus;
@@ -669,6 +688,7 @@ export type TimeTable = {
   __typename?: 'TimeTable';
   dayOfweek: Scalars['String']['output'];
   durationInWeeks: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
   skill: Scalars['String']['output'];
   startDate: Scalars['DateTime']['output'];
   taughtBy: Scalars['ID']['output'];
@@ -693,6 +713,16 @@ export type UnreadCount = {
 export type UpdatePasswordInput = {
   newPassword: Scalars['String']['input'];
   oldPassword: Scalars['String']['input'];
+};
+
+export type UpdateSwapSessionInput = {
+  date?: InputMaybe<Scalars['DateTime']['input']>;
+  receivedBy?: InputMaybe<Scalars['ID']['input']>;
+  sessionId: Scalars['ID']['input'];
+  skill?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ScheduleStatus>;
+  taughtBy?: InputMaybe<Scalars['ID']['input']>;
+  time?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateUserInput = {

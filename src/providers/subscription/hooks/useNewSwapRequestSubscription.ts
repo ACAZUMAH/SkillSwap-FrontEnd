@@ -48,7 +48,7 @@ export const useNewSwapRequestSubscription = () => {
         ) {
           showNotification({
             title: "New Swap Request",
-            message: `You have recieived a new swap request from ${newRequest?.sender?.firstName}.`,
+            message: `You have received a new swap request from ${newRequest?.sender?.firstName}.`,
             color: "blue",
           });
         }

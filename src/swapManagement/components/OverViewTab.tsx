@@ -23,7 +23,7 @@ interface OverViewProps {
   swapData: Swap;
 }
 
-export const OverView: React.FC<OverViewProps> = ({ swapData }) => {
+export const OverViewTab: React.FC<OverViewProps> = ({ swapData }) => {
   const [addSkills, setAddSkills] = useState(false);
 
   return (

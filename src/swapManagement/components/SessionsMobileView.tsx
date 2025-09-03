@@ -1,21 +1,27 @@
 import { ActionIcon, Badge, Card, Group, Text } from "@mantine/core";
-import { IconCheck, IconEdit, IconX } from "@tabler/icons-react";
+import { IconCheck, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
 import React from "react";
 import { formatDate, formatTime } from "src/helpers/date";
-import { Swap, User } from "src/interfaces";
+import { ScheduleStatus, Session, Swap, UpdateSwapSessionInput, User } from "src/interfaces";
 import { getStatusColor } from "../helpers";
+import { useUpdateSwapSessionMutation } from "../hooks/useUpdateSwapSessionMutation";
+import { useDeleteSessionMutation } from "../hooks/useDeleteSessionMutation";
 
 interface SessionsMobileViewProps {
   session: any; // TODO Replace 'any' with the actual type of entry
   swapData: Swap;
   user: User;
+  updateSession: (session: Session) => void;
 }
 
 export const SessionsMobileView: React.FC<SessionsMobileViewProps> = ({
   session,
   swapData,
   user,
+  updateSession,
 }) => {
+  const { handleUpdateSwapSession } = useUpdateSwapSessionMutation();
+  const { handleDeleteSessionEntry } = useDeleteSessionMutation();
   const teacher =
     session?.taughtBy === user?.id
       ? "You"
@@ -28,7 +34,16 @@ export const SessionsMobileView: React.FC<SessionsMobileViewProps> = ({
       : swapData.senderId! !== user?.id
       ? swapData?.receiver?.firstName
       : swapData?.sender?.firstName;
+  const updateStatus = async (data: UpdateSwapSessionInput) => {
+    await handleUpdateSwapSession({
+      sessionId: data.sessionId,
+      status: data.status,
+    });
+  };
 
+  const deleteSession = async (sessionId: string) => {
+    await handleDeleteSessionEntry(sessionId);
+  };
   return (
     <Card withBorder padding="sm">
       <Group justify="space-between" mb={4}>
@@ -36,18 +51,24 @@ export const SessionsMobileView: React.FC<SessionsMobileViewProps> = ({
           {session?.skill}
         </Text>
         <Group gap={4}>
-          {session?.status === "SCHEDULED" && (
-            <>
-              <ActionIcon variant="subtle" color="green" size="sm">
-                <IconCheck size={14} />
-              </ActionIcon>
-              <ActionIcon variant="subtle" color="red" size="sm">
-                <IconX size={14} />
-              </ActionIcon>
-            </>
-          )}
-          <ActionIcon variant="subtle" color="blue" size="sm">
+          <ActionIcon variant="subtle" color="green" size="sm"
+            onClick={() => updateStatus({ sessionId: session?.id!, status: ScheduleStatus.Completed }) }>
+            <IconCheck size={14} />
+          </ActionIcon>
+          <ActionIcon variant="subtle" color="red" size="sm"
+            onClick={() => updateStatus({ sessionId: session?.id!, status: ScheduleStatus.Cancelled }) }>
+            <IconX size={14} />
+          </ActionIcon>
+
+          <ActionIcon variant="subtle" color="blue" size="sm"
+                                      onClick={() => updateSession(session!)}
+          >
             <IconEdit size={14} />
+          </ActionIcon>
+          <ActionIcon variant="subtle" color="blue" size="sm"
+            onClick={() => deleteSession(session?.id!)}
+          >
+            <IconTrash size={14} />
           </ActionIcon>
         </Group>
       </Group>

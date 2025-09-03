@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { Query, QueryGetSwapByUsersArgs, SwapByUsers } from "src/interfaces";
 
-const getSwapQueryGql = gql`
+export const getSwapQueryGql = gql`
   query GetSwapByUsers($data: SwapByUsers) {
     getSwapByUsers(data: $data) {
       id
@@ -14,6 +14,7 @@ const getSwapQueryGql = gql`
         name
       }
       timeTable {
+        id
         skill
         taughtBy
         dayOfweek
@@ -22,6 +23,7 @@ const getSwapQueryGql = gql`
         startDate
       }
       sessions {
+        id
         taughtBy
         receivedBy
         skill
