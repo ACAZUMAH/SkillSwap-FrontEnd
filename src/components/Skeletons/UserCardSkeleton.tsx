@@ -77,11 +77,11 @@ export const UserCardSkeleton: React.FC<UserCardSkeletonProps> = ({
           </Group>
         </Stack>
 
-        <Group gap="xs" mb="md">
+        {/* <Group gap="xs" mb="md">
           <Skeleton height={30} width={30} radius="xl" />
           <Skeleton height={30} width={30} radius="xl" />
           <Skeleton height={30} width={30} radius="xl" />
-        </Group>
+        </Group> */}
 
         <Conditional condition={showMatchHeader!}>
           <Stack gap="xs" mb="md">

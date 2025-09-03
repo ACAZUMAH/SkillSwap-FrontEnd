@@ -2,8 +2,8 @@ import { Anchor, Group, Paper, Text } from "@mantine/core";
 import {
   IconBrandGithub,
   IconBrandLinkedin,
-  IconMail,
-  IconPhone,
+  // IconMail,
+  // IconPhone,
   IconWorld,
 } from "@tabler/icons-react";
 import React from "react";
@@ -17,7 +17,7 @@ interface LinksProps {
 export const Links: React.FC<LinksProps> = ({ user }) => {
   return (
     <Paper withBorder shadow="0" p="sm" h="100%" w="100%" radius="md" mt="lg">
-      <Conditional condition={Boolean(user.phoneNumber)}>
+      {/* <Conditional condition={Boolean(user.phoneNumber)}>
         <Anchor underline="hover" href={user?.linkedIn!} target="_blank">
           <Group gap="xs" mb="xs">
             <IconPhone size={20} />
@@ -37,7 +37,7 @@ export const Links: React.FC<LinksProps> = ({ user }) => {
             <Text>Email</Text>
           </Group>
         </Anchor>
-      </Conditional>
+      </Conditional> */}
 
       <Conditional condition={Boolean(user?.linkedIn)}>
         <Anchor underline="hover" href={user?.linkedIn!} target="_blank">

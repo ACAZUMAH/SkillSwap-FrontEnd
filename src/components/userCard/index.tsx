@@ -8,19 +8,19 @@ import {
   Button,
   Progress,
   Stack,
-  ActionIcon,
+  // ActionIcon,
 } from "@mantine/core";
 import {
   IconArrowsUpDown,
   IconUsers,
   IconExternalLink,
-  IconBrandGithub,
-  IconBrandLinkedin,
-  IconWorld,
+  // IconBrandGithub,
+  // IconBrandLinkedin,
+  // IconWorld,
 } from "@tabler/icons-react";
 import classes from "./styles/style.module.css";
 import { Conditional } from "../conditional/Conditional";
-import defaultProfiile from "../../assets/images/defualt-profile.avif";
+import defaultProfile from "../../assets/images/defualt-profile.avif";
 import { calculateMatchScore, getMatchScoreColor } from "./helpers";
 import { Ratings } from "./components/Ratings";
 import { Skill, User } from "src/interfaces";
@@ -99,7 +99,7 @@ export const UserCard: React.FC<UserCardProps> = ({
       <Card.Section className={classes.content}>
         <Group gap="md" mb="md" align="flex-start">
           <DisplayAvatar
-            url={user?.profile_img || defaultProfiile}
+            url={user?.profile_img || defaultProfile}
             size="xl"
             radius="3rem"
             name={user?.firstName!}
@@ -184,7 +184,7 @@ export const UserCard: React.FC<UserCardProps> = ({
           </Group>
         </Stack>
 
-        <Conditional
+        {/* <Conditional
           condition={Boolean(
             user?.gitHub! || user?.linkedIn! || user?.portfolio!
           )}
@@ -207,7 +207,7 @@ export const UserCard: React.FC<UserCardProps> = ({
               </ActionIcon>
             </Conditional>
           </Group>
-        </Conditional>
+        </Conditional> */}
 
         <Conditional condition={matchScore > 0}>
           <Stack gap="xs" mb="md">

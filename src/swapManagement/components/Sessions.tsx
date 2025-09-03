@@ -9,16 +9,30 @@ import {
   Table,
   Text,
 } from "@mantine/core";
-import React from "react";
-import { IconCheck, IconEdit, IconPlus, IconX } from "@tabler/icons-react";
+import React, { useState } from "react";
+import {
+  IconCheck,
+  IconEdit,
+  IconPlus,
+  IconTrash,
+  IconX,
+} from "@tabler/icons-react";
 import { getStatusColor } from "../helpers";
-import { Swap } from "src/interfaces";
+import {
+  ScheduleStatus,
+  Session,
+  Swap,
+  UpdateSwapSessionInput,
+} from "src/interfaces";
 import { Conditional } from "src/components";
 import { formatDate, formatTime } from "src/helpers/date";
 import { useAppAuthentication } from "src/hooks";
 import { useDisclosure } from "@mantine/hooks";
 import { ScheduleSessionForm } from "./ScheduleSession";
 import { SessionsMobileView } from "./SessionsMobileView";
+import { UpdateSessionForm } from "./UpdateSession";
+import { useUpdateSwapSessionMutation } from "../hooks/useUpdateSwapSessionMutation";
+import { useDeleteSessionMutation } from "../hooks/useDeleteSessionMutation";
 
 interface SessionsProps {
   swapData: Swap;
@@ -26,7 +40,20 @@ interface SessionsProps {
 
 export const Sessions: React.FC<SessionsProps> = ({ swapData }) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [UpdateSession, setUpdateSession] = useState<Session>();
   const { user } = useAppAuthentication();
+  const { handleUpdateSwapSession } = useUpdateSwapSessionMutation();
+  const { handleDeleteSessionEntry } = useDeleteSessionMutation();
+  const updateStatus = async (data: UpdateSwapSessionInput) => {
+    await handleUpdateSwapSession({
+      sessionId: data.sessionId,
+      status: data.status,
+    });
+  };
+
+  const deleteSession = async (sessionId: string) => {
+    await handleDeleteSessionEntry(sessionId);
+  };
 
   return (
     <>
@@ -39,6 +66,7 @@ export const Sessions: React.FC<SessionsProps> = ({ swapData }) => {
             leftSection={<IconPlus size={16} />}
             variant="light"
             onClick={open}
+            disabled={opened || Boolean(UpdateSession)}
           >
             Add
           </Button>
@@ -46,7 +74,15 @@ export const Sessions: React.FC<SessionsProps> = ({ swapData }) => {
         <Conditional condition={opened}>
           <ScheduleSessionForm swapData={swapData} user={user!} close={close} />
         </Conditional>
-        <Conditional condition={!opened}>
+        <Conditional condition={Boolean(UpdateSession)}>
+          <UpdateSessionForm
+            swapData={swapData}
+            user={user!}
+            currentSession={UpdateSession!}
+            close={() => setUpdateSession(undefined)}
+          />
+        </Conditional>
+        <Conditional condition={!opened && !Boolean(UpdateSession)}>
           <Conditional condition={Boolean(swapData?.sessions?.length)}>
             <Table.ScrollContainer visibleFrom="sm" minWidth={800}>
               <Table striped highlightOnHover>
@@ -95,18 +131,59 @@ export const Sessions: React.FC<SessionsProps> = ({ swapData }) => {
                       </Table.Td>
                       <Table.Td ta="center">
                         <Group gap="xs" justify="center">
-                          {session?.status === "SCHEDULED" && (
-                            <>
-                              <ActionIcon variant="light" color="green">
-                                <IconCheck size={16} />
-                              </ActionIcon>
-                              <ActionIcon variant="light" color="red">
-                                <IconX size={16} />
-                              </ActionIcon>
-                            </>
-                          )}
-                          <ActionIcon variant="light" color="blue">
+                          <ActionIcon
+                            variant="light"
+                            color="green"
+                            disabled={
+                              session?.status === ScheduleStatus.Completed ||
+                              session?.status === ScheduleStatus.Cancelled
+                            }
+                            // loading={loading}
+                            onClick={() => {
+                              updateStatus({
+                                sessionId: session?.id!,
+                                status: ScheduleStatus.Completed,
+                              });
+                            }}
+                          >
+                            <IconCheck size={16} />
+                          </ActionIcon>
+                          <ActionIcon
+                            variant="light"
+                            color="red"
+                            disabled={
+                              session?.status === ScheduleStatus.Completed ||
+                              session?.status === ScheduleStatus.Cancelled
+                            }
+                            // loading={loading}
+                            onClick={() => {
+                              updateStatus({
+                                sessionId: session?.id!,
+                                status: ScheduleStatus.Cancelled,
+                              });
+                            }}
+                          >
+                            <IconX size={16} />
+                          </ActionIcon>
+                          <ActionIcon
+                            variant="light"
+                            color="blue"
+                            disabled={
+                              session?.status === ScheduleStatus.Completed ||
+                              session?.status === ScheduleStatus.Cancelled
+                            }
+                            // loading={loading}
+                            onClick={() => setUpdateSession(session!)}
+                          >
                             <IconEdit size={16} />
+                          </ActionIcon>
+
+                          <ActionIcon
+                            variant="transparent"
+                            c="red"
+                            onClick={() => deleteSession(session?.id!)}
+                          >
+                            <IconTrash size={16} />
                           </ActionIcon>
                         </Group>
                       </Table.Td>

@@ -17,14 +17,21 @@ import { Swap } from "src/interfaces";
 import { TimeTableForm } from "./TimeTableForm";
 import { useAppAuthentication } from "src/hooks";
 import { TimeTableMobileView } from "./TimeTableMobileView";
+import { useDeleteTimeTableEntryMutation } from "../hooks/useDeleteTimeTable";
 
 interface TimeTableProps {
   swapData: Swap;
 }
 
-export const TimeTable: React.FC<TimeTableProps> = ({ swapData }) => {
+export const TimeTableTab: React.FC<TimeTableProps> = ({ swapData }) => {
   const { user } = useAppAuthentication();
   const [opened, { open, close }] = useDisclosure(false);
+
+  const { handelDeleteTimeTableEntry } = useDeleteTimeTableEntryMutation();
+
+  const deleteEntry = async (entryId: string) => {
+    await handelDeleteTimeTableEntry(entryId);
+  };
 
   return (
     <>
@@ -82,7 +89,11 @@ export const TimeTable: React.FC<TimeTableProps> = ({ swapData }) => {
                         {formatDate(entry?.startDate)}
                       </Table.Td>
                       <Table.Td ta="center">
-                        <ActionIcon variant="transparent" c="red">
+                        <ActionIcon
+                          variant="transparent"
+                          c="red"
+                          onClick={() => deleteEntry(entry?.id!)}
+                        >
                           <IconTrash size={16} />
                         </ActionIcon>
                       </Table.Td>

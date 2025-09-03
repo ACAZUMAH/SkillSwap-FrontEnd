@@ -9,7 +9,7 @@ import {
   IconExchange,
 } from "@tabler/icons-react";
 import { OverView } from "./components/OverView";
-import { TimeTable } from "./components/TimeTable";
+import { TimeTableTab } from "./components/TimeTableTab";
 import { Sessions } from "./components/Sessions";
 import { CalendarTab } from "./components/Calendar";
 import { getSwapByUsersQuery } from "./hooks/useGetSwapQuery";
@@ -74,7 +74,7 @@ export const SwapModal: React.FC<SwapModalProps> = ({
           </Tabs.Panel>
 
           <Tabs.Panel value="timetable" pt="md">
-            <TimeTable swapData={swap!} />
+            <TimeTableTab swapData={swap!} />
           </Tabs.Panel>
 
           <Tabs.Panel value="sessions" pt="md">
