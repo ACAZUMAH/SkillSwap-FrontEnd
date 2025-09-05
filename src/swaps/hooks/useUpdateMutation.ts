@@ -25,8 +25,8 @@ export const useUpdateSwapMutation = () => {
     MutationAcceptOrDeclineSwapRequestArgs
   >(updateSwapMutationGql, {
     refetchQueries: [
-      "GetSwapByUsers",
       "User",
+      "GetSwapByUsers",
       "GetSwapRequests",
       "GetRequestedSwaps",
     ],

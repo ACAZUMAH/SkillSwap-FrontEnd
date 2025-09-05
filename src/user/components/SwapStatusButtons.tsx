@@ -5,6 +5,7 @@ import { Conditional } from "src/components";
 import { useAppAuthentication } from "src/hooks";
 import { Status, Swap } from "src/interfaces";
 import { useUpdateSwapMutation } from "../hooks/useUpdateSwapMutation";
+import { useCancelSwapMutation } from "../hooks/useCancelSwapMutation";
 
 interface SwapStatusButtonsProps {
   swapData?: Swap | null;
@@ -14,16 +15,25 @@ export const SwapStatusButtons: React.FC<SwapStatusButtonsProps> = ({
   swapData,
 }) => {
   const { user } = useAppAuthentication();
-  const { updateHandler, loading } = useUpdateSwapMutation()
+  const { updateHandler, loading } = useUpdateSwapMutation();
+  const { cancelRequestHandler, loading: cancelLoader } =
+    useCancelSwapMutation();
 
-  const handleAcceptRequest = () => {
-    if(user?.id === swapData?.receiverId){
-      updateHandler({
+  const handleAcceptRequest = async () => {
+    if (user?.id === swapData?.receiverId) {
+      await updateHandler({
         swapId: swapData?.id!,
-        status: Status.Accepted
-      })
+        status: Status.Accepted,
+      });
     }
-  }
+  };
+
+  const handleCancelSwap = async () => {
+    await cancelRequestHandler({
+      swapId: swapData?.id!,
+      userId: user?.id!,
+    });
+  };
 
   return (
     <>
@@ -38,17 +48,24 @@ export const SwapStatusButtons: React.FC<SwapStatusButtonsProps> = ({
           loading={loading}
           onClick={handleAcceptRequest}
         >
-        { swapData?.receiverId === user?.id ? 'Accept' : 'Pending' }
+          {swapData?.receiverId === user?.id ? "Accept" : "Pending"}
         </Button>
       </Conditional>
       <Conditional condition={swapData?.status! === Status.Accepted}>
-        <Button variant="default" c="red" radius="xl" w="40%">
+        <Button
+          variant="default"
+          c="red"
+          radius="xl"
+          w="40%"
+          loading={cancelLoader}
+          onClick={handleCancelSwap}
+        >
           Cancel Swap
         </Button>
       </Conditional>
       <Conditional condition={swapData?.status! === Status.Declined}>
         <Button variant="default" c="red" radius="xl" disabled w="40%">
-          {swapData?.senderId === user?.id ? 'Rejected' : 'Declined' }
+          {swapData?.senderId === user?.id ? "Rejected" : "Declined"}
         </Button>
       </Conditional>
       <Conditional condition={swapData?.status! === Status.Completed}>

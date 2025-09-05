@@ -4,7 +4,14 @@ import { SocketContext } from "src/context/socketContext";
 export const useSocket = () => {
   const socketContext = useContext(SocketContext);
 
-  const { socket, isconnected } = socketContext;
+  const {
+    socket,
+    isconnected,
+    isUserOnline,
+    isUserTyping,
+    emitTyping,
+    emitStopTyping,
+  } = socketContext;
 
   const connectSocket = useCallback(() => {
     if (socket && !isconnected) {
@@ -18,5 +25,14 @@ export const useSocket = () => {
     }
   }, [socket, isconnected]);
 
-  return { socket, isconnected, connectSocket, disconnectSocket };
-}
+  return {
+    socket,
+    isconnected,
+    isUserOnline,
+    isUserTyping,
+    emitStopTyping,
+    emitTyping,
+    connectSocket,
+    disconnectSocket,
+  };
+};

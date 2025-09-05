@@ -7,9 +7,9 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import React from "react";
+import React, { useState } from "react";
 import { Status, User } from "src/interfaces";
-import defaultProfiile from "../../assets/images/defualt-profile.avif";
+import defaultProfile from "../../assets/images/defualt-profile.avif";
 import { useAppAuthentication, useRouteNavigation } from "src/hooks";
 import { routerEndPoints } from "src/constants";
 import { Conditional } from "src/components";
@@ -19,6 +19,7 @@ import { Ratings } from "src/components/userCard/components/Ratings";
 import { useUpdateSwapMutation } from "../hooks/useUpdateMutation";
 import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
 import { useCancelSwapMutation } from "../hooks/useCancelRequestMutation";
+import { useCancelUsersSwapMutation } from "../hooks/useCancelSwapMutation";
 
 interface SwapUserCardProps {
   swapId: string;
@@ -35,37 +36,65 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
   senderId,
   status,
 }) => {
+  const [firstButtonLoader, setFirstButtonLoader] = useState(false);
+  const [secondButtonLoader, setSecondButtonLoader] = useState(false);
   const { user } = useAppAuthentication();
   const navigateToUserDetails = useRouteNavigation(
     routerEndPoints.USER.replace(":id", swapUser?.id!)
   );
-  const { updateHandler, loading } = useUpdateSwapMutation();
-  const { cancelRequestHandler, loading: cancelLoader } = useCancelSwapMutation()
+  const { updateHandler } = useUpdateSwapMutation();
+  const { cancelRequestHandler } = useCancelSwapMutation();
+  const { cancelSwapHandler, loading } = useCancelUsersSwapMutation();
 
-  const handleAcceptRequest = () => {
-    if (user?.id === receiverId) {
-      updateHandler({
-        swapId: swapId,
-        status: Status.Accepted,
-      });
+  const handleAcceptRequest = async () => {
+    if (user?.id !== receiverId) return;
+    setSecondButtonLoader(true);
+    try {
+      await Promise.resolve(
+        updateHandler({
+          swapId: swapId,
+          status: Status.Accepted,
+        })
+      );
+    } finally {
+      setSecondButtonLoader(false);
     }
   };
 
-  const handleCancelRequest = () => {
-    if (user?.id === senderId) {
-      cancelRequestHandler({
-        swapId: swapId,
-      });
+  const handleCancelRequest = async () => {
+    if (user?.id !== senderId) return;
+    setFirstButtonLoader(true);
+    try {
+      await Promise.resolve(
+        cancelRequestHandler({
+          swapId: swapId,
+        })
+      );
+    } finally {
+      setFirstButtonLoader(false);
     }
   };
 
-  const handleRejectRequest = () => {
-    if (user?.id === receiverId) {
-      updateHandler({
-        swapId: swapId,
-        status: Status.Declined,
-      });
+  const handleRejectRequest = async () => {
+    if (user?.id !== receiverId) return;
+    setFirstButtonLoader(true);
+    try {
+      await Promise.resolve(
+        updateHandler({
+          swapId: swapId,
+          status: Status.Declined,
+        })
+      );
+    } finally {
+      setFirstButtonLoader(false);
     }
+  };
+
+  const handleCancelSwap = async () => {
+    await cancelSwapHandler({
+      swapId: swapId,
+      userId: user?.id!,
+    });
   };
 
   return (
@@ -81,7 +110,7 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
         <Card.Section className={classes.content}>
           <Group gap="md" mb="md" align="flex-start">
             <DisplayAvatar
-              url={swapUser?.profile_img || defaultProfiile}
+              url={swapUser?.profile_img || defaultProfile}
               name={swapUser?.firstName!}
               size="xl"
               radius="3rem"
@@ -128,7 +157,7 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
                     handleCancelRequest();
                   }
                 }}
-                loading={loading || cancelLoader}
+                loading={firstButtonLoader}
               >
                 <Conditional
                   condition={
@@ -163,6 +192,7 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
                     handleAcceptRequest();
                   }
                 }}
+                loading={secondButtonLoader}
               >
                 <Conditional
                   condition={
@@ -180,7 +210,18 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
             </Group>
           </Conditional>
           <Conditional condition={status === Status.Accepted}>
-            <Button fullWidth mt="md" variant="default" c="red" radius="xl">
+            <Button
+              fullWidth
+              mt="md"
+              variant="default"
+              c="red"
+              radius="xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelSwap();
+              }}
+              loading={loading}
+            >
               Cancel Swap
             </Button>
           </Conditional>

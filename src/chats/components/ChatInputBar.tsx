@@ -8,8 +8,8 @@ import { Conditional } from "src/components";
 import { EmojiPickerMenu } from "./EmojiPicker";
 import classes from "../styles/index.module.css";
 import { FileUploadMenu } from "./FileUploadMenu";
-import { useInputbarActions } from "../hooks/useInputbarActions";
-import { useUploadFile } from "../hooks/useUplaodFile";
+import { useInputBarActions } from "../hooks/useChatInputBarActions";
+import { useUploadFile } from "../hooks/useUploadFile";
 import { getMessageType } from "../helper";
 import { FilePreview } from "./FilePreview";
 
@@ -44,13 +44,13 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     open,
     close,
     setShowFileMenu,
-  } = useInputbarActions();
+  } = useInputBarActions();
 
   const { activeChat } = useAppChats();
   const { socket } = useSocket();
   const { uploadFile } = useUploadFile();
 
-  const sendTextMeassageHandler = async () => {
+  const sendTextMessageHandler = async () => {
     socket?.emit("sendMessage", {
       from: currentUser?.id,
       to:
@@ -139,13 +139,13 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
           mb="xs"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendTextMeassageHandler()}
+          onKeyDown={(e) => e.key === "Enter" && sendTextMessageHandler()}
         />
         <ActionIcon
           className={classes.button}
           variant="transparent"
           mb="xs"
-          onClick={sendTextMeassageHandler}
+          onClick={sendTextMessageHandler}
           disabled={!message.trim()}
         >
           <IconSend2 stroke={1.5} size={30} />

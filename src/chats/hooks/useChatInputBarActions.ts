@@ -1,7 +1,7 @@
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useRef, useState } from "react";
 
-export const useInputbarActions = () => {
+export const useInputBarActions = () => {
   const [message, setMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
