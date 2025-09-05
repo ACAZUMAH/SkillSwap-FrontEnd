@@ -15,7 +15,7 @@ import { createMessageStatus } from "../helper";
 import { formatMessageDate } from "src/helpers/date";
 import { useAppSettings } from "src/hooks";
 import { IconArrowDown, IconFile } from "@tabler/icons-react";
-import { useUploadFile } from "../hooks/useUplaodFile";
+import { useUploadFile } from "../hooks/useUploadFile";
 import { UserAvatar } from "src/components/Avatar/UserAvatar";
 
 interface MessageBubbleProps {

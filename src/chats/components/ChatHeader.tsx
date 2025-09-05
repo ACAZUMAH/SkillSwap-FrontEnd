@@ -18,6 +18,7 @@ import { UserAvatar } from "src/components/Avatar/UserAvatar";
 import { SwapModal } from "src/swapManagement";
 import { useAppVideoCall } from "src/hooks/useAppvideoCall";
 import { ReviewModal } from "src/components/reviews/components/ReviewsModal";
+import { useSocket } from "src/hooks";
 
 interface ChatHeaderProps {
   currentUser?: User;
@@ -27,10 +28,11 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ currentUser }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [openedReview, { open: openReview, close: closeReview }] =
     useDisclosure(false);
-  const { chats, activeChat } = useAppChats();
-  const { setVideoCall } = useAppVideoCall();
   const { toggleSearch, isMobile, setShowSidebar, setShowChat } =
     useResponsive();
+  const { isUserOnline, isUserTyping } = useSocket();
+  const { chats, activeChat } = useAppChats();
+  const { setVideoCall } = useAppVideoCall();
   const currentChat = chats[activeChat!];
 
   const handleBackToSidebar = () => {
@@ -88,9 +90,22 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ currentUser }) => {
                   ? currentChat?.users?.sender?.firstName!
                   : currentChat?.users?.receiver?.firstName!}
               </Text>
-              {/* <Text size="sm" c="dimmed">
-                online/offline
-              </Text> */}
+              <Text size="sm" c="dimmed">
+                {isUserOnline(
+                  currentChat?.users?.sender?.id !== currentUser?.id
+                    ? currentChat.users?.senderId!
+                    : currentChat.users?.receiverId!
+                )
+                  ? isUserTyping(
+                      currentChat.id,
+                      currentChat?.users?.sender?.id !== currentUser?.id
+                        ? currentChat.users?.senderId!
+                        : currentChat.users?.receiverId!
+                    )
+                    ? "typing..."
+                    : "Online"
+                  : "Offline"}
+              </Text>
             </Stack>
           </Group>
         </Group>
@@ -125,9 +140,6 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ currentUser }) => {
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
-          {/* <ActionIcon variant="subtle" onClick={open}>
-            <IconDotsVertical size={18} />
-          </ActionIcon> */}
         </Group>
       </Group>
       <SwapModal
@@ -142,8 +154,10 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ currentUser }) => {
         onClose={closeReview}
         revieweeName={
           currentChat?.users?.sender?.id !== currentUser?.id
-            ? `${currentChat?.users?.sender?.firstName!} ${currentChat?.users?.sender?.lastName!}`
-            : `${currentChat?.users?.receiver?.firstName!} ${currentChat?.users?.receiver?.lastName!}`
+            ? `${currentChat?.users?.sender?.firstName!} ${currentChat?.users
+                ?.sender?.lastName!}`
+            : `${currentChat?.users?.receiver?.firstName!} ${currentChat?.users
+                ?.receiver?.lastName!}`
         }
         revieweeId={
           currentChat?.users?.senderId !== currentUser?.id

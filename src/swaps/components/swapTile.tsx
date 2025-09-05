@@ -19,6 +19,7 @@ import { Ratings } from "src/components/userCard/components/Ratings";
 import { useUpdateSwapMutation } from "../hooks/useUpdateMutation";
 import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
 import { useCancelSwapMutation } from "../hooks/useCancelRequestMutation";
+import { useCancelUsersSwapMutation } from "../hooks/useCancelSwapMutation";
 
 interface SwapUserCardProps {
   swapId: string;
@@ -43,6 +44,7 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
   );
   const { updateHandler } = useUpdateSwapMutation();
   const { cancelRequestHandler } = useCancelSwapMutation();
+  const { cancelSwapHandler, loading } = useCancelUsersSwapMutation();
 
   const handleAcceptRequest = async () => {
     if (user?.id !== receiverId) return;
@@ -86,6 +88,13 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
     } finally {
       setFirstButtonLoader(false);
     }
+  };
+
+  const handleCancelSwap = async () => {
+    await cancelSwapHandler({
+      swapId: swapId,
+      userId: user?.id!,
+    });
   };
 
   return (
@@ -201,7 +210,18 @@ export const SwapUserCard: React.FC<SwapUserCardProps> = ({
             </Group>
           </Conditional>
           <Conditional condition={status === Status.Accepted}>
-            <Button fullWidth mt="md" variant="default" c="red" radius="xl">
+            <Button
+              fullWidth
+              mt="md"
+              variant="default"
+              c="red"
+              radius="xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelSwap();
+              }}
+              loading={loading}
+            >
               Cancel Swap
             </Button>
           </Conditional>
