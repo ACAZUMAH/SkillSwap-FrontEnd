@@ -8,7 +8,7 @@ import { Conditional } from "src/components";
 import { EmojiPickerMenu } from "./EmojiPicker";
 import classes from "../styles/index.module.css";
 import { FileUploadMenu } from "./FileUploadMenu";
-import { useInputBarActions } from "../hooks/useInputBarActions";
+import { useInputBarActions } from "../hooks/useChatInputBarActions";
 import { useUploadFile } from "../hooks/useUploadFile";
 import { getMessageType } from "../helper";
 import { FilePreview } from "./FilePreview";
