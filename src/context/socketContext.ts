@@ -9,8 +9,8 @@ export interface SocketContextType {
     emitTyping?: (chatId: string, to: string) => void;
     emitNewMessage?: (chatId: string, message: string, to: string) => void;
     emitStopTyping?: (chatId: string, to: string) => void;
-    isUserOnline: (userId: string) => boolean;
-    isUserTyping: (chatId: string, userId: string) => boolean;
+    isUserOnline?: (userId: string) => boolean;
+    isUserTyping?: (chatId: string, userId: string) => boolean;
 }
 
 export const SocketContext = createContext<SocketContextType>({});

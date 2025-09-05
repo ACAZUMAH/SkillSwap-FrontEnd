@@ -91,12 +91,14 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ currentUser }) => {
                   : currentChat?.users?.receiver?.firstName!}
               </Text>
               <Text size="sm" c="dimmed">
-                {isUserOnline(
+                {isUserOnline &&
+                isUserOnline(
                   currentChat?.users?.sender?.id !== currentUser?.id
                     ? currentChat.users?.senderId!
                     : currentChat.users?.receiverId!
                 )
-                  ? isUserTyping(
+                  ? isUserTyping &&
+                    isUserTyping(
                       currentChat.id,
                       currentChat?.users?.sender?.id !== currentUser?.id
                         ? currentChat.users?.senderId!
