@@ -7,7 +7,9 @@ const getReceivedSwapsGql = gql`
       edges {
         id
         senderId
+        receiverId
         sender {
+          id
           firstName
           lastName
           averageRating

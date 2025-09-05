@@ -2,7 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { showNotification } from "@mantine/notifications";
 import { Mutation, MutationCreateSwapRequestArgs, SwapRequestInput } from "src/interfaces";
 
-const swapMutationgql = gql`
+const swapMutationGql = gql`
   mutation CreateSwapRequest($input: SwapRequestInput!) {
     createSwapRequest(input: $input) {
       id
@@ -15,7 +15,7 @@ export const useSwapMutation = () => {
   const [mutate, result] = useMutation<
     { createSwapRequest: Mutation["createSwapRequest"] },
     MutationCreateSwapRequestArgs
-  >(swapMutationgql, {
+  >(swapMutationGql, {
     refetchQueries: ["GetSwapByUsers", "User", "GetSwapRequests", "GetRequestedSwaps"],
     fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
@@ -23,9 +23,7 @@ export const useSwapMutation = () => {
 
   const swap = async (input: SwapRequestInput) => {
     try {
-        const res = await mutate({
-            variables: { input }
-        })
+        const res = await mutate({ variables: { input } })
 
         showNotification({
             title: "Success",

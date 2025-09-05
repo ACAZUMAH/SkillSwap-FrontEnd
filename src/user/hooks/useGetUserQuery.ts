@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { Query, QueryUserArgs } from "src/interfaces";
 
-const userQuerygql = gql`
+const userQueryGql = gql`
   query User($id: ID!) {
     user(id: $id) {
       id
@@ -40,7 +40,7 @@ const userQuerygql = gql`
 
 export const useGetUserQuery = (id: string) => {
   const { data, ...result } = useQuery<Pick<Query, "user">, QueryUserArgs>(
-    userQuerygql,
+    userQueryGql,
     {
       fetchPolicy: "network-only",
       notifyOnNetworkStatusChange: true,
