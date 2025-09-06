@@ -1,0 +1,1 @@
+console.log("push notification service worker 1");

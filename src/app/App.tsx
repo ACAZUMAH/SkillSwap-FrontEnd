@@ -17,7 +17,7 @@ const App: React.FC = () => {
       const subscribe = async () => {
         const subscription = await pushSubscriptions();
         if (subscription) {
-          console.log("Push Subscription:", JSON.stringify(subscription));
+          console.log("Push Subscription:", JSON.stringify(subscription, null, 2));
         }
       };
       subscribe();
