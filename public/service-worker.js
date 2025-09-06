@@ -1,1 +1,3 @@
-console.log("push notification service worker 1");
+self.addEventListener('push', (e) => {
+    
+})
