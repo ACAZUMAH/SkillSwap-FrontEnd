@@ -1,4 +1,4 @@
-import { useDisclosure } from "@mantine/hooks";
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import { useEffect, useRef, useState } from "react";
 
 export const useInputBarActions = () => {
@@ -14,6 +14,7 @@ export const useInputBarActions = () => {
   const fileMenuRef = useRef<HTMLDivElement>(null);
   const fileButtonRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [ debouncedMessage ] = useDebouncedValue(message, 2000);
 
   const toggleEmojiPicker = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -90,5 +91,6 @@ export const useInputBarActions = () => {
     opened,
     open,
     close,
+    debouncedMessage
   };
 };
