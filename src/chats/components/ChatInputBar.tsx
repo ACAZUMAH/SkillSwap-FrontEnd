@@ -1,6 +1,6 @@
 import { ActionIcon, Group, TextInput } from "@mantine/core";
 import { IconMoodSmile, IconPaperclip, IconSend2 } from "@tabler/icons-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppChats } from "src/hooks/useAppChats";
 import { MessageType, User } from "src/interfaces";
 import { useSocket } from "src/hooks";
@@ -44,9 +44,10 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     open,
     close,
     setShowFileMenu,
+    debouncedMessage,
   } = useInputBarActions();
   const { activeChat } = useAppChats();
-  const { socket, emitTyping, emitStopTyping, emitNewMessage } = useSocket();
+  const { emitTyping, emitStopTyping, emitNewMessage } = useSocket();
   const { uploadFile } = useUploadFile();
 
   const sendTextMessageHandler = async () => {
@@ -103,30 +104,42 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
 
   const typingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
-    if (socket && emitTyping && emitStopTyping) {
-      if (e.target.value) {
-        if (emitTyping) {
-          emitTyping({
-            chatId: selectedChat?.id || activeChat!,
-            to:
-              selectedChat?.users?.sender?.id !== currentUser?.id
-                ? selectedChat?.users?.sender?.id!
-                : selectedChat?.users?.receiver?.id!,
-          });
-        }
-      }
-      if (!e.target.value) {
-        emitStopTyping({
-          from: currentUser?.id!,
-          to:
-            selectedChat?.users?.sender?.id !== currentUser?.id
-              ? selectedChat?.users?.sender?.id
-              : selectedChat?.users?.receiver?.id,
-          chatId: selectedChat?.id || activeChat!,
-        });
-      }
+    if (!emitTyping) return;
+
+    if (e.target.value) {
+      emitTyping({
+        chatId: selectedChat?.id || activeChat!,
+        to:
+          selectedChat?.users?.sender?.id !== currentUser?.id
+            ? selectedChat?.users?.sender?.id!
+            : selectedChat?.users?.receiver?.id!,
+      });
     }
   };
+
+  useEffect(() => {
+    if(!emitStopTyping) return;
+
+    if(debouncedMessage === ""){
+      emitStopTyping({
+        chatId: selectedChat?.id || activeChat!,
+        from: currentUser?.id,
+        to:
+          selectedChat?.users?.sender?.id !== currentUser?.id
+            ? selectedChat?.users?.sender?.id!
+            : selectedChat?.users?.receiver?.id!,    
+      })
+    }else{
+      emitTyping({
+        chatId: selectedChat?.id || activeChat!,
+        from: currentUser?.id,
+        to:
+          selectedChat?.users?.sender?.id !== currentUser?.id
+            ? selectedChat?.users?.sender?.id!
+            : selectedChat?.users?.receiver?.id!,
+      })
+    }
+  }, [debouncedMessage]);
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file);

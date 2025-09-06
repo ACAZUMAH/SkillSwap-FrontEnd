@@ -34,7 +34,7 @@ export const VideoCallLayout: React.FC = () => {
     <Stack
       className={
         isScreenSharing && Boolean(screenStream)
-          ? classes.floatingPriview
+          ? classes.floatingPreview
           : classes.videoCallContainer
       }
     >
