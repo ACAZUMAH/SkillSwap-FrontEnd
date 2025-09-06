@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import {
-  EmitMassage,
   SocketContext,
   SocketContextType,
-  TypingData,
 } from "src/context/socketContext";
 import { useAppAuthentication } from "src/hooks";
 import { useAppChats } from "src/hooks/useAppChats";
@@ -157,44 +155,11 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
     };
   }, [user?.id, addMessage]);
 
-  const emitTyping = (data: TypingData) =>
-    socket.current?.emit("typing", { chatId: data.chatId, to: data.to });
-
-  const emitStopTyping = (data: TypingData) =>
-    socket.current?.emit("stop-typing", { chatId: data.chatId, to: data.to });
-
-  const emitNewMessage = (data: EmitMassage) =>
-    socket.current?.emit("sendMessage", {
-      chatId: data.chatId,
-      message: data.message,
-      to: data.to,
-      from: data.from,
-      users: data.users,
-    });
-
-  // const emitCallUser = (data: {
-  //   to: string;
-  //   from: string;
-  //   signal: any;
-  //   callType: string;
-  // }) => socket.current?.emit("call-user", data);
-  // const emitRejectCall = (data: { to: string; from: string }) =>
-  //   socket.current?.emit("reject-call", data);
-
-  const isUserOnline = (userId: string) => onlineUsers.includes(userId);
-  const isUserTyping = (chatId: string, userId: string) =>
-    Boolean(userId && (typingByChat[chatId] ?? []).includes(userId));
-
   const value: SocketContextType = {
     socket: socket.current,
     isconnected: isConnected,
     onlineUsers,
-    typingByChat,
-    emitTyping,
-    emitNewMessage,
-    isUserOnline,
-    isUserTyping,
-    emitStopTyping,
+    typingByChat
   };
 
   return (

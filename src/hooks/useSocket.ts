@@ -23,6 +23,7 @@ export const useSocket = () => {
   }, [socket, isconnected]);
 
   const isUserOnline = (userId: string) => onlineUsers?.includes(userId);
+  
   const isUserTyping = (chatId: string, userId: string) =>
     Boolean(
       userId && ((typingByChat && typingByChat[chatId]) || []).includes(userId)
