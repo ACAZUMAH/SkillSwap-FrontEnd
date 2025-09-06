@@ -117,7 +117,7 @@ export const MainHeader: React.FC = () => {
                 <IconBrandMessenger size={50} stroke={1.5} />
               </ActionIcon>
               <Conditional condition={totalUnreadCount > 0}>
-                <Badge pos="absolute" top={0} right={0} size="sm" circle>
+                <Badge pos="absolute" top={0} right={0} size="xs" circle>
                   {totalCount}
                 </Badge>
               </Conditional>

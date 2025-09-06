@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { SocketContext, SocketContextType } from "src/context/socketContext";
+import {
+  EmitMassage,
+  SocketContext,
+  SocketContextType,
+  TypingData,
+} from "src/context/socketContext";
 import { useAppAuthentication } from "src/hooks";
 import { useAppChats } from "src/hooks/useAppChats";
 import { useAppVideoCall } from "src/hooks/useAppvideoCall";
@@ -152,12 +157,21 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
     };
   }, [user?.id, addMessage]);
 
-  const emitTyping = (chatId?: string, to?: string) =>
-    socket.current?.emit("typing", { chatId, to });
-  const emitStopTyping = (chatId?: string, to?: string) =>
-    socket.current?.emit("stop-typing", { chatId, to });
-  const emitNewMessage = (chatId: string, message: any, to: string) =>
-    socket.current?.emit("sendMessage", { chatId, message, to });
+  const emitTyping = (data: TypingData) =>
+    socket.current?.emit("typing", { chatId: data.chatId, to: data.to });
+
+  const emitStopTyping = (data: TypingData) =>
+    socket.current?.emit("stop-typing", { chatId: data.chatId, to: data.to });
+
+  const emitNewMessage = (data: EmitMassage) =>
+    socket.current?.emit("sendMessage", {
+      chatId: data.chatId,
+      message: data.message,
+      to: data.to,
+      from: data.from,
+      users: data.users,
+    });
+
   // const emitCallUser = (data: {
   //   to: string;
   //   from: string;
@@ -168,7 +182,7 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
   //   socket.current?.emit("reject-call", data);
 
   const isUserOnline = (userId: string) => onlineUsers.includes(userId);
-  const isUserTyping = (chatId: string, userId: string) => 
+  const isUserTyping = (chatId: string, userId: string) =>
     Boolean(userId && (typingByChat[chatId] ?? []).includes(userId));
 
   const value: SocketContextType = {
@@ -180,7 +194,7 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
     emitNewMessage,
     isUserOnline,
     isUserTyping,
-    emitStopTyping
+    emitStopTyping,
   };
 
   return (
