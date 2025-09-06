@@ -75,7 +75,7 @@ export const SocketClientProvider: React.FC<SocketClientProviderProps> = ({
           });
         });
 
-        socket.current?.on("stop-typing", (data) => {
+        socket.current?.on("stopped-typing", (data) => {
           console.log("User stopped typing:", data);
           setTypingByChat((prev) => {
             const arr = (prev[data.chatId] || []).filter(

@@ -23,7 +23,7 @@ export const useSocket = () => {
   }, [socket, isconnected]);
 
   const isUserOnline = (userId: string) => onlineUsers?.includes(userId);
-  
+
   const isUserTyping = (chatId: string, userId: string) =>
     Boolean(
       userId && ((typingByChat && typingByChat[chatId]) || []).includes(userId)
@@ -33,7 +33,7 @@ export const useSocket = () => {
     socket?.emit("typing", { chatId: data.chatId, to: data.to }); 
 
   const emitStopTyping = (data: TypingData) =>
-    socket?.emit("stop-typing", { chatId: data.chatId, to: data.to });
+    socket?.emit("stopped-typing", { chatId: data.chatId, to: data.to });
 
   const emitNewMessage = (data: EmitMassage) => {
     socket?.emit("sendMessage", {
