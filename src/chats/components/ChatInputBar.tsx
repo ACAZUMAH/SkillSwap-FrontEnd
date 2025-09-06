@@ -45,30 +45,31 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     close,
     setShowFileMenu,
   } = useInputBarActions();
-
   const { activeChat } = useAppChats();
-  const { socket } = useSocket();
+  const { socket, emitTyping, emitStopTyping, emitNewMessage } = useSocket();
   const { uploadFile } = useUploadFile();
 
   const sendTextMessageHandler = async () => {
-    socket?.emit("sendMessage", {
-      from: currentUser?.id,
-      to:
-        selectedChat?.users?.sender?.id !== currentUser?.id
-          ? selectedChat?.users?.sender?.id
-          : selectedChat?.users?.receiver?.id,
-      chatId: selectedChat?.id || activeChat!,
-      message: {
-        messageType: MessageType.Text,
-        senderId: currentUser?.id!,
-        message,
-        mediaUrl: "",
-      },
-      users: {
-        senderId: selectedChat?.users?.sender.id,
-        receiverId: selectedChat?.users?.receiver.id,
-      },
-    });
+    if (emitNewMessage) {
+      emitNewMessage({
+        from: currentUser?.id,
+        to:
+          selectedChat?.users?.sender?.id !== currentUser?.id
+            ? selectedChat?.users?.sender?.id
+            : selectedChat?.users?.receiver?.id,
+        chatId: selectedChat?.id || activeChat!,
+        message: {
+          messageType: MessageType.Text,
+          senderId: currentUser?.id!,
+          message,
+          mediaUrl: "",
+        },
+        users: {
+          senderId: selectedChat?.users?.sender.id,
+          receiverId: selectedChat?.users?.receiver.id,
+        },
+      });
+    }
     setMessage("");
   };
 
@@ -76,27 +77,55 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     setUploading(true);
     const mediaUrl = await uploadFile(file);
     const messageType = getMessageType(file);
-
-    socket?.emit("sendMessage", {
-      from: currentUser?.id,
-      to:
-        selectedChat?.users?.sender?.id !== currentUser?.id
-          ? selectedChat?.users?.sender?.id
-          : selectedChat?.users?.receiver?.id,
-      chatId: selectedChat?.id || activeChat!,
-      message: {
-        messageType,
-        senderId: currentUser?.id!,
-        message: file.name,
-        mediaUrl,
-      },
-      users: {
-        senderId: selectedChat?.users?.sender.id,
-        receiverId: selectedChat?.users?.receiver.id,
-      },
-    });
+    if (emitNewMessage) {
+      emitNewMessage({
+        from: currentUser?.id,
+        to:
+          selectedChat?.users?.sender?.id !== currentUser?.id
+            ? selectedChat?.users?.sender?.id
+            : selectedChat?.users?.receiver?.id,
+        chatId: selectedChat?.id || activeChat!,
+        message: {
+          messageType,
+          senderId: currentUser?.id!,
+          message: file.name,
+          mediaUrl,
+        },
+        users: {
+          senderId: selectedChat?.users?.sender.id,
+          receiverId: selectedChat?.users?.receiver.id,
+        },
+      });
+    }
     setSelectedFile(null);
     setUploading(false);
+  };
+
+  const typingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
+    if (socket && emitTyping && emitStopTyping) {
+      if (e.target.value) {
+        if (emitTyping) {
+          emitTyping({
+            chatId: selectedChat?.id || activeChat!,
+            to:
+              selectedChat?.users?.sender?.id !== currentUser?.id
+                ? selectedChat?.users?.sender?.id!
+                : selectedChat?.users?.receiver?.id!,
+          });
+        }
+      }
+      if (!e.target.value) {
+        emitStopTyping({
+          from: currentUser?.id!,
+          to:
+            selectedChat?.users?.sender?.id !== currentUser?.id
+              ? selectedChat?.users?.sender?.id
+              : selectedChat?.users?.receiver?.id,
+          chatId: selectedChat?.id || activeChat!,
+        });
+      }
+    }
   };
 
   const handleFileSelect = (file: File) => {
@@ -138,7 +167,7 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
           size="md"
           mb="xs"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => typingHandler(e)}
           onKeyDown={(e) => e.key === "Enter" && sendTextMessageHandler()}
         />
         <ActionIcon
