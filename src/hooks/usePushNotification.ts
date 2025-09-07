@@ -19,7 +19,7 @@ export const usePushNotification = () => {
     const subscription = await register.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(
-        import.meta.env.VITE_VAPID_PUBLIC_KEY
+        `${import.meta.env.VITE_VAPID_PUBLIC_KEY}`
       ),
     });
 
