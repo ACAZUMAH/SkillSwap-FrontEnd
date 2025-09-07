@@ -25,7 +25,7 @@ export const usePushNotification = () => {
     });
 
     return subscription;
-  };
+  }; 
 
   const pushSubscriptions = async (userId: string) => {
     try {
