@@ -1,6 +1,6 @@
 import { parsePhoneNumber } from "awesome-phonenumber";
 
-export const usePhoneNumberValidaator = () => {
+export const usePhoneNumberValidator = () => {
     const title = "phone-number"
     const message = "Use a valid phone number. e.g., 0545678902"
 

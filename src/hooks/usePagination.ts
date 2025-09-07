@@ -1,7 +1,7 @@
 import { useMemo } from "react"
 import { PageInfo } from "src/interfaces"
 
-export const usePagenation = (pageInfo?: PageInfo) => {
+export const usePagination = (pageInfo?: PageInfo) => {
     return useMemo(() => {
         if(!pageInfo) return 0
 

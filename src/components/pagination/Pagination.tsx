@@ -1,5 +1,5 @@
 import { Group, Pagination } from "@mantine/core";
-import { usePagenation } from "src/hooks";
+import { usePagination } from "src/hooks";
 import { PageInfo } from "src/interfaces";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const Paginations: React.FC<Props> = ({ pageInfo, onPageChange }) => {
-  const totalPages = usePagenation(pageInfo);
+  const totalPages = usePagination(pageInfo);
 
   return (
     <>

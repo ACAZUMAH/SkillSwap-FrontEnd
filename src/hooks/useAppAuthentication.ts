@@ -1,11 +1,11 @@
 import { useCallback } from "react";
-import { useAppDispatch, useAppSelctor } from "./useReduxHooks";
+import { useAppDispatch, useAppSelector } from "./useReduxHooks";
 import { Authenticated, Authentication } from "src/interfaces";
 import { authenticationActions } from "src/redux/authentication/slice";
 
 export const useAppAuthentication = () => {
   const dispatch = useAppDispatch();
-  const authentication = useAppSelctor((state) => state.authentication);
+  const authentication = useAppSelector((state) => state.authentication);
 
   const registerUser = useCallback(
     ({ user, token, zegoToken }: Authenticated) => {
@@ -20,12 +20,12 @@ export const useAppAuthentication = () => {
     dispatch(authenticationActions.reset());
   }, [dispatch]);
 
-  const updateAuthencation = useCallback(
+  const updateAuthentication = useCallback(
     (authentication: Partial<Authentication>) => {
       dispatch(authenticationActions.update(authentication));
     },
     [dispatch]
   );
 
-  return { registerUser, ...authentication, logoutUser, updateAuthencation };
+  return { registerUser, ...authentication, logoutUser, updateAuthentication };
 };
