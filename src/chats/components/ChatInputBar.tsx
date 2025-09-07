@@ -121,7 +121,6 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
     if(!emitStopTyping) return;
 
     if(debouncedMessage === ""){
-      console.log("Emitting stop typing");
       emitStopTyping({
         chatId: selectedChat?.id || activeChat!,
         to:
@@ -130,7 +129,6 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
             : selectedChat?.users?.receiver?.id!,    
       })
     }else{
-      console.log("Emitting stop typing");
       emitStopTyping({
         chatId: selectedChat?.id || activeChat!,
         to:
