@@ -1,11 +1,11 @@
 import { settingsActions } from "src/redux/settings/slice"
-import { useAppDispatch, useAppSelctor } from "./useReduxHooks"
+import { useAppDispatch, useAppSelector } from "./useReduxHooks"
 import { themes } from "src/constants"
 
 
 export const useAppSettings = () => {
     const dispatch = useAppDispatch()
-    const settings = useAppSelctor((state) => state.settings)
+    const settings = useAppSelector((state) => state.settings)
 
     const toggleTheme = () => {
         if(settings.isDarkMode){

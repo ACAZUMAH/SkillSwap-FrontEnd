@@ -1,12 +1,12 @@
 import { useCallback } from "react";
-import { useAppDispatch, useAppSelctor } from "./useReduxHooks";
+import { useAppDispatch, useAppSelector } from "./useReduxHooks";
 import { videoActions } from "src/redux/video/slice";
 import { IncomingVideoCall, VideoCall } from "src/interfaces";
 
 export const useAppVideoCall = () => {
   const dispatch = useAppDispatch();
-  const videoCall = useAppSelctor((state) => state.videos.videoCall);
-  const incomingVideoCall = useAppSelctor((state) => state.videos.incomingVideoCall);
+  const videoCall = useAppSelector((state) => state.videos.videoCall);
+  const incomingVideoCall = useAppSelector((state) => state.videos.incomingVideoCall);
 
   const setVideoCall = useCallback(
     (videoCall: VideoCall | undefined) => {

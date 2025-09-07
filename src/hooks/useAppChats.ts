@@ -1,12 +1,12 @@
 import { useCallback } from "react";
-import { useAppDispatch, useAppSelctor } from "./useReduxHooks";
+import { useAppDispatch, useAppSelector } from "./useReduxHooks";
 import { Chat, Message } from "src/interfaces";
 import { chatsActions } from "src/redux/chats/slice";
 
 export const useAppChats = () => {
   const dispatch = useAppDispatch();
-  const chats = useAppSelctor((state) => state.chats);
-  const chatsLoaded = useAppSelctor((state) => state.chats.chatsLoaded);
+  const chats = useAppSelector((state) => state.chats);
+  const chatsLoaded = useAppSelector((state) => state.chats.chatsLoaded);
 
   const loadInitialChats = useCallback(
     (chats: Chat[]) => {

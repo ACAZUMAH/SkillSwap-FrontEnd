@@ -1,10 +1,10 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { usePhoneNumberValidaator } from "src/hooks";
+import { usePhoneNumberValidator } from "src/hooks";
 import { User } from "src/interfaces";
 import { useMemo } from "react";
 
-const { title, message, validatePhoneNumber } = usePhoneNumberValidaator();
+const { title, message, validatePhoneNumber } = usePhoneNumberValidator();
 
 const validationSchema = yup.object().shape({
   firstName: yup.string().required("First name is required"),

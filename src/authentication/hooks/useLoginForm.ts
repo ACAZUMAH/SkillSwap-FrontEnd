@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { usePhoneNumberValidaator } from "src/hooks";
+import { usePhoneNumberValidator } from "src/hooks";
 
-const { title, message, validatePhoneNumber } = usePhoneNumberValidaator();
+const { title, message, validatePhoneNumber } = usePhoneNumberValidator();
 
 const validationSchema = yup.object().shape({
     phoneNumber: yup

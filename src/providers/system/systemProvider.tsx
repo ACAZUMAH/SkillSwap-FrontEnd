@@ -7,16 +7,16 @@ interface SystemProviderProps {
 }
 
 export const SystemProvider: React.FC<SystemProviderProps> = ({ children }) => {
-  const { updateAuthencation, isAuthenticated } = useAppAuthentication();
+  const { updateAuthentication, isAuthenticated } = useAppAuthentication();
   const { currentUser } = useAuthenticationDataQuery(isAuthenticated);
 
   useEffect(() => {
     if (currentUser) {
-      updateAuthencation({
+      updateAuthentication({
         user: currentUser,
       });
     }
-  }, [currentUser, updateAuthencation]);
+  }, [currentUser, updateAuthentication]);
 
   return <>{children}</>;
 };
