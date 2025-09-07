@@ -15,6 +15,8 @@ import { useSwapMutation } from "../hooks/useSwapMutation";
 import { Conditional } from "src/components";
 import { SwapStatusButtons } from "./SwapStatusButtons";
 import { DisplayAvatar } from "src/components/Avatar/DisplayAvatar";
+import { useRouteNavigation } from "src/hooks";
+import { routerEndPoints } from "src/constants";
 
 interface BasicInfoProps {
   user?: User;
@@ -33,6 +35,8 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({ user, swapData }) => {
   const handleSendSwap = async () => {
     await swap({ receiverId: user?.id! });
   };
+
+  const navigateToChat = useRouteNavigation(routerEndPoints.CHAT);
 
   return (
     <Paper withBorder shadow="0" p="sm" h="100%" w="100%" radius="md">
@@ -83,7 +87,7 @@ export const BasicInfo: React.FC<BasicInfoProps> = ({ user, swapData }) => {
         <HoverCard withArrow shadow="md">
           <HoverCard.Target>
             <div style={{ width: "40%" }}>
-              <Button radius="xl" w="100%" disabled={disableMessageButton}>
+              <Button radius="xl" w="100%" disabled={disableMessageButton} onClick={navigateToChat}>
                 Message
               </Button>
             </div>
