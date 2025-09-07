@@ -31,7 +31,7 @@
     /* Type checking */
     "types": ["vitest/globals", "vite/client", "@testing-library/jest-dom"],
   },
-  "include": ["src/**/*", "!src/interfaces/graphql/**/*", ],
+  "include": ["src/**/*", "!src/interfaces/graphql/**/*", "public/service-worker.js", ],
   "references": [{ "path": "./tsconfig.node.json" }],
   "exclude": ["src/interfaces/graphql/**/*"]
 }
