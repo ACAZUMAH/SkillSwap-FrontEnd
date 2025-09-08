@@ -83,7 +83,7 @@ export const useVideoCallActions = () => {
       const { ZegoExpressEngine } = await import("zego-express-engine-webrtc");
       const zego = new ZegoExpressEngine(
         parseInt(`${import.meta.env.VITE_ZEGO_APP_ID}`),
-        import.meta.env.VITE_ZEGO_SERVER_SECRET
+        `${import.meta.env.VITE_ZEGO_SERVER_SECRET}`
       );
       setZgInstance(zego);
 

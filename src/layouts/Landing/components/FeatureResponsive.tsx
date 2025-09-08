@@ -12,7 +12,7 @@ export const FeatureResponsive: React.FC = () => {
             </Badge>
           </Center>
           <Title order={1} fw={700} ta="center" mt="xs">
-            AI-Driven Personalized Skill Matching System For Optimal Partner
+            Smart-Driven Personalized Skill Matching System For Optimal Partner
             Selection
           </Title>
           <Text size="md" c="dimmed" ta="center" mt="xs">
