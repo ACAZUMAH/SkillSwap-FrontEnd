@@ -1,6 +1,5 @@
 import { urlBase64ToUint8Array } from "src/helpers";
 
-console.log("VITE_VAPID_PUBLIC_KEY", import.meta.env.VITE_VAPID_PUBLIC_KEY);
 /**
  * Custom hook to manage push notifications
  * @returns pushSubscriptions - Function to subscribe the user to push notifications
