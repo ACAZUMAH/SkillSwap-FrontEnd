@@ -4,8 +4,8 @@ import { useAppVideoCall } from "src/hooks/useAppvideoCall";
 import { ZegoExpressEngine } from "zego-express-engine-webrtc";
 
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
 export const useVideoCallActions = () => {
   const { videoCall, resetVideoCall } = useAppVideoCall();
@@ -90,19 +90,55 @@ export const useVideoCallActions = () => {
       zego.on("roomStreamUpdate", async (_roomId, updateType, streamList) => {
         if (updateType === "ADD") {
           for (const streamInfo of streamList) {
-            const remoteStream = await zego.startPlayingStream(
-              streamInfo.streamID
-            );
-            if (streamInfo.streamID.includes("-screen")) {
-              setRemoteScreen(remoteStream);
-            } else {
-              setRemoteStream(remoteStream);
+            const isScreen = streamInfo.streamID.includes("-screen");
+            const targetEl = isScreen
+              ? remoteScreenRef.current
+              : remoteVideoRef.current;
+            try {
+              if (targetEl) {
+                // Many Zego SDK builds accept an HTMLMediaElement to render into.
+                // @ts-ignore - some typings don't include element overload
+                await zego.startPlayingStream(streamInfo.streamID, targetEl);
+                try {
+                  // try to obtain the MediaStream if SDK returns one
+                  // some SDKs return a MediaStream even when element provided
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  const maybeStream = await zego.getPlayingStream?.(
+                    streamInfo.streamID
+                  );
+                  if (maybeStream) {
+                    if (isScreen) setRemoteScreen(maybeStream as MediaStream);
+                    else setRemoteStream(maybeStream as MediaStream);
+                  }
+                } catch {}
+              } else {
+                const remoteStream = await zego.startPlayingStream(
+                  streamInfo.streamID
+                );
+                if (isScreen) {
+                  setRemoteScreen(remoteStream as MediaStream);
+                } else {
+                  setRemoteStream(remoteStream as MediaStream);
+                }
+              }
+            } catch (error) {
+              console.warn(
+                "Failed to start playing stream",
+                streamInfo.streamID,
+                error
+              );
             }
           }
         } else if (updateType === "DELETE") {
           for (const streamInfo of streamList) {
+            try {
+              zego.stopPlayingStream(streamInfo.streamID);
+            } catch (error) {
+              console.error("Error stopping stream:", error);
+            }
             if (streamInfo.streamID.includes("-screen")) {
-              setRemoteScreen(null); 
+              setRemoteScreen(null);
               if (remoteScreenRef.current) {
                 remoteScreenRef.current.srcObject = null;
               }
