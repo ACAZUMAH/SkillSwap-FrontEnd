@@ -18,8 +18,11 @@ import whiteboard from "../../../assets/images/whiteboard.jpg";
 import { IconArrowRight } from "@tabler/icons-react";
 import classes from "../../styles/index.module.css";
 import { FeatureResponsive } from "./FeatureResponsive";
+import { useRouteNavigation } from "src/hooks";
+import { routerEndPoints } from "src/constants";
 
 export const Features: React.FC = () => {
+  const navigateToSignUp = useRouteNavigation(routerEndPoints.SIGNUP);
   return (
     <>
       <Container w="100%" maw={1300} py={60}>
@@ -34,8 +37,8 @@ export const Features: React.FC = () => {
                 Smart Skill Matching
               </Badge>
               <Title order={1} fw={700} mt="md">
-                AI-Driven Personalized Matching Skills System For Partner
-                Selection 
+                Smart-Driven Personalized Matching Skills System For Partner
+                Selection
               </Title>
               <Text size="md" maw={500} c="dimmed" mt="md">
                 Our intelligent algorithm analyzes your expertise, learning
@@ -106,7 +109,7 @@ export const Features: React.FC = () => {
             </Stack>
           </Box>
         </Group>
-        <Group gap={50}  mt={80} mb={30} visibleFrom="xl">
+        <Group gap={50} mt={80} mb={30} visibleFrom="xl">
           <Box w="50%" maw={600}>
             <Stack gap={20}>
               <Badge variant="filled" size="lg">
@@ -131,7 +134,12 @@ export const Features: React.FC = () => {
         <FeatureResponsive />
 
         <Box ta="center" mt={80}>
-          <Button size="md" radius="xl" rightSection={<IconArrowRight />}>
+          <Button
+            size="md"
+            radius="xl"
+            rightSection={<IconArrowRight />}
+            onClick={navigateToSignUp}
+          >
             Join Now
           </Button>
         </Box>
