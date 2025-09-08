@@ -31,13 +31,6 @@ export const useVideoCallActions = () => {
   const [cameraStreamID, setCameraStreamID] = useState<string | null>(null);
   const [screenStreamID, setScreenStreamID] = useState<string | null>(null);
 
-  const [remoteCameraStreamID, setRemoteCameraStreamID] = useState<
-    string | null
-  >(null);
-  const [remoteScreenStreamID, setRemoteScreenStreamID] = useState<
-    string | null
-  >(null);
-
   // Attach streams to DOM when updated
   useEffect(() => {
     if (localStream && localVideoRef.current) {
@@ -86,33 +79,12 @@ export const useVideoCallActions = () => {
   }, [videoCall]);
 
   useEffect(() => {
-    if (!zgInstance) return;
-
-    if (remoteCameraStreamID && remoteVideoRef.current) {
-      // some SDK builds accept an element argument
-      zgInstance
-        // @ts-ignore
-        .startPlayingStream(remoteCameraStreamID, remoteVideoRef.current)
-        .catch(() => {});
-    }
-
-    if (remoteScreenStreamID && remoteScreenRef.current) {
-      // some SDK builds accept an element argument
-      zgInstance
-        // @ts-ignore
-        .startPlayingStream(remoteScreenStreamID, remoteScreenRef.current)
-        .catch(() => {});
-    }
-  }, [zgInstance, remoteCameraStreamID, remoteScreenStreamID]);
-
-  useEffect(() => {
     const startCall = async () => {
-      //const { ZegoExpressEngine } = await import("zego-express-engine-webrtc");
+      const { ZegoExpressEngine } = await import("zego-express-engine-webrtc");
       const zego = new ZegoExpressEngine(
         parseInt(`${import.meta.env.VITE_ZEGO_APP_ID}`),
         `${import.meta.env.VITE_ZEGO_SERVER_SECRET}`
       );
-
       setZgInstance(zego);
 
       zego.on("roomStreamUpdate", async (_roomId, updateType, streamList) => {
@@ -127,13 +99,6 @@ export const useVideoCallActions = () => {
                 // Many Zego SDK builds accept an HTMLMediaElement to render into.
                 // @ts-ignore - some typings don't include element overload
                 await zego.startPlayingStream(streamInfo.streamID, targetEl);
-
-                if (isScreen) {
-                  setRemoteScreenStreamID(streamInfo.streamID);
-                } else {
-                  setRemoteCameraStreamID(streamInfo.streamID);
-                }
-
                 try {
                   // try to obtain the MediaStream if SDK returns one
                   // some SDKs return a MediaStream even when element provided
@@ -153,22 +118,9 @@ export const useVideoCallActions = () => {
                 );
                 if (isScreen) {
                   setRemoteScreen(remoteStream as MediaStream);
-                  setRemoteScreenStreamID(streamInfo.streamID);
                 } else {
                   setRemoteStream(remoteStream as MediaStream);
-                  setRemoteCameraStreamID(streamInfo.streamID);
                 }
-              }
-
-              if (isScreen && remoteCameraStreamID && remoteVideoRef.current) {
-                // rebind camera explicitly to the small element
-                // @ts-ignore
-                await zego
-                  .startPlayingStream(
-                    remoteCameraStreamID,
-                    remoteVideoRef.current as unknown as any
-                  )
-                  .catch(() => {});
               }
             } catch (error) {
               console.warn(
@@ -185,37 +137,16 @@ export const useVideoCallActions = () => {
             } catch (error) {
               console.error("Error stopping stream:", error);
             }
-
             if (streamInfo.streamID.includes("-screen")) {
+              setRemoteScreen(null);
               if (remoteScreenRef.current) {
                 remoteScreenRef.current.srcObject = null;
               }
-              setRemoteScreen(null);
-              setRemoteScreenStreamID((id) =>
-                id === streamInfo.streamID ? null : id
-              );
-
-              if (
-                remoteCameraStreamID &&
-                remoteVideoRef.current &&
-                zgInstance
-              ) {
-                // @ts-ignore
-                zgInstance
-                  .startPlayingStream(
-                    remoteCameraStreamID,
-                    remoteVideoRef.current as unknown as any
-                  )
-                  .catch(() => {});
-              }
             } else {
+              setRemoteStream(null);
               if (remoteVideoRef.current) {
                 remoteVideoRef.current.srcObject = null;
               }
-              setRemoteStream(null);
-              setRemoteCameraStreamID((id) =>
-                id === streamInfo.streamID ? null : id
-              );
             }
           }
         }
